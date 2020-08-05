@@ -18,7 +18,7 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
-        DateTime? InactiveDate { get; set; }
+        DateTime? DeactivationDate { get; set; }
 
 
 
