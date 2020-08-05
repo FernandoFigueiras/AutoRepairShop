@@ -22,6 +22,6 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
-        bool? IsActive { get; set; }
+        bool IsActive { get; set; }
     }
 }

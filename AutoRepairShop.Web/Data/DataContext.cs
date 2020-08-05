@@ -15,6 +15,10 @@ namespace AutoRepairShop.Web.Data
         }
 
 
+
+
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
