@@ -33,8 +33,8 @@ namespace AutoRepairShop.Web
 
 
             services.AddScoped<IBrandRepository, BrandRepository>();
-
-
+            services.AddScoped<IFuelRepository, FuelRepository>();
+            services.AddScoped<IVehicleRepository, VehicleRepository>();
 
 
 

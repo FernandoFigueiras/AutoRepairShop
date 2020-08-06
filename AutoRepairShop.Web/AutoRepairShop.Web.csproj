@@ -13,12 +13,33 @@
     <Compile Remove="Migrations\20200805154955_InitialDb.Designer.cs" />
     <Compile Remove="Migrations\20200806094345_InitialDb.cs" />
     <Compile Remove="Migrations\20200806094345_InitialDb.Designer.cs" />
+    <Compile Remove="Migrations\20200806095434_InitialDb.cs" />
+    <Compile Remove="Migrations\20200806095434_InitialDb.Designer.cs" />
+    <Compile Remove="Migrations\20200806102205_dbSet.cs" />
+    <Compile Remove="Migrations\20200806102205_dbSet.Designer.cs" />
+    <Compile Remove="Migrations\20200806102731_DBSet.cs" />
+    <Compile Remove="Migrations\20200806102731_DBSet.Designer.cs" />
+    <Compile Remove="Migrations\20200806104605_DBSet.cs" />
+    <Compile Remove="Migrations\20200806104605_DBSet.Designer.cs" />
+    <Compile Remove="Migrations\20200806104806_DbSet.cs" />
+    <Compile Remove="Migrations\20200806104806_DbSet.Designer.cs" />
+    <Compile Remove="Migrations\20200806105134_DbSet.cs" />
+    <Compile Remove="Migrations\20200806105134_DbSet.Designer.cs" />
+    <Compile Remove="Migrations\20200806105647_DbSet.cs" />
+    <Compile Remove="Migrations\20200806105647_DbSet.Designer.cs" />
+    <Compile Remove="Migrations\20200806151624_DbSet.cs" />
+    <Compile Remove="Migrations\20200806151624_DbSet.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\BackAndFrontOffice\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

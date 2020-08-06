@@ -13,6 +13,12 @@ namespace AutoRepairShop.Web.Data
         public DbSet<Model> Models { get; set; }
 
 
+        public DbSet<Vehicle> Vehicles { get; set; }
+
+
+        public DbSet<Fuel> Fuels { get; set; }
+
+
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
@@ -35,6 +41,17 @@ namespace AutoRepairShop.Web.Data
                 .HasIndex(m => m.ModelName)
                 .IsUnique();
 
+
+            modelBuilder.Entity<Fuel>()
+                .HasIndex(f => f.FuelType)
+                .IsUnique();
+
+
+            modelBuilder.Entity<Vehicle>()
+                .HasIndex(v => v.LicencePLate)
+                .IsUnique();
+
+
             //Cascade Deleting Rule
             var cascadeFKs = modelBuilder.Model
                 .GetEntityTypes()
@@ -44,6 +61,10 @@ namespace AutoRepairShop.Web.Data
 
             foreach (var fk in cascadeFKs)
             {
+                if (fk.DependentToPrincipal.DeclaringEntityType.GetType().FullName=="Vehicle")
+                {
+                    fk.DeleteBehavior = DeleteBehavior.Cascade;
+                }
                 fk.DeleteBehavior = DeleteBehavior.Restrict;
             }
 

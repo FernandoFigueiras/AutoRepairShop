@@ -86,7 +86,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                     }
                     
                 }
-                
+                return View(brand);
             }
             return View(brand);
         }
@@ -120,12 +120,34 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             {
                 try
                 {
-                    brand.UpdateDate = DateTime.UtcNow;
-                    if (brand.IsActive!=true)
+
+                    try
                     {
-                        brand.DeactivationDate = DateTime.UtcNow;
+                        brand.UpdateDate = DateTime.UtcNow;
+                        if (brand.IsActive == false)
+                        {
+                            brand.DeactivationDate = DateTime.UtcNow;
+                        }
+                        await _brandRepository.UpdateAsync(brand);
                     }
-                    await _brandRepository.UpdateAsync(brand);
+                    catch (Exception ex)
+                    {
+                        if (ex.InnerException.Message.Contains("duplicate"))
+                        {
+
+                            if (ModelState.IsValid)
+                            {
+                                ModelState.AddModelError(String.Empty, $"There is allready a brand registered with the name {brand.BrandName}, please insert another");
+                            }
+                            return View(brand);
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                            return View(brand);
+                        }
+                    }
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -138,6 +160,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
             return View(brand);
@@ -184,7 +207,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                     if (ModelState.IsValid)
                     {
                         //TODO make buttons to get to the respective views
-                        ViewBag.Error = $"There are models associated with this Brand, either delete them or deactivate brand";
+                        ViewBag.Error = $"There are models associated with brand named {brand.BrandName}, either delete them or deactivate brand";
                     }
 
                 }
@@ -223,7 +246,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             {
                 BrandId = brand.Id,
             };
-
+            ViewBag.Id = model.BrandId;
             return View(model);
         }
 
@@ -265,6 +288,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                 
             }
 
+            ViewBag.Id = model.BrandId;
             return this.View(model);
         }
 
@@ -302,15 +326,39 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         {
             if (ModelState.IsValid)
             {
-                var brandId = await _brandRepository.UpdateModelAsync(model);
-
-
-                if (brandId != 0)
+               
+                try
                 {
-                    return this.RedirectToAction($"Details/{brandId}");
+                    var brandId = await _brandRepository.UpdateModelAsync(model);
+
+                    if (brandId != 0)
+                    {
+                        return this.RedirectToAction($"Details/{brandId}");
+                    }
                 }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException.Message.Contains("duplicate"))
+                    {
+
+                        if (ModelState.IsValid)
+                        {
+                            ModelState.AddModelError(String.Empty, $"There is allready a Model registered with the name {model.ModelName} please insert another");
+                        }
+                       
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                    }
+                    
+                }
+
             }
-           
+
+            var brandIdvb = await _brandRepository.GetBrandIdFromModelAsync(model.Id);
+
+            ViewBag.Id = brandIdvb;
             return this.View(model);
             
         }
