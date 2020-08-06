@@ -26,14 +26,14 @@ namespace AutoRepairShop.Web.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("BrandName")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(20);
 
                     b.Property<DateTime?>("CreationDate");
 
                     b.Property<DateTime?>("DeactivationDate");
 
-                    b.Property<bool?>("IsActive")
-                        .IsRequired();
+                    b.Property<bool>("IsActive");
 
                     b.Property<DateTime?>("UpdateDate");
 
@@ -43,6 +43,43 @@ namespace AutoRepairShop.Web.Migrations
                         .IsUnique();
 
                     b.ToTable("Brands");
+                });
+
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.Model", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("BrandId");
+
+                    b.Property<DateTime?>("CreationDate");
+
+                    b.Property<DateTime?>("DeactivationDate");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("ModelName")
+                        .IsRequired()
+                        .HasMaxLength(20);
+
+                    b.Property<DateTime?>("UpdateDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BrandId");
+
+                    b.HasIndex("ModelName")
+                        .IsUnique();
+
+                    b.ToTable("Models");
+                });
+
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.Model", b =>
+                {
+                    b.HasOne("AutoRepairShop.Web.Data.Entities.Brand", "Brand")
+                        .WithMany("Models")
+                        .HasForeignKey("BrandId");
                 });
 #pragma warning restore 612, 618
         }

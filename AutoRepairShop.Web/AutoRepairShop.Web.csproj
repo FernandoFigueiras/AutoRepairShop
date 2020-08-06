@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200805101755_InitialDb.cs" />
+    <Compile Remove="Migrations\20200805101755_InitialDb.Designer.cs" />
+    <Compile Remove="Migrations\20200805151425_AddBrandModel.cs" />
+    <Compile Remove="Migrations\20200805151425_AddBrandModel.Designer.cs" />
+    <Compile Remove="Migrations\20200805154955_InitialDb.cs" />
+    <Compile Remove="Migrations\20200805154955_InitialDb.Designer.cs" />
+    <Compile Remove="Migrations\20200806094345_InitialDb.cs" />
+    <Compile Remove="Migrations\20200806094345_InitialDb.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.10" />

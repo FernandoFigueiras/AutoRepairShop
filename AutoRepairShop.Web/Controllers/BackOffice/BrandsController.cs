@@ -1,0 +1,370 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using AutoRepairShop.Web.Data;
+using AutoRepairShop.Web.Data.Entities;
+using AutoRepairShop.Web.Data.Repositories;
+using AutoRepairShop.Web.Models;
+using System.Runtime.InteropServices;
+using Microsoft.AspNetCore.Identity.UI.Pages.Internal.Account;
+
+namespace AutoRepairShop.Web.Controllers.BackOffice
+{
+    public class BrandsController : Controller
+    {
+        private readonly IBrandRepository _brandRepository;
+
+        public BrandsController(IBrandRepository brandRepository)
+        {
+            _brandRepository = brandRepository;
+        }
+
+        // GET: Brands
+        public IActionResult Index()
+        {
+            return View(_brandRepository.GetAll().OrderBy(b => b.BrandName));
+        }
+
+        // GET: Brands/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var brand = await _brandRepository.GetBrandWithModelsAsycn(id.Value);
+
+            if (brand == null)
+            {
+                return NotFound();
+            }
+
+            return View(brand);
+        }
+
+        // GET: Brands/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Brands/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Brand brand)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    brand.CreationDate = DateTime.UtcNow;
+                    brand.IsActive = true;
+                    await _brandRepository.CreateAsync(brand);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException.Message.Contains("duplicate"))
+                    {
+
+                        if (ModelState.IsValid)
+                        {
+                            ModelState.AddModelError(String.Empty, $"There is allready a brand registered with the name {brand.BrandName}, please insert another");
+                        }
+
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                    }
+                    
+                }
+                
+            }
+            return View(brand);
+        }
+
+        // GET: Brands/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var brand = await _brandRepository
+                .GetByIdAsync(id.Value);
+            if (brand == null)
+            {
+                return NotFound();
+            }
+            return View(brand);
+        }
+
+        // POST: Brands/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Brand brand)
+        {
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    brand.UpdateDate = DateTime.UtcNow;
+                    if (brand.IsActive!=true)
+                    {
+                        brand.DeactivationDate = DateTime.UtcNow;
+                    }
+                    await _brandRepository.UpdateAsync(brand);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!await _brandRepository.ExistsAsync(brand.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(brand);
+        }
+
+        // GET: Brands/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var brand = await _brandRepository
+                .GetByIdAsync(id.Value);
+            if (brand == null)
+            {
+                return NotFound();
+            }
+
+            return View(brand);
+        }
+
+        // POST: Brands/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var brand = await _brandRepository
+                .GetByIdAsync(id);
+            try
+            {
+                
+                await _brandRepository.DeleteAsync(brand);
+                return RedirectToAction(nameof(Index));
+
+            }
+            catch (Exception ex)
+            {
+                
+                if (ex.InnerException.Message.Contains("REFERENCE constraint"))
+                {
+
+                    if (ModelState.IsValid)
+                    {
+                        //TODO make buttons to get to the respective views
+                        ViewBag.Error = $"There are models associated with this Brand, either delete them or deactivate brand";
+                    }
+
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                }
+            }
+            return View(brand);
+        }
+
+
+
+
+        /*###########################    MODEL   ###################################*/
+
+
+
+
+
+        public async Task<IActionResult> AddModel(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var brand = await _brandRepository.GetByIdAsync(id.Value);
+
+            if (brand == null)
+            {
+                return NotFound();
+            }
+
+            var model = new ModelViewModel
+            {
+                BrandId = brand.Id,
+            };
+
+            return View(model);
+        }
+
+
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddModel(ModelViewModel model)
+        {
+
+            if (this.ModelState.IsValid)
+            {
+
+                try
+                {
+                    await _brandRepository.AddModelAsync(model);
+
+                    var brandId = model.BrandId;
+
+                    return RedirectToAction($"Details/{brandId}");
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException.Message.Contains("duplicate"))
+                    {
+
+                        if (ModelState.IsValid)
+                        {
+                            ModelState.AddModelError(String.Empty, $"There is allready a Model registered with the name {model.Name} please insert another");
+                        }
+
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                    }
+                }
+                
+            }
+
+            return this.View(model);
+        }
+
+
+
+
+
+        public async Task<IActionResult> EditModel(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var model = await _brandRepository.GetModelByIdAsync(id.Value);
+
+            var brandId = await _brandRepository.GetBrandIdFromModelAsync(id.Value);
+
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.Id = brandId;
+            return View(model);
+
+        }
+
+
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditModel(Model model)
+        {
+            if (ModelState.IsValid)
+            {
+                var brandId = await _brandRepository.UpdateModelAsync(model);
+
+
+                if (brandId != 0)
+                {
+                    return this.RedirectToAction($"Details/{brandId}");
+                }
+            }
+           
+            return this.View(model);
+            
+        }
+
+
+
+
+
+
+        public async Task<IActionResult> DeleteModel(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var model = await _brandRepository.GetModelByIdAsync(id.Value);
+
+            if (model==null)
+            {
+                return NotFound();
+            }
+
+            var brandId = await _brandRepository.GetBrandIdFromModelAsync(id.Value);
+
+            ViewBag.Id = brandId;
+
+            return View(model);
+        }
+
+
+
+
+
+        [HttpPost, ActionName("DeleteModel")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteModel(int id)
+        {
+           
+            var model = await _brandRepository.GetModelByIdAsync(id);
+
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            var brandId = await _brandRepository.DeleteModelAsync(model);
+            if (brandId != 0)
+            {
+                return this.RedirectToAction($"Details/{brandId}");
+            }
+            return this.View(model);
+        }
+
+
+    }
+}

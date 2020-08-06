@@ -10,6 +10,9 @@ namespace AutoRepairShop.Web.Data
         public DbSet<Brand> Brands { get; set; }
 
 
+        public DbSet<Model> Models { get; set; }
+
+
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
@@ -28,7 +31,9 @@ namespace AutoRepairShop.Web.Data
                 .IsUnique();
 
 
-
+            modelBuilder.Entity<Model>()
+                .HasIndex(m => m.ModelName)
+                .IsUnique();
 
             //Cascade Deleting Rule
             var cascadeFKs = modelBuilder.Model

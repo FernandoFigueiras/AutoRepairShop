@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace AutoRepairShop.Web.Data.Entities
 {
-    public class Brand : IEntity
+    public class Model : IEntity
     {
-
 
         public int Id { get; set; }
 
@@ -38,16 +36,14 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
         [Required]
-        [Display(Name = "Brand")]
-        [MaxLength(20, ErrorMessage ="The name of the {0}, can only contain {1} characters")]
-        public string BrandName { get; set; }
+        [Display(Name = "Model")]
+        [MaxLength(20, ErrorMessage = "The name of the {0}, can only contain {1} characters")]
+        public string ModelName { get; set; }
 
 
 
 
-        public ICollection<Model> Models { get; set; }
-
-
+        public Brand Brand { get; set; }
 
     }
 }
