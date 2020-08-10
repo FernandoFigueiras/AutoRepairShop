@@ -1,20 +1,32 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
-using System;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AutoRepairShop.Web.Models
 {
     public class AddVehicleViewModel : Vehicle
     {
 
+        
+
+        public IEnumerable<SelectListItem> Brands { get; set; }
 
 
-        public int BrandId { get; set; }
+
+        public IEnumerable<SelectListItem> Models { get; set; }
 
 
+
+        public string ModelName { get; set; }
+
+
+
+        public IEnumerable<SelectListItem> Fuels { get; set; }
+
+
+
+
+        public IEnumerable<SelectListItem> Colors { get; set; }
 
     }
 }

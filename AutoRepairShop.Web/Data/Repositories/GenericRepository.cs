@@ -34,8 +34,9 @@ namespace AutoRepairShop.Web.Data.Repositories
 
         public async Task<bool> ExistsAsync(int id)
         {
-            return await _context.Set<T>()
-                .AllAsync(e => e.Id == id);
+            var exists = await _context.Set<T>()
+                .AnyAsync(e => e.Id == id);
+            return exists;
         }
 
 

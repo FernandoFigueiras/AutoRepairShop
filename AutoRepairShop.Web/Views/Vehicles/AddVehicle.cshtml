@@ -1,0 +1,99 @@
+﻿@model AutoRepairShop.Web.Models.AddVehicleViewModel
+@{
+    ViewData["Title"] = "Add Vehicle";
+}
+
+<h2>Add New Vehicle</h2>
+<h4>TODO enable and disable model name input if other not listed</h4>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddVehicle">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="LicencePlate">Licence PLate</label>
+                <input asp-for="LicencePlate" class="form-control" />
+                <span asp-validation-for="LicencePlate" class="text-warning"></span>
+            </div>
+
+
+
+            <div class="form-group">
+                <label asp-for="BrandId" class="control-label">Brand</label>
+                <select asp-for="BrandId" asp-items="Model.Brands" class="form-control"></select>
+                <span asp-validation-for="BrandId" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="ModelId" class="control-label">Model</label>
+                <select asp-for="ModelId" asp-items="Model.Models" class="form-control"></select>
+                <span asp-validation-for="ModelId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ModelName">Other Model Not Listed</label>
+                <input asp-for="ModelName" class="form-control" value="" />
+                <span asp-validation-for="ModelName" class="text-warning"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="EngineCapacity">Engine Capacity</label>
+                <input asp-for="EngineCapacity" class="form-control" />
+                <span asp-validation-for="EngineCapacity" class="text-warning"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="FuelId" class="control-label">Fuel</label>
+                <select asp-for="FuelId" asp-items="Model.Fuels" class="form-control"></select>
+                <span asp-validation-for="FuelId" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="ColorId" class="control-label">Model</label>
+                <select asp-for="ColorId" asp-items="Model.Colors" class="form-control"></select>
+                <span asp-validation-for="ColorId" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="Add New Vehicle" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+@*@section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#BrandId").change(function () {
+                    $("#ModelId").empty();
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetCitiesAsync")',
+                        dataType: 'json',
+                        data: { countryId: $("#CountryId").val() },
+                        success: function (cities) {
+                            debugger;
+                            $("#CityId").append('<option value="0">(Select a city...)</option>');
+                            $.each(cities, function (i, city) {
+                                $("#CityId").append('<option value="'
+                                    + city.id + '">'
+                                    + city.name + '</option>');
+                            });
+                        },
+                        error: function (ex) {
+                            alert('Failed to retrieve cities.' + ex);
+                        }
+                    });
+                    return false;
+                })
+            });
+        </script>
+    }*@

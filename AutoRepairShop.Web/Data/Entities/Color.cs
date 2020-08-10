@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AutoRepairShop.Web.Data.Entities
 {
-    public class Model : IEntity
+    public class Color : IEntity
     {
 
         public int Id { get; set; }
@@ -28,7 +28,7 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
-        [Required]
+
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
 
@@ -36,16 +36,8 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
         [Required]
-        [Display(Name = "Model")]
+        [Display(Name = "Color")]
         [MaxLength(20, ErrorMessage = "The name of the {0}, can only contain {1} characters")]
-        public string ModelName { get; set; }
-
-
-        public int BrandId { get; set; }
-
-
-
-        public Brand Brand { get; set; }
-
+        public string ColorName { get; set; }
     }
 }

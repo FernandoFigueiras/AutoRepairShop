@@ -2,6 +2,7 @@
 using AutoRepairShop.Web.Models;
 using Microsoft.AspNetCore.Identity.UI.Pages.Internal.Account;
 using Microsoft.EntityFrameworkCore;
+using Remotion.Linq.Utilities;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,6 +16,8 @@ namespace AutoRepairShop.Web.Data.Repositories
         {
             _context = context;
         }
+
+
 
 
 
@@ -36,6 +39,7 @@ namespace AutoRepairShop.Web.Data.Repositories
 
 
 
+
         public async Task<Brand> GetBrandWithModelsAsycn(int id)
         {
             return await _context.Brands
@@ -43,6 +47,8 @@ namespace AutoRepairShop.Web.Data.Repositories
                 .Where(b => b.Id == id)
                 .FirstOrDefaultAsync();
         }
+
+
 
 
         /// <summary>
@@ -71,10 +77,14 @@ namespace AutoRepairShop.Web.Data.Repositories
 
 
 
+
+
         public async Task<Model> GetModelByIdAsync(int id)
         {
             return await _context.Models.FindAsync(id);
         }
+
+
 
 
 
@@ -103,6 +113,8 @@ namespace AutoRepairShop.Web.Data.Repositories
 
 
 
+
+
         public async Task<int> GetBrandIdFromModelAsync(int id)
         {
 
@@ -117,6 +129,61 @@ namespace AutoRepairShop.Web.Data.Repositories
         }
 
 
+
+
+
+        public async Task<bool> ModelNameExistsAsync(string modelName)
+        {
+            if (modelName == null)
+            {
+                return false;
+            }
+
+            return await _context.Models.AnyAsync(m => m.ModelName == modelName);
+        }
+
+
+
+
+
+        public async Task<string> GetBrandNameByIdAsync(int id)
+        {
+            var brand = await _context.Brands.FirstOrDefaultAsync(b => b.Id == id);
+
+            return brand.BrandName;
+        }
+        
+
+
+
+
+
+        public async Task AddModelFromNewVehicleAsync(Model newModel)
+        {
+            await _context.AddAsync(newModel);
+            await _context.SaveChangesAsync();
+        }
+
+
+
+
+
+
+        public async Task<int> GetModelIdAsync(string modelName)
+        {
+            var model = await _context.Models.FirstOrDefaultAsync(m =>m.ModelName == modelName);
+
+            return model.Id;
+        }
+
+
+
+
+        public async Task<string> GetModelNameByIdAsync(int id)
+        {
+            var model = await _context.Models.FirstOrDefaultAsync(m => m.Id == id);
+            return model.ModelName;
+        }
 
     }
 }

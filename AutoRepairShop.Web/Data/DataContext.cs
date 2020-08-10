@@ -19,13 +19,12 @@ namespace AutoRepairShop.Web.Data
         public DbSet<Fuel> Fuels { get; set; }
 
 
+        public DbSet<Color> Colors { get; set; }
+
+
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
-
-
-
-
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -48,9 +47,13 @@ namespace AutoRepairShop.Web.Data
 
 
             modelBuilder.Entity<Vehicle>()
-                .HasIndex(v => v.LicencePLate)
+                .HasIndex(v => v.LicencePlate)
                 .IsUnique();
 
+
+            modelBuilder.Entity<Color>()
+               .HasIndex(c => c.ColorName)
+               .IsUnique();
 
             //Cascade Deleting Rule
             var cascadeFKs = modelBuilder.Model

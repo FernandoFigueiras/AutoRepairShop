@@ -1,12 +1,45 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
-using System;
+using AutoRepairShop.Web.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace AutoRepairShop.Web.Data.Repositories
 {
-    interface IVehicleRepository : IGenericRepository<Vehicle>
+    public interface IVehicleRepository : IGenericRepository<Vehicle>
     {
+
+
+
+        IQueryable GetVehiclesWithBrandModelFuelAndColor();
+
+
+
+
+
+        IEnumerable<SelectListItem> GetComboBrands();
+
+
+
+
+
+        IEnumerable<SelectListItem> GetComboModels();
+
+
+
+
+
+        IEnumerable<SelectListItem> GetComboFuels();
+
+
+
+        IEnumerable<SelectListItem> GetComboColors();
+
+
+        Task<SelectListItem> GetComboSoloBrand(AddVehicleViewModel model);
+
     }
+
+
 }
