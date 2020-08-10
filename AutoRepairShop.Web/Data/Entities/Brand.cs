@@ -39,7 +39,7 @@ namespace AutoRepairShop.Web.Data.Entities
 
         [Required]
         [Display(Name = "Brand")]
-        [MaxLength(20, ErrorMessage ="The name of the {0}, can only contain {1} characters")]
+        [MaxLength(25, ErrorMessage ="The name of the {0}, can only contain {1} characters")]
         public string BrandName { get; set; }
 
 

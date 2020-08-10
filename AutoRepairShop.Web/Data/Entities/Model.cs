@@ -37,7 +37,7 @@ namespace AutoRepairShop.Web.Data.Entities
 
         [Required]
         [Display(Name = "Model")]
-        [MaxLength(20, ErrorMessage = "The name of the {0}, can only contain {1} characters")]
+        [MaxLength(50, ErrorMessage = "The name of the {0}, can only contain {1} characters")]
         public string ModelName { get; set; }
 
 

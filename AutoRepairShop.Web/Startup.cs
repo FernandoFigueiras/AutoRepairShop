@@ -35,6 +35,10 @@ namespace AutoRepairShop.Web
             });
 
 
+            services.AddTransient<SeedDb>();
+
+
+
 
             services.AddScoped<IBrandRepository, BrandRepository>();
             services.AddScoped<IFuelRepository, FuelRepository>();
