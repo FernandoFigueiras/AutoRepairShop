@@ -1,5 +1,5 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
-using AutoRepairShop.Web.Models;
+using AutoRepairShop.Web.Models.VehicleViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +34,11 @@ namespace AutoRepairShop.Web.Data.Repositories
 
 
 
+
+
         IEnumerable<SelectListItem> GetComboColors();
+
+
 
 
         Task<SelectListItem> GetComboSoloBrand(AddVehicleViewModel model);

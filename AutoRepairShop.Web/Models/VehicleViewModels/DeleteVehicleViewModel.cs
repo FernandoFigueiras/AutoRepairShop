@@ -1,6 +1,6 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
 
-namespace AutoRepairShop.Web.Models
+namespace AutoRepairShop.Web.Models.VehicleViewModels
 {
     public class DeleteVehicleViewModel : Vehicle
     {

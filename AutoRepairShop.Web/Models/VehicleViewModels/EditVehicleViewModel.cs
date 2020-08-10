@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AutoRepairShop.Web.Models
+namespace AutoRepairShop.Web.Models.VehicleViewModels
 {
     public class EditVehicleViewModel : AddVehicleViewModel
     {

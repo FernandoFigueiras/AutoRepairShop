@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Threading.Tasks;
-using AutoRepairShop.Web.Data.Entities;
+﻿using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Data.Repositories;
-using AutoRepairShop.Web.Models;
+using AutoRepairShop.Web.Helpers;
 using AutoRepairShop.Web.Models.VehicleViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 {
@@ -17,16 +15,19 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
         private readonly IBrandRepository _brandRepository;
         private readonly IFuelRepository _fuelRepository;
         private readonly IColorRepository _colorRepository;
+        private readonly IConverterHelper _converterHelper;
 
         public VehiclesController(IVehicleRepository vehicleRepository,
             IBrandRepository brandRepository,
             IFuelRepository fuelRepository,
-            IColorRepository colorRepository)
+            IColorRepository colorRepository,
+            IConverterHelper converterHelper)
         {
             _vehicleRepository = vehicleRepository;
             _brandRepository = brandRepository;
             _fuelRepository = fuelRepository;
             _colorRepository = colorRepository;
+            _converterHelper = converterHelper;
         }
 
 
@@ -59,16 +60,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             if (ModelState.IsValid)
             {
 
-                var vehicle = new Vehicle
-                {
-                    LicencePlate = model.LicencePlate,
-                    BrandId = model.BrandId,
-                    ModelId = model.ModelId,
-                    EngineCapacity = model.EngineCapacity,
-                    FuelId = model.FuelId,
-                    ColorId = model.ColorId,
-                    CreationDate = DateTime.UtcNow,
-                };
+                var vehicle = _converterHelper.ToNewVehicle(model);
 
                 try
                 {
@@ -123,15 +115,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                             var modelId = await _brandRepository.GetModelIdAsync(model.ModelName);
 
-                            var vehicle1 = new Vehicle
-                            {
-                                LicencePlate = model.LicencePlate,
-                                BrandId = model.BrandId,
-                                ModelId = modelId,
-                                EngineCapacity = model.EngineCapacity,
-                                FuelId = model.FuelId,
-                                Color = model.Color
-                            };
+                            var vehicle1 = _converterHelper.ToNewVehicle(model);
 
                             try
                             {
@@ -174,8 +158,8 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                     }
 
-                        await _vehicleRepository.CreateAsync(vehicle);
-                        return RedirectToAction(nameof(Index));
+                    await _vehicleRepository.CreateAsync(vehicle);
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
                 {
@@ -218,9 +202,9 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
             var vehicle = await _vehicleRepository.GetByIdAsync(id.Value);
             var brand = await _brandRepository.GetByIdAsync(vehicle.BrandId);
-            var model = await _brandRepository.GetModelByIdAsync(vehicle.ModelId);
+            var modelType = await _brandRepository.GetModelByIdAsync(vehicle.ModelId);
             var fuel = await _fuelRepository.GetByIdAsync(vehicle.FuelId);
-
+            var color = await _colorRepository.GetByIdAsync(vehicle.ColorId);
 
             if (vehicle == null)
             {
@@ -230,15 +214,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
 
 
-            var modelView = new DeleteVehicleViewModel
-            {
-                LicencePlate = vehicle.LicencePlate,
-                Brand = brand.BrandName,
-                ModelName = model.ModelName,
-                EngineCapacity = vehicle.EngineCapacity,
-                FuelType = fuel.FuelType,
-                Color = vehicle.Color
-            };
+            var modelView = _converterHelper.ToDeleteVehicleViewModel(vehicle, brand, modelType, fuel, color);
 
             return View(modelView);
         }
@@ -249,7 +225,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
         [HttpPost]
         public async Task<IActionResult> DeleteVehicle(int id)
         {
-            var vehicle = await  _vehicleRepository.GetByIdAsync(id);
+            var vehicle = await _vehicleRepository.GetByIdAsync(id);
 
             if (vehicle == null)
             {
@@ -294,28 +270,15 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             var vehicle = await _vehicleRepository.GetByIdAsync(id.Value);
             var brand = await _brandRepository.GetByIdAsync(vehicle.BrandId);
             var modelType = await _brandRepository.GetModelByIdAsync(vehicle.ModelId);
-
+            var fuel = await _fuelRepository.GetByIdAsync(vehicle.FuelId);
+            var color = await _colorRepository.GetByIdAsync(vehicle.ColorId);
 
             if (vehicle == null)
             {
                 return NotFound();
             }
 
-            var model = new EditVehicleViewModel
-            {
-                LicencePlate = vehicle.LicencePlate,
-                BrandName = brand.BrandName,
-                ModelName = modelType.ModelName,
-                EngineCapacity = vehicle.EngineCapacity,
-                BrandId = brand.Id,
-                Models = _vehicleRepository.GetComboModels(),
-                ModelId = modelType.Id,
-                FuelId = vehicle.FuelId,
-                Fuels = _vehicleRepository.GetComboFuels(),
-                ColorId = vehicle.ColorId,
-                Colors = _vehicleRepository.GetComboColors(),
-
-        };
+            var model = _converterHelper.ToEditVehicleViewModel(vehicle, brand, modelType, fuel, color);
 
 
             return View(model);
@@ -329,17 +292,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             if (ModelState.IsValid)
             {
 
-                var vehicle = new Vehicle
-                {
-                    Id = model.Id,
-                    LicencePlate = model.LicencePlate,
-                    BrandId = model.BrandId,
-                    ModelId = model.ModelId,
-                    EngineCapacity = model.EngineCapacity,
-                    FuelId = model.FuelId,
-                    ColorId = model.ColorId,
-                    UpdateDate = DateTime.UtcNow,
-                };
+                var vehicle = _converterHelper.ToEditVehicle(model);
 
 
                 try
@@ -405,21 +358,12 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
             var vehicle = await _vehicleRepository.GetByIdAsync(id.Value);
             var brand = await _brandRepository.GetByIdAsync(vehicle.BrandId);
-            var modelName = await _brandRepository.GetModelByIdAsync(vehicle.ModelId);
+            var modelType = await _brandRepository.GetModelByIdAsync(vehicle.ModelId);
             var fuel = await _fuelRepository.GetByIdAsync(vehicle.FuelId);
             var color = await _colorRepository.GetByIdAsync(vehicle.ColorId);
 
 
-            var model = new VehicleDetailsViewModel
-            {
-                Id = vehicle.Id,
-                LicencePlate = vehicle.LicencePlate,
-                BrandName = brand.BrandName,
-                ModelName = modelName.ModelName,
-                EngineCapacity = vehicle.EngineCapacity,
-                Fueltype = fuel.FuelType,
-                ColorName = color.ColorName,
-            };
+            var model = _converterHelper.ToVehicleDetailsViewModel(vehicle, brand, modelType, fuel, color);
 
 
             if (vehicle == null)

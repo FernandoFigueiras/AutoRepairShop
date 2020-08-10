@@ -1,9 +1,7 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
-using AutoRepairShop.Web.Models;
+using AutoRepairShop.Web.Models.VehicleViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Extensions.Internal;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,21 +22,21 @@ namespace AutoRepairShop.Web.Data.Repositories
         {
             return _context.Vehicles.Include(b => b.Model).ThenInclude(b => b.Brand).Include(v => v.Fuel).Include(v => v.Color);
 
-        } 
+        }
 
 
 
 
 
-       public IEnumerable<SelectListItem> GetComboBrands()
-       {
+        public IEnumerable<SelectListItem> GetComboBrands()
+        {
             var list = _context.Brands.Select(b => new SelectListItem
             {
                 Text = b.BrandName,
                 Value = b.Id.ToString()
             }).ToList();
 
-            if (list.Count>1)
+            if (list.Count > 1)
             {
                 list.Insert(0, new SelectListItem
                 {
@@ -46,10 +44,10 @@ namespace AutoRepairShop.Web.Data.Repositories
                     Value = "0"
                 });
             }
-            
+
 
             return list;
-       }
+        }
 
 
 
@@ -83,7 +81,7 @@ namespace AutoRepairShop.Web.Data.Repositories
                 Value = "0"
             });
 
-            if (list.Count >1)
+            if (list.Count > 1)
             {
                 list.Insert(_context.Models.Count() + 1, new SelectListItem
                 {
@@ -91,7 +89,7 @@ namespace AutoRepairShop.Web.Data.Repositories
                     Value = _context.Models.Last().Id + 1.ToString()
                 });
             }
-           
+
 
             return list;
         }
@@ -106,7 +104,7 @@ namespace AutoRepairShop.Web.Data.Repositories
                 Value = f.Id.ToString()
             }).ToList();
 
-            if (list.Count>1)
+            if (list.Count > 1)
             {
                 list.Insert(0, new SelectListItem
                 {
@@ -114,7 +112,7 @@ namespace AutoRepairShop.Web.Data.Repositories
                     Value = "0"
                 });
             }
-          
+
 
             return list;
         }
@@ -127,7 +125,7 @@ namespace AutoRepairShop.Web.Data.Repositories
                 Value = c.Id.ToString(),
             }).ToList();
 
-            if (list.Count>1)
+            if (list.Count > 1)
             {
                 list.Insert(0, new SelectListItem
                 {
@@ -135,7 +133,7 @@ namespace AutoRepairShop.Web.Data.Repositories
                     Value = "0",
                 });
             }
-           
+
 
             return list;
         }

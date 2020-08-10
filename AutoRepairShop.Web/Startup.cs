@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoRepairShop.Web.Data;
 using AutoRepairShop.Web.Data.Repositories;
+using AutoRepairShop.Web.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -41,7 +42,7 @@ namespace AutoRepairShop.Web
             services.AddScoped<IColorRepository, ColorRepository>();
 
 
-
+            services.AddScoped<IConverterHelper, ConverterHelper>();
 
 
 

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 
-namespace AutoRepairShop.Web.Models
+namespace AutoRepairShop.Web.Models.VehicleViewModels
 {
     public class AddVehicleViewModel : Vehicle
     {
