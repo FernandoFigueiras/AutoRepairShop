@@ -59,16 +59,17 @@ namespace AutoRepairShop.Web.Data
             var cascadeFKs = modelBuilder.Model
                 .GetEntityTypes()
                 .SelectMany(t => t.GetForeignKeys())
-                .Where(fk => fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade);
+                .Where(/*fk => fk.IsOwnership &&*/ fk => fk.DeleteBehavior == DeleteBehavior.Cascade);
 
 
             foreach (var fk in cascadeFKs)
             {
-                if (fk.DependentToPrincipal.DeclaringEntityType.GetType().FullName=="Vehicle")
-                {
-                    fk.DeleteBehavior = DeleteBehavior.Cascade;
-                }
                 fk.DeleteBehavior = DeleteBehavior.Restrict;
+                //if (fk.DependentToPrincipal.DeclaringEntityType.GetType().FullName == "Vehicle")
+                //{
+                //    fk.DeleteBehavior = DeleteBehavior.Cascade;
+                //}
+               
             }
 
 

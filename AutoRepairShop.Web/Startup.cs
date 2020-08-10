@@ -28,7 +28,10 @@ namespace AutoRepairShop.Web
         public void ConfigureServices(IServiceCollection services)
         {
 
-
+            services.AddDbContext<DataContext>(config =>
+            {
+                config.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
+            });
 
 
 
@@ -41,10 +44,7 @@ namespace AutoRepairShop.Web
 
 
 
-            services.AddDbContext<DataContext>(config =>
-            {
-                config.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
-            });
+
 
 
 

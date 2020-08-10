@@ -1,0 +1,55 @@
+﻿@model AutoRepairShop.Web.Models.VehicleViewModels.VehicleDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Color</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LicencePlate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LicencePlate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BrandName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BrandName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ModelName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ModelName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EngineCapacity)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EngineCapacity)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Fueltype)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Fueltype)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ColorName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ColorName)
+        </dd>
+
+    </dl>
+</div>
+<div>
+    <a asp-action="EditVehicle" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -134,9 +134,7 @@ namespace AutoRepairShop.Web.Migrations
 
                     b.Property<int>("BrandId");
 
-                    b.Property<string>("ColorId");
-
-                    b.Property<int?>("ColorId1");
+                    b.Property<int>("ColorId");
 
                     b.Property<DateTime?>("CreationDate");
 
@@ -159,7 +157,7 @@ namespace AutoRepairShop.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ColorId1");
+                    b.HasIndex("ColorId");
 
                     b.HasIndex("FuelId");
 
@@ -176,24 +174,25 @@ namespace AutoRepairShop.Web.Migrations
                     b.HasOne("AutoRepairShop.Web.Data.Entities.Brand", "Brand")
                         .WithMany("Models")
                         .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.Vehicle", b =>
                 {
                     b.HasOne("AutoRepairShop.Web.Data.Entities.Color", "Color")
                         .WithMany()
-                        .HasForeignKey("ColorId1");
+                        .HasForeignKey("ColorId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("AutoRepairShop.Web.Data.Entities.Fuel", "Fuel")
                         .WithMany()
                         .HasForeignKey("FuelId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("AutoRepairShop.Web.Data.Entities.Model", "Model")
                         .WithMany()
                         .HasForeignKey("ModelId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

@@ -88,7 +88,7 @@ namespace AutoRepairShop.Web.Data.Entities
 
         [Display(Name = "Fuel")]
         [Range(1, int.MaxValue, ErrorMessage = "You must select a Color")]
-        public string ColorId { get; set; }
+        public int ColorId { get; set; }
 
 
 

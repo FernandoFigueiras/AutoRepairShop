@@ -77,16 +77,17 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                         if (ModelState.IsValid)
                         {
                             ModelState.AddModelError(String.Empty, $"There is allready a brand registered with the name {brand.BrandName}, please insert another");
+                            return View(brand);
                         }
 
                     }
                     else
                     {
                         ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                        return View(brand);
                     }
                     
                 }
-                return View(brand);
             }
             return View(brand);
         }

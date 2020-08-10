@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Data.Repositories;
 using AutoRepairShop.Web.Models;
+using AutoRepairShop.Web.Models.VehicleViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
@@ -44,6 +45,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                 Brands = _vehicleRepository.GetComboBrands(),
                 Models = _vehicleRepository.GetComboModels(),
                 Fuels = _vehicleRepository.GetComboFuels(),
+                Colors = _vehicleRepository.GetComboColors(),
             };
 
             return View(model);
@@ -65,6 +67,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                     EngineCapacity = model.EngineCapacity,
                     FuelId = model.FuelId,
                     ColorId = model.ColorId,
+                    CreationDate = DateTime.UtcNow,
                 };
 
                 try
@@ -335,6 +338,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                     EngineCapacity = model.EngineCapacity,
                     FuelId = model.FuelId,
                     ColorId = model.ColorId,
+                    UpdateDate = DateTime.UtcNow,
                 };
 
 
@@ -390,5 +394,40 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             return View(model);
         }
 
+
+
+        public async Task<IActionResult> DetailsVehicle(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var vehicle = await _vehicleRepository.GetByIdAsync(id.Value);
+            var brand = await _brandRepository.GetByIdAsync(vehicle.BrandId);
+            var modelName = await _brandRepository.GetModelByIdAsync(vehicle.ModelId);
+            var fuel = await _fuelRepository.GetByIdAsync(vehicle.FuelId);
+            var color = await _colorRepository.GetByIdAsync(vehicle.ColorId);
+
+
+            var model = new VehicleDetailsViewModel
+            {
+                Id = vehicle.Id,
+                LicencePlate = vehicle.LicencePlate,
+                BrandName = brand.BrandName,
+                ModelName = modelName.ModelName,
+                EngineCapacity = vehicle.EngineCapacity,
+                Fueltype = fuel.FuelType,
+                ColorName = color.ColorName,
+            };
+
+
+            if (vehicle == null)
+            {
+                return NotFound();
+            }
+
+            return View(model);
+        }
     }
 }

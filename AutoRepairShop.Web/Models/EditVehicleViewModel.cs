@@ -1,7 +1,10 @@
-﻿namespace AutoRepairShop.Web.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AutoRepairShop.Web.Models
 {
     public class EditVehicleViewModel : AddVehicleViewModel
     {
+
         public string BrandName { get; set; }
 
 

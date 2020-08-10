@@ -1,28 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoRepairShop.Web.Data.Entities;
+using AutoRepairShop.Web.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 using Microsoft.EntityFrameworkCore;
-using AutoRepairShop.Web.Data;
-using AutoRepairShop.Web.Data.Entities;
+using System;
+using System.Threading.Tasks;
 
 namespace AutoRepairShop.Web.Controllers.BackOffice
 {
     public class ColorsController : Controller
     {
-        private readonly DataContext _context;
+        private readonly IColorRepository _colorRepository;
 
-        public ColorsController(DataContext context)
+        public ColorsController(IColorRepository colorRepository)
         {
-            _context = context;
+            _colorRepository = colorRepository;
         }
 
         // GET: Colors
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Colors.ToListAsync());
+            return View(_colorRepository.GetAll());
         }
 
         // GET: Colors/Details/5
@@ -33,8 +31,8 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                 return NotFound();
             }
 
-            var color = await _context.Colors
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var color = await _colorRepository
+                .GetByIdAsync(id.Value);
             if (color == null)
             {
                 return NotFound();
@@ -54,13 +52,39 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CreationDate,UpdateDate,DeactivationDate,IsActive,ColorName")] Color color)
+        public async Task<IActionResult> Create(Color color)
         {
+
             if (ModelState.IsValid)
             {
-                _context.Add(color);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                try
+                {
+                    color.IsActive = true;
+                    color.CreationDate = DateTime.UtcNow;
+                    await _colorRepository.CreateAsync(color);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException.Message.Contains("duplicate"))
+                    {
+
+                        if (ModelState.IsValid)
+                        {
+                            ModelState.AddModelError(String.Empty, $"There is allready a color {color.ColorName} registered, please insert another");
+                            return View(color);
+                        }
+
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                        return View(color);
+                    }
+                }
+
+                
             }
             return View(color);
         }
@@ -73,7 +97,8 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                 return NotFound();
             }
 
-            var color = await _context.Colors.FindAsync(id);
+            var color = await _colorRepository
+                .GetByIdAsync(id.Value);
             if (color == null)
             {
                 return NotFound();
@@ -86,23 +111,44 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CreationDate,UpdateDate,DeactivationDate,IsActive,ColorName")] Color color)
+        public async Task<IActionResult> Edit(Color color)
         {
-            if (id != color.Id)
-            {
-                return NotFound();
-            }
+
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(color);
-                    await _context.SaveChangesAsync();
+
+                    try
+                    {
+                        await _colorRepository
+                      .UpdateAsync(color);
+                        return RedirectToAction(nameof(Index));
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex.InnerException.Message.Contains("duplicate"))
+                        {
+
+                            if (ModelState.IsValid)
+                            {
+                                ModelState.AddModelError(String.Empty, $"There is already a color {color.ColorName} registered, please insert another");
+                                return View(color);
+                            }
+
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                            return View(color);
+                        }
+                    }
+                   
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ColorExists(color.Id))
+                    if (!await _colorRepository.ExistsAsync(color.Id))
                     {
                         return NotFound();
                     }
@@ -124,8 +170,8 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                 return NotFound();
             }
 
-            var color = await _context.Colors
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var color = await _colorRepository
+                .GetByIdAsync(id.Value);
             if (color == null)
             {
                 return NotFound();
@@ -139,15 +185,13 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var color = await _context.Colors.FindAsync(id);
-            _context.Colors.Remove(color);
-            await _context.SaveChangesAsync();
+            var color = await _colorRepository
+                .GetByIdAsync(id);
+            await _colorRepository
+                .DeleteAsync(color);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ColorExists(int id)
-        {
-            return _context.Colors.Any(e => e.Id == id);
-        }
+
     }
 }

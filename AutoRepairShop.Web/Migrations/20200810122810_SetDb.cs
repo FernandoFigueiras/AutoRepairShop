@@ -80,7 +80,7 @@ namespace AutoRepairShop.Web.Migrations
                         column: x => x.BrandId,
                         principalTable: "Brands",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -98,15 +98,14 @@ namespace AutoRepairShop.Web.Migrations
                     ModelId = table.Column<int>(nullable: false),
                     EngineCapacity = table.Column<string>(nullable: false),
                     FuelId = table.Column<int>(nullable: false),
-                    ColorId = table.Column<string>(nullable: true),
-                    ColorId1 = table.Column<int>(nullable: true)
+                    ColorId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Vehicles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Vehicles_Colors_ColorId1",
-                        column: x => x.ColorId1,
+                        name: "FK_Vehicles_Colors_ColorId",
+                        column: x => x.ColorId,
                         principalTable: "Colors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -115,13 +114,13 @@ namespace AutoRepairShop.Web.Migrations
                         column: x => x.FuelId,
                         principalTable: "Fuels",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Vehicles_Models_ModelId",
                         column: x => x.ModelId,
                         principalTable: "Models",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -154,9 +153,9 @@ namespace AutoRepairShop.Web.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vehicles_ColorId1",
+                name: "IX_Vehicles_ColorId",
                 table: "Vehicles",
-                column: "ColorId1");
+                column: "ColorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Vehicles_FuelId",

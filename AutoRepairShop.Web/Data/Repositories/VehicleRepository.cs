@@ -38,12 +38,15 @@ namespace AutoRepairShop.Web.Data.Repositories
                 Value = b.Id.ToString()
             }).ToList();
 
-
-            list.Insert(0, new SelectListItem
+            if (list.Count>1)
             {
-                Text = "Select a Brand...",
-                Value = "0"
-            });
+                list.Insert(0, new SelectListItem
+                {
+                    Text = "Select a Brand...",
+                    Value = "0"
+                });
+            }
+            
 
             return list;
        }
@@ -80,11 +83,15 @@ namespace AutoRepairShop.Web.Data.Repositories
                 Value = "0"
             });
 
-            list.Insert(_context.Models.Count() + 1, new SelectListItem
+            if (list.Count >1)
             {
-                Text = "Other not Listed",
-                Value = _context.Models.Last().Id+ 1.ToString()
-            });
+                list.Insert(_context.Models.Count() + 1, new SelectListItem
+                {
+                    Text = "Other not Listed",
+                    Value = _context.Models.Last().Id + 1.ToString()
+                });
+            }
+           
 
             return list;
         }
@@ -99,12 +106,15 @@ namespace AutoRepairShop.Web.Data.Repositories
                 Value = f.Id.ToString()
             }).ToList();
 
-
-            list.Insert(0, new SelectListItem
+            if (list.Count>1)
             {
-                Text = "Select a Fuel...",
-                Value = "0"
-            });
+                list.Insert(0, new SelectListItem
+                {
+                    Text = "Select a Fuel...",
+                    Value = "0"
+                });
+            }
+          
 
             return list;
         }
@@ -117,12 +127,15 @@ namespace AutoRepairShop.Web.Data.Repositories
                 Value = c.Id.ToString(),
             }).ToList();
 
-
-            list.Insert(0, new SelectListItem
+            if (list.Count>1)
             {
-                Text = "Select a color...",
-                Value = "0",
-            });
+                list.Insert(0, new SelectListItem
+                {
+                    Text = "Select a color...",
+                    Value = "0",
+                });
+            }
+           
 
             return list;
         }
