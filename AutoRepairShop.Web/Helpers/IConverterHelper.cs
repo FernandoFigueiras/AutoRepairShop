@@ -1,8 +1,5 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Models.VehicleViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AutoRepairShop.Web.Helpers
@@ -17,12 +14,13 @@ namespace AutoRepairShop.Web.Helpers
         Vehicle ToEditVehicle(EditVehicleViewModel model);
 
 
-        DeleteVehicleViewModel ToDeleteVehicleViewModel(Vehicle vehicle, Brand brand, Model modelType, Fuel fuel, Color color);
-
-        EditVehicleViewModel ToEditVehicleViewModel(Vehicle vehicle, Brand brand, Model modelType, Fuel fuel, Color color);
+        Task<DeleteVehicleViewModel> ToDeleteVehicleViewModelAsync(Vehicle vehicle);
 
 
-        VehicleDetailsViewModel ToVehicleDetailsViewModel(Vehicle vehicle, Brand brand, Model modelType, Fuel fuel, Color color);
+        Task<EditVehicleViewModel> ToEditVehicleViewModelAsync(Vehicle vehicle);
+
+
+        Task<VehicleDetailsViewModel> ToVehicleDetailsViewModelAsync(Vehicle vehicle);
 
     }
 }

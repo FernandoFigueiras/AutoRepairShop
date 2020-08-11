@@ -114,7 +114,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                             }
 
                             var modelId = await _brandRepository.GetModelIdAsync(model.ModelName);
-
+                            model.ModelId = modelId;
                             var vehicle1 = _converterHelper.ToNewVehicle(model);
 
                             try
@@ -201,10 +201,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             }
 
             var vehicle = await _vehicleRepository.GetByIdAsync(id.Value);
-            var brand = await _brandRepository.GetByIdAsync(vehicle.BrandId);
-            var modelType = await _brandRepository.GetModelByIdAsync(vehicle.ModelId);
-            var fuel = await _fuelRepository.GetByIdAsync(vehicle.FuelId);
-            var color = await _colorRepository.GetByIdAsync(vehicle.ColorId);
+
 
             if (vehicle == null)
             {
@@ -214,7 +211,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
 
 
-            var modelView = _converterHelper.ToDeleteVehicleViewModel(vehicle, brand, modelType, fuel, color);
+            var modelView = await _converterHelper.ToDeleteVehicleViewModelAsync(vehicle);
 
             return View(modelView);
         }
@@ -268,17 +265,14 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             }
 
             var vehicle = await _vehicleRepository.GetByIdAsync(id.Value);
-            var brand = await _brandRepository.GetByIdAsync(vehicle.BrandId);
-            var modelType = await _brandRepository.GetModelByIdAsync(vehicle.ModelId);
-            var fuel = await _fuelRepository.GetByIdAsync(vehicle.FuelId);
-            var color = await _colorRepository.GetByIdAsync(vehicle.ColorId);
+            
 
             if (vehicle == null)
             {
                 return NotFound();
             }
 
-            var model = _converterHelper.ToEditVehicleViewModel(vehicle, brand, modelType, fuel, color);
+            var model = await _converterHelper.ToEditVehicleViewModelAsync(vehicle);
 
 
             return View(model);
@@ -292,7 +286,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             if (ModelState.IsValid)
             {
 
-                var vehicle = _converterHelper.ToEditVehicle(model);
+                var vehicle =  _converterHelper.ToEditVehicle(model);
 
 
                 try
@@ -357,13 +351,8 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             }
 
             var vehicle = await _vehicleRepository.GetByIdAsync(id.Value);
-            var brand = await _brandRepository.GetByIdAsync(vehicle.BrandId);
-            var modelType = await _brandRepository.GetModelByIdAsync(vehicle.ModelId);
-            var fuel = await _fuelRepository.GetByIdAsync(vehicle.FuelId);
-            var color = await _colorRepository.GetByIdAsync(vehicle.ColorId);
-
-
-            var model = _converterHelper.ToVehicleDetailsViewModel(vehicle, brand, modelType, fuel, color);
+ 
+            var model = await _converterHelper.ToVehicleDetailsViewModelAsync(vehicle);
 
 
             if (vehicle == null)

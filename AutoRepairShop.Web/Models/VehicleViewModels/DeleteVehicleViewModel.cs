@@ -1,4 +1,5 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace AutoRepairShop.Web.Models.VehicleViewModels
 {
@@ -12,5 +13,9 @@ namespace AutoRepairShop.Web.Models.VehicleViewModels
 
 
         public string FuelType { get; set; }
+
+        [Display(Name ="Color")]
+        public string ColorName { get; set; }
+
     }
 }

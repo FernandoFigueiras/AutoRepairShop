@@ -11,10 +11,19 @@ namespace AutoRepairShop.Web.Helpers
     public class ConverterHelper : IConverterHelper
     {
         private readonly IVehicleRepository _vehicleRepository;
+        private readonly IBrandRepository _brandRepository;
+        private readonly IFuelRepository _fuelRepository;
+        private readonly IColorRepository _colorRepository;
 
-        public ConverterHelper(IVehicleRepository vehicleRepository)
+        public ConverterHelper(IVehicleRepository vehicleRepository,
+            IBrandRepository brandRepository,
+            IFuelRepository fuelRepository,
+            IColorRepository colorRepository)
         {
            _vehicleRepository = vehicleRepository;
+            _brandRepository = brandRepository;
+            _fuelRepository = fuelRepository;
+            _colorRepository = colorRepository;
         }
 
 
@@ -37,33 +46,42 @@ namespace AutoRepairShop.Web.Helpers
 
 
 
-        public DeleteVehicleViewModel ToDeleteVehicleViewModel(Vehicle vehicle, Brand brand, Model modelType, Fuel fuel, Color color)
+        public async Task<DeleteVehicleViewModel> ToDeleteVehicleViewModelAsync(Vehicle vehicle)
         {
+            var brand = await _brandRepository.GetByIdAsync(vehicle.BrandId);
+            var modelType = await _brandRepository.GetModelByIdAsync(vehicle.ModelId);
+            var fuel = await _fuelRepository.GetByIdAsync(vehicle.FuelId);
+            var color = await _colorRepository.GetByIdAsync(vehicle.ColorId);
+
             var model = new DeleteVehicleViewModel
             {
+                Id=vehicle.Id,
                 LicencePlate = vehicle.LicencePlate,
                 Brand = brand.BrandName,
                 ModelName = modelType.ModelName,
                 EngineCapacity = vehicle.EngineCapacity,
                 FuelType = fuel.FuelType,
-                Color = vehicle.Color
-            };
+                ColorName = color.ColorName,
+            }; 
 
             return model;
         }
 
-        public EditVehicleViewModel ToEditVehicleViewModel(Vehicle vehicle, Brand brand, Model modelType, Fuel fuel, Color color)
+        public async Task<EditVehicleViewModel> ToEditVehicleViewModelAsync(Vehicle vehicle)
         {
+            var brand = await _brandRepository.GetByIdAsync(vehicle.BrandId);
+            var modelType = await _brandRepository.GetModelByIdAsync(vehicle.ModelId);
 
             var model = new EditVehicleViewModel
             {
+                Id = vehicle.Id,
                 LicencePlate = vehicle.LicencePlate,
                 BrandName = brand.BrandName,
                 ModelName = modelType.ModelName,
                 EngineCapacity = vehicle.EngineCapacity,
-                BrandId = brand.Id,
+                BrandId = vehicle.BrandId,
                 Models = _vehicleRepository.GetComboModels(),
-                ModelId = modelType.Id,
+                ModelId = vehicle.ModelId,
                 FuelId = vehicle.FuelId,
                 Fuels = _vehicleRepository.GetComboFuels(),
                 ColorId = vehicle.ColorId,
@@ -92,8 +110,15 @@ namespace AutoRepairShop.Web.Helpers
 
         }
 
-        public VehicleDetailsViewModel ToVehicleDetailsViewModel(Vehicle vehicle, Brand brand, Model modelType, Fuel fuel, Color color)
+        public async Task<VehicleDetailsViewModel> ToVehicleDetailsViewModelAsync(Vehicle vehicle)
         {
+
+
+            var brand = await _brandRepository.GetByIdAsync(vehicle.BrandId);
+            var modelType = await _brandRepository.GetModelByIdAsync(vehicle.ModelId);
+            var fuel = await _fuelRepository.GetByIdAsync(vehicle.FuelId);
+            var color = await _colorRepository.GetByIdAsync(vehicle.ColorId);
+
             var model = new VehicleDetailsViewModel
             {
                 Id = vehicle.Id,

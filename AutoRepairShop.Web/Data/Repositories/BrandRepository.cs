@@ -70,6 +70,7 @@ namespace AutoRepairShop.Web.Data.Repositories
             {
                 return 0;
             }
+            model.BrandId = brand.Id;
             _context.Models.Update(model);
             await _context.SaveChangesAsync();
             return brand.Id;

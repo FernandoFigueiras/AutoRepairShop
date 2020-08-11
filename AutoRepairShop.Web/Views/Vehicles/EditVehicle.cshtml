@@ -14,9 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="BrandId" />
-            <input type="hidden" asp-for="ModelId" />
-            <input type="hidden" asp-for="FuelId" />
-            <input type="hidden" asp-for="ColorId" />
+
 
 
             <div class="form-group">
@@ -28,9 +26,9 @@
 
 
             <div class="form-group">
-                <label asp-for="ModelName">Licence PLate</label>
-                <input asp-for="ModelName" class="form-control" readonly="readonly" />
-                <span asp-validation-for="ModelName" class="text-warning"></span>
+                <label asp-for="BrandName">Licence PLate</label>
+                <input asp-for="BrandName" class="form-control" readonly="readonly" />
+                <span asp-validation-for="BrandName" class="text-warning"></span>
             </div>
 
 
@@ -63,8 +61,8 @@
 
 
             <div class="form-group">
-                <label asp-for="ColorId" class="control-label">Fuel</label>
-                <select asp-for="ColorId" asp-items="Model.Fuels" class="form-control"></select>
+                <label asp-for="ColorId" class="control-label">Color</label>
+                <select asp-for="ColorId" asp-items="Model.Colors" class="form-control"></select>
                 <span asp-validation-for="ColorId" class="text-danger"></span>
             </div>
 

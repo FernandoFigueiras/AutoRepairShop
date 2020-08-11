@@ -330,11 +330,11 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                
                 try
                 {
-                    var brandId = await _brandRepository.UpdateModelAsync(model);
+                    var modelId = await _brandRepository.UpdateModelAsync(model);
 
-                    if (brandId != 0)
+                    if (modelId != 0)
                     {
-                        return this.RedirectToAction($"Details/{brandId}");
+                        return this.RedirectToAction($"Details/{modelId}");
                     }
                 }
                 catch (Exception ex)
