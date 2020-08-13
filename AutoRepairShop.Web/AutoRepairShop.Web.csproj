@@ -51,9 +51,20 @@
     <Compile Remove="Migrations\20200810105704_SetDb.Designer.cs" />
     <Compile Remove="Migrations\20200810111721_SetDb.cs" />
     <Compile Remove="Migrations\20200810111721_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200810122810_SetDb.cs" />
+    <Compile Remove="Migrations\20200810122810_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200811120041_SetDb.cs" />
+    <Compile Remove="Migrations\20200811120041_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200812163849_SetDb.cs" />
+    <Compile Remove="Migrations\20200812163849_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200813144200_SetDb.cs" />
+    <Compile Remove="Migrations\20200813144200_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200813144249_SetDb.cs" />
+    <Compile Remove="Migrations\20200813144249_SetDb.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" Version="2.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.10" />

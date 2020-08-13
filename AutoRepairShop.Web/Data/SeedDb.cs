@@ -1,4 +1,6 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
+using AutoRepairShop.Web.Helpers;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,10 +12,13 @@ namespace AutoRepairShop.Web.Data
     public class SeedDb
     {
         private readonly DataContext _context;
+        private readonly IUserHelper _userHelper;
 
-        public SeedDb(DataContext context)
+        public SeedDb(DataContext context,
+            IUserHelper userHelper)
         {
             _context = context;
+            _userHelper = userHelper;
         }
 
 
@@ -22,6 +27,32 @@ namespace AutoRepairShop.Web.Data
         {
             await _context.Database.EnsureCreatedAsync();
 
+
+            var user = await _userHelper.GetUserByEmailAsync("fjfigdev@gmail.com");
+           
+
+            if (user == null)
+            {
+                user = new User
+                {
+                    FirstName = "Fernando",
+                    LastName = "Figueiras",
+                    UserName = "fjfigdev@gmail.com",
+                    Email = "fjfigdev@gmail.com",
+                };
+                
+                var result = await _userHelper.AddUserAsync(user, "123456");
+                var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                var resulttoken = await _userHelper.ConfirmEmailAsync(user, token);
+
+                if (result != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException("The User could not be created in seeder");
+                }
+            }
+
+
+           
 
             if (!_context.Brands.Any())
             {

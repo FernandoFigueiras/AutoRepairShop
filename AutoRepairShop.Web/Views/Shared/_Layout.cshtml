@@ -38,6 +38,17 @@
                     <li><a asp-area="" asp-controller="Colors" asp-action="Index">Color</a></li>
                     <li><a asp-area="" asp-controller="Vehicles" asp-action="Index">Vehicles</a></li>
                 </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    @if (this.User.Identity.IsAuthenticated)
+                    {
+                        <li><a asp-area="" asp-controller="Accounts" asp-action="EditUser">@this.User.Identity.Name</a></li>
+                        <li><a asp-area="" asp-controller="Accounts" asp-action="Logout">Logout</a></li>
+                    }
+                    else
+                    {
+                        <li><a asp-area="" asp-controller="Accounts" asp-action="Login">Login</a></li>
+                    }
+                </ul>
             </div>
         </div>
     </nav>

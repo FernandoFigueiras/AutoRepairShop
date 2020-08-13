@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoRepairShop.Web.Data;
+using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Data.Repositories;
 using AutoRepairShop.Web.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -29,6 +31,30 @@ namespace AutoRepairShop.Web
         public void ConfigureServices(IServiceCollection services)
         {
 
+
+            services.AddIdentity<User, IdentityRole>(config =>
+            {
+                config.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
+                config.SignIn.RequireConfirmedEmail = true;
+                config.User.RequireUniqueEmail = true;
+                config.Password.RequireDigit = false;
+                config.Password.RequiredUniqueChars = 0;
+                config.Password.RequireLowercase = false;
+                config.Password.RequireUppercase = false;
+                config.Password.RequireNonAlphanumeric = false;
+                config.Password.RequiredLength = 6;
+
+            })
+                .AddDefaultTokenProviders()
+                .AddEntityFrameworkStores<DataContext>();
+
+
+
+
+
+
+
+
             services.AddDbContext<DataContext>(config =>
             {
                 config.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
@@ -47,6 +73,9 @@ namespace AutoRepairShop.Web
 
 
             services.AddScoped<IConverterHelper, ConverterHelper>();
+            services.AddScoped<IUserHelper, UserHelper>();
+            services.AddScoped<IMailHelper, MailHelper>();
+            services.AddScoped<IDataInputHelper, DataInputHelper>();
 
 
 
@@ -81,6 +110,7 @@ namespace AutoRepairShop.Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>
