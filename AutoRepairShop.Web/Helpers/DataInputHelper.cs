@@ -14,7 +14,7 @@ namespace AutoRepairShop.Web.Helpers
         public bool IsUserDataInserted(User user)
         {
 
-            if (user.FirstName != null && user.LastName != null && user.Address != null && user.ZipCode != null && user.City != null && user.PhoneNumber != null)
+            if (user.FirstName != null && user.LastName != null && user.Address != null && user.ZipCode != null && user.ZipCode.ZipCode4 != null && user.ZipCode.ZipCode3 != null && user.PhoneNumber != null)
             {
                 return true;
             }

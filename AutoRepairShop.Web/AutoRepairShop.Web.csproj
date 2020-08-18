@@ -61,6 +61,16 @@
     <Compile Remove="Migrations\20200813144200_SetDb.Designer.cs" />
     <Compile Remove="Migrations\20200813144249_SetDb.cs" />
     <Compile Remove="Migrations\20200813144249_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200813151703_SetDb.cs" />
+    <Compile Remove="Migrations\20200813151703_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200814084237_SetDb.cs" />
+    <Compile Remove="Migrations\20200814084237_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200814095018_SetDb.cs" />
+    <Compile Remove="Migrations\20200814095018_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200814105050_SetDb.cs" />
+    <Compile Remove="Migrations\20200814105050_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200817093213_SetDb.cs" />
+    <Compile Remove="Migrations\20200817093213_SetDb.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

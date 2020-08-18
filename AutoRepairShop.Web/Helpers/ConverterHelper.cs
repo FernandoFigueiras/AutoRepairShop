@@ -32,6 +32,8 @@ namespace AutoRepairShop.Web.Helpers
         }
 
 
+
+
         public Vehicle ToNewVehicle(AddVehicleViewModel model)
         {
             var vehicle = new Vehicle
@@ -47,6 +49,8 @@ namespace AutoRepairShop.Web.Helpers
 
             return vehicle;
         }
+
+
 
 
 
@@ -71,6 +75,10 @@ namespace AutoRepairShop.Web.Helpers
 
             return model;
         }
+
+
+
+
 
         public async Task<EditVehicleViewModel> ToEditVehicleViewModelAsync(Vehicle vehicle)
         {
@@ -97,6 +105,10 @@ namespace AutoRepairShop.Web.Helpers
             
         }
 
+
+
+
+
         public Vehicle ToEditVehicle(EditVehicleViewModel model)
         {
             var vehicle = new Vehicle
@@ -114,6 +126,9 @@ namespace AutoRepairShop.Web.Helpers
             return vehicle;
 
         }
+
+
+
 
         public async Task<VehicleDetailsViewModel> ToVehicleDetailsViewModelAsync(Vehicle vehicle)
         {
@@ -174,13 +189,14 @@ namespace AutoRepairShop.Web.Helpers
                 FirstName = user.FirstName,
                 LastName =user.LastName,
                 Address=user.Address,
-                ZipCode=user.ZipCode,
-                City=user.City,
+                ZipCode4=user.ZipCode.ZipCode4,
+                ZipCode3 = user.ZipCode.ZipCode3,
                 PhoneNumber=user.PhoneNumber,
             };
 
             return model;
         }
+
 
 
         public User ToUserFromUpdate (UpdateUserDataViewModel model, User user)
@@ -196,11 +212,11 @@ namespace AutoRepairShop.Web.Helpers
             updateUser.LastName = model.LastName;
             updateUser.Address = model.Address;
             updateUser.ZipCode = model.ZipCode;
-            updateUser.City = model.City;
             updateUser.PhoneNumber = model.PhoneNumber;
 
             return updateUser;
         }
+
 
 
         public ResetPasswordViewModel ToResetPasswordViewModel(User user)
@@ -212,6 +228,7 @@ namespace AutoRepairShop.Web.Helpers
 
 
 
+
         public async Task<User> ToUserFromResetPasswordViewModel(ResetPasswordViewModel model)
         {
             return await _userHelper.GetUserByEmailAsync(model.UserName);
@@ -219,6 +236,7 @@ namespace AutoRepairShop.Web.Helpers
 
 
        
+
 
         public ChangePasswordViewModel ToChangePasswordViewModel(User user)
         {

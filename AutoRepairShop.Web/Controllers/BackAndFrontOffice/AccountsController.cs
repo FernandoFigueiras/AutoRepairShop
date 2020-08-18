@@ -1,4 +1,5 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
+using AutoRepairShop.Web.Data.Repositories;
 using AutoRepairShop.Web.Helpers;
 using AutoRepairShop.Web.Models.Account;
 using Microsoft.AspNetCore.Identity;
@@ -21,16 +22,19 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
         private readonly IConverterHelper _converterHelper;
         private readonly IMailHelper _mailHelper;
         private readonly IDataInputHelper _dataInputHelper;
+        private readonly IZipCodeRepository _zipCodeRepository;
 
         public AccountsController(IUserHelper userHelper,
             IConverterHelper converterHelper,
             IMailHelper mailHelper,
-            IDataInputHelper dataInputHelper)
+            IDataInputHelper dataInputHelper,
+            IZipCodeRepository zipCodeRepository)
         {
             _userHelper = userHelper;
             _converterHelper = converterHelper;
             _mailHelper = mailHelper;
             _dataInputHelper = dataInputHelper;
+            _zipCodeRepository = zipCodeRepository;
         }
 
 
@@ -258,6 +262,8 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                 var user = await _userHelper.GetUserByIdAsync(model.Id);
 
                 var updateUser = _converterHelper.ToUserFromUpdate(model, user);
+
+                
 
                 if (updateUser==null)
                 {

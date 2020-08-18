@@ -70,6 +70,15 @@ namespace AutoRepairShop.Web
             services.AddScoped<IFuelRepository, FuelRepository>();
             services.AddScoped<IVehicleRepository, VehicleRepository>();
             services.AddScoped<IColorRepository, ColorRepository>();
+            services.AddScoped<IDistrictRepository, DistrictRepository>();
+            services.AddScoped<ICountryRepository, CountryRepository>();
+            services.AddScoped<ICountyRepository, CountyRepository>();
+            services.AddScoped<IPlaceRepository, PlaceRepository>();
+            services.AddScoped<IZipCodeRepository, ZipCodeRepository>();
+
+
+
+
 
 
             services.AddScoped<IConverterHelper, ConverterHelper>();

@@ -1,6 +1,7 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using System.Linq;
 
 namespace AutoRepairShop.Web.Data
@@ -21,6 +22,18 @@ namespace AutoRepairShop.Web.Data
 
 
         public DbSet<Color> Colors { get; set; }
+
+
+        public DbSet<Country> Countries { get; set; }
+
+
+        public DbSet<District> Districts { get; set; }
+
+
+        public DbSet<County> Counties { get; set; }
+
+
+        public DbSet<ZipCode> ZipCodes { get; set; }
 
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
@@ -56,11 +69,28 @@ namespace AutoRepairShop.Web.Data
                .HasIndex(c => c.ColorName)
                .IsUnique();
 
+            modelBuilder.Entity<Country>()
+              .HasIndex(c => c.CountryName)
+              .IsUnique();
+
+
+            modelBuilder.Entity<District>()
+             .HasIndex(d => d.DistrictName)
+             .IsUnique();
+
+
+            modelBuilder.Entity<County>()
+              .HasIndex(c => c.CountyName)
+              .IsUnique();
+
+
+           
+
             //Cascade Deleting Rule
             var cascadeFKs = modelBuilder.Model
                 .GetEntityTypes()
                 .SelectMany(t => t.GetForeignKeys())
-                .Where(/*fk => fk.IsOwnership &&*/ fk => fk.DeleteBehavior == DeleteBehavior.Cascade);
+                .Where(fk => fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade);
 
 
             foreach (var fk in cascadeFKs)

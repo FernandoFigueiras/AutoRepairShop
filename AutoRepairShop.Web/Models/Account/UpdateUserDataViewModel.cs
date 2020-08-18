@@ -24,9 +24,13 @@ namespace AutoRepairShop.Web.Models.Account
 
         [Required]
         [Display(Name = "Zip Code")]
-        public new string ZipCode { get; set; }
+        public string ZipCode4 { get; set; }
+
 
         [Required]
-        public new string City { get; set; }
+        [Display(Name = "Zip Code")]
+        public string ZipCode3 { get; set; }
+
+
     }
 }

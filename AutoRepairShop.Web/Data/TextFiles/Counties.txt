@@ -1,0 +1,308 @@
+01;Castelo de Paiva
+01;Espinho
+01;Estarreja
+01;Santa Maria da Feira
+01;Ílhavo
+01;Mealhada
+01;Murtosa
+01;Oliveira de Azeméis
+01;Oliveira do Bairro
+01;Ovar
+01;São João da Madeira
+01;Sever do Vouga
+01;Vagos
+01;Vale de Cambra
+01;Águeda
+01;Albergaria-a-Velha
+01;Anadia
+01;Arouca
+01;Aveiro
+02;Castro Verde
+02;Cuba
+02;Ferreira do Alentejo
+02;Mértola
+02;Moura
+02;Odemira
+02;Ourique
+02;Serpa
+02;Vidigueira
+02;Aljustrel
+02;Almodôvar
+02;Alvito
+02;Barrancos
+02;Beja
+03;Esposende
+03;Fafe
+03;Guimarães
+03;Póvoa de Lanhoso
+03;Terras de Bouro
+03;Vieira do Minho
+03;Vila Nova de Famalicão
+03;Vila Verde
+03;Vizela
+03;Amares
+03;Barcelos
+03;Braga
+03;Cabeceiras de Basto
+03;Celorico de Basto
+04;Miranda do Douro
+04;Mirandela
+04;Mogadouro
+04;Torre de Moncorvo
+04;Vila Flor
+04;Vimioso
+04;Vinhais
+04;Alfândega da Fé
+04;Bragança
+04;Carrazeda de Ansiães
+04;Freixo de Espada à Cinta
+04;Macedo de Cavaleiros
+05;Oleiros
+05;Penamacor
+05;Proença-a-Nova
+05;Sertã
+05;Vila de Rei
+05;Vila Velha de Ródão
+05;Belmonte
+05;Castelo Branco
+05;Covilhã
+05;Fundão
+05;Idanha-a-Nova
+06;Góis
+06;Lousã
+06;Mira
+06;Miranda do Corvo
+06;Montemor-o-Velho
+06;Oliveira do Hospital
+06;Pampilhosa da Serra
+06;Penacova
+06;Penela
+06;Soure
+06;Tábua
+06;Vila Nova de Poiares
+06;Arganil
+06;Cantanhede
+06;Coimbra
+06;Condeixa-a-Nova
+06;Figueira da Foz
+07;Montemor-o-Novo
+07;Mora
+07;Mourão
+07;Portel
+07;Redondo
+07;Reguengos de Monsaraz
+07;Vendas Novas
+07;Viana do Alentejo
+07;Vila Viçosa
+07;Alandroal
+07;Arraiolos
+07;Borba
+07;Estremoz
+07;Évora
+08;Lagoa (Algarve)
+08;Lagos
+08;Loulé
+08;Monchique
+08;Olhão
+08;Portimão
+08;São Brás de Alportel
+08;Silves
+08;Tavira
+08;Vila do Bispo
+08;Vila Real de Santo António
+08;Albufeira
+08;Alcoutim
+08;Aljezur
+08;Castro Marim
+08;Faro
+09;Gouveia
+09;Guarda
+09;Manteigas
+09;Meda
+09;Pinhel
+09;Sabugal
+09;Seia
+09;Trancoso
+09;Vila Nova de Foz Côa
+09;Aguiar da Beira
+09;Almeida
+09;Celorico da Beira
+09;Figueira de Castelo Rodrigo
+09;Fornos de Algodres
+10;Caldas da Rainha
+10;Castanheira de Pêra
+10;Figueiró dos Vinhos
+10;Leiria
+10;Marinha Grande
+10;Nazaré
+10;Óbidos
+10;Pedrógão Grande
+10;Peniche
+10;Pombal
+10;Porto de Mós
+10;Alcobaça
+10;Alvaiázere
+10;Ansião
+10;Batalha
+10;Bombarral
+11;Lisboa
+11;Loures
+11;Lourinhã
+11;Mafra
+11;Oeiras
+11;Sintra
+11;Sobral de Monte Agraço
+11;Torres Vedras
+11;Vila Franca de Xira
+11;Amadora
+11;Odivelas
+11;Alenquer
+11;Arruda dos Vinhos
+11;Azambuja
+11;Cadaval
+11;Cascais
+12;Crato
+12;Elvas
+12;Fronteira
+12;Gavião
+12;Marvão
+12;Monforte
+12;Nisa
+12;Ponte de Sor
+12;Portalegre
+12;Sousel
+12;Alter do Chão
+12;Arronches
+12;Avis
+12;Campo Maior
+12;Castelo de Vide
+13;Maia
+13;Marco de Canaveses
+13;Matosinhos
+13;Paços de Ferreira
+13;Paredes
+13;Penafiel
+13;Porto
+13;Póvoa de Varzim
+13;Santo Tirso
+13;Valongo
+13;Vila do Conde
+13;Vila Nova de Gaia
+13;Trofa
+13;Amarante
+13;Baião
+13;Felgueiras
+13;Gondomar
+13;Lousada
+14;Cartaxo
+14;Chamusca
+14;Constância
+14;Coruche
+14;Entroncamento
+14;Ferreira do Zêzere
+14;Golegã
+14;Mação
+14;Rio Maior
+14;Salvaterra de Magos
+14;Santarém
+14;Sardoal
+14;Tomar
+14;Torres Novas
+14;Vila Nova da Barquinha
+14;Ourém
+14;Abrantes
+14;Alcanena
+14;Almeirim
+14;Alpiarça
+14;Benavente
+15;Moita
+15;Montijo
+15;Palmela
+15;Santiago do Cacém
+15;Seixal
+15;Sesimbra
+15;Setúbal
+15;Sines
+15;Alcácer do Sal
+15;Alcochete
+15;Almada
+15;Barreiro
+15;Grândola
+16;Ponte da Barca
+16;Ponte de Lima
+16;Valença
+16;Viana do Castelo
+16;Vila Nova de Cerveira
+16;Arcos de Valdevez
+16;Caminha
+16;Melgaço
+16;Monção
+16;Paredes de Coura
+17;Mondim de Basto
+17;Montalegre
+17;Murça
+17;Peso da Régua
+17;Ribeira de Pena
+17;Sabrosa
+17;Santa Marta de Penaguião
+17;Valpaços
+17;Vila Pouca de Aguiar
+17;Vila Real
+17;Alijó
+17;Boticas
+17;Chaves
+17;Mesão Frio
+18;Lamego
+18;Mangualde
+18;Moimenta da Beira
+18;Mortágua
+18;Nelas
+18;Oliveira de Frades
+18;Penalva do Castelo
+18;Penedono
+18;Resende
+18;Santa Comba Dão
+18;São João da Pesqueira
+18;São Pedro do Sul
+18;Sátão
+18;Sernancelhe
+18;Tabuaço
+18;Tarouca
+18;Tondela
+18;Vila Nova de Paiva
+18;Viseu
+18;Vouzela
+18;Armamar
+18;Carregal do Sal
+18;Castro Daire
+18;Cinfães
+19;Ponta do Sol
+19;Porto Moniz
+19;Ribeira Brava
+19;Santa Cruz
+19;Santana
+19;São Vicente
+19;Calheta (Madeira)
+19;Câmara de Lobos
+19;Funchal
+19;Machico
+20;Porto Santo
+21;Vila do Porto
+22;Ribeira Grande
+22;Vila Franca do Campo
+22;Lagoa (São Miguel)
+22;Nordeste
+22;Ponta Delgada
+22;Povoação
+23;Angra do Heroísmo
+23;Praia da Vitória
+24;Santa Cruz da Graciosa
+25;Calheta (São Jorge)
+25;Velas
+26;Lajes do Pico
+26;Madalena
+26;São Roque do Pico
+27;Horta
+28;Lajes das Flores
+28;Santa Cruz das Flores
+29;Corvo

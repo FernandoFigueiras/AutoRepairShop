@@ -71,6 +71,89 @@ namespace AutoRepairShop.Web.Migrations
                     b.ToTable("Colors");
                 });
 
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.Country", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CountryName")
+                        .IsRequired();
+
+                    b.Property<DateTime?>("CreationDate");
+
+                    b.Property<DateTime?>("DeactivationDate");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<DateTime?>("UpdateDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryName")
+                        .IsUnique();
+
+                    b.ToTable("Countries");
+                });
+
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.County", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CountyName")
+                        .IsRequired();
+
+                    b.Property<DateTime?>("CreationDate");
+
+                    b.Property<DateTime?>("DeactivationDate");
+
+                    b.Property<int>("DistrictId");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<DateTime?>("UpdateDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountyName")
+                        .IsUnique();
+
+                    b.HasIndex("DistrictId");
+
+                    b.ToTable("Counties");
+                });
+
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.District", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CountryId");
+
+                    b.Property<DateTime?>("CreationDate");
+
+                    b.Property<DateTime?>("DeactivationDate");
+
+                    b.Property<string>("DistrictName")
+                        .IsRequired();
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<DateTime?>("UpdateDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
+
+                    b.HasIndex("DistrictName")
+                        .IsUnique();
+
+                    b.ToTable("Districts");
+                });
+
             modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.Fuel", b =>
                 {
                     b.Property<int>("Id")
@@ -236,6 +319,35 @@ namespace AutoRepairShop.Web.Migrations
                     b.ToTable("Vehicles");
                 });
 
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.ZipCode", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CountyId");
+
+                    b.Property<DateTime?>("CreationDate");
+
+                    b.Property<DateTime?>("DeactivationDate");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<DateTime?>("UpdateDate");
+
+                    b.Property<string>("ZipCode3")
+                        .IsRequired();
+
+                    b.Property<string>("ZipCode4")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountyId");
+
+                    b.ToTable("ZipCodes");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -346,6 +458,22 @@ namespace AutoRepairShop.Web.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.County", b =>
+                {
+                    b.HasOne("AutoRepairShop.Web.Data.Entities.District", "District")
+                        .WithMany("Counties")
+                        .HasForeignKey("DistrictId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.District", b =>
+                {
+                    b.HasOne("AutoRepairShop.Web.Data.Entities.Country", "Country")
+                        .WithMany("Districts")
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.Model", b =>
                 {
                     b.HasOne("AutoRepairShop.Web.Data.Entities.Brand", "Brand")
@@ -369,6 +497,14 @@ namespace AutoRepairShop.Web.Migrations
                     b.HasOne("AutoRepairShop.Web.Data.Entities.Model", "Model")
                         .WithMany()
                         .HasForeignKey("ModelId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.ZipCode", b =>
+                {
+                    b.HasOne("AutoRepairShop.Web.Data.Entities.County", "County")
+                        .WithMany("ZipCodes")
+                        .HasForeignKey("CountyId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

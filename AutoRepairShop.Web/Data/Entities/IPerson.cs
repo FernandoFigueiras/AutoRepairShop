@@ -29,11 +29,7 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
-        string ZipCode { get; set; }
-
-
-
-        string City { get; set; }
+        ZipCode ZipCode { get; set; }
 
 
     }

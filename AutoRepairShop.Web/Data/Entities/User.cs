@@ -26,6 +26,7 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
+
         public string LastName { get; set; }
 
 
@@ -35,12 +36,19 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
-        public string ZipCode { get; set; }
+
+        public int ZipCodeId { get; set; }
 
 
-        public string City { get; set; }
 
 
-        
+        public ZipCode ZipCode { get; set; }
+
+
+
+        public string TaxPayerNumber { get; set; }
+
+
+
     }
 }
