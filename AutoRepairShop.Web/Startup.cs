@@ -5,7 +5,11 @@ using System.Threading.Tasks;
 using AutoRepairShop.Web.Data;
 using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Data.Repositories;
+using AutoRepairShop.Web.Data.Repositories.Classes;
+using AutoRepairShop.Web.Data.Repositories.Interfaces;
 using AutoRepairShop.Web.Helpers;
+using AutoRepairShop.Web.Helpers.Classes;
+using AutoRepairShop.Web.Helpers.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -73,7 +77,6 @@ namespace AutoRepairShop.Web
             services.AddScoped<IDistrictRepository, DistrictRepository>();
             services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddScoped<ICountyRepository, CountyRepository>();
-            services.AddScoped<IPlaceRepository, PlaceRepository>();
             services.AddScoped<IZipCodeRepository, ZipCodeRepository>();
 
 

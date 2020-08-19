@@ -74,9 +74,9 @@ namespace AutoRepairShop.Web.Data
               .IsUnique();
 
 
-            modelBuilder.Entity<District>()
-             .HasIndex(d => d.DistrictName)
-             .IsUnique();
+            //modelBuilder.Entity<District>()
+            // .HasIndex(d => d.DistrictName)
+            // .IsUnique();
 
 
             modelBuilder.Entity<County>()

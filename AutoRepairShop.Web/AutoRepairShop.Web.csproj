@@ -71,6 +71,14 @@
     <Compile Remove="Migrations\20200814105050_SetDb.Designer.cs" />
     <Compile Remove="Migrations\20200817093213_SetDb.cs" />
     <Compile Remove="Migrations\20200817093213_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200818082805_SetDb.cs" />
+    <Compile Remove="Migrations\20200818082805_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200818103415_SetDb.cs" />
+    <Compile Remove="Migrations\20200818103415_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200819035141_SetDb.cs" />
+    <Compile Remove="Migrations\20200819035141_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200819035312_SetDb.cs" />
+    <Compile Remove="Migrations\20200819035312_SetDb.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -78,6 +86,10 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\Countries\" />
   </ItemGroup>
 
 </Project>

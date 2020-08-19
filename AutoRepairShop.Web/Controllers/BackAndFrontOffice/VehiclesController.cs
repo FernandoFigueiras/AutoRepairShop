@@ -1,6 +1,8 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Data.Repositories;
+using AutoRepairShop.Web.Data.Repositories.Interfaces;
 using AutoRepairShop.Web.Helpers;
+using AutoRepairShop.Web.Helpers.Interfaces;
 using AutoRepairShop.Web.Models.VehicleViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;

@@ -32,5 +32,11 @@ namespace AutoRepairShop.Web.Models.Account
         public string ZipCode3 { get; set; }
 
 
+        public int CountyId { get; set; }
+
+
+        public string County { get; set; }
+
+
     }
 }

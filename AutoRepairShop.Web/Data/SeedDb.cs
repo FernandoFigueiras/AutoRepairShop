@@ -1,10 +1,8 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
-using AutoRepairShop.Web.Helpers;
+using AutoRepairShop.Web.Helpers.Interfaces;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -71,7 +69,7 @@ namespace AutoRepairShop.Web.Data
                         sr.Close();
                     }
 
-                    
+
                 }
 
 
@@ -92,7 +90,7 @@ namespace AutoRepairShop.Web.Data
                         {
                             string c;
 
-                            while ((c = srCounty.ReadLine())!= null)
+                            while ((c = srCounty.ReadLine()) != null)
                             {
                                 string[] line = new string[2];
 
@@ -115,6 +113,9 @@ namespace AutoRepairShop.Web.Data
 
                 if (!_context.ZipCodes.Any())
                 {
+                    AddZipCode(256, "0000", "000");
+                    await _context.SaveChangesAsync();
+
                     string zipCodesFile = "ZipCode.txt";
 
 
@@ -162,6 +163,7 @@ namespace AutoRepairShop.Web.Data
                         LastName = "Figueiras",
                         UserName = "fjfigdev@gmail.com",
                         Email = "fjfigdev@gmail.com",
+                        ZipCodeId = 1,
                     };
 
                     var result = await _userHelper.AddUserAsync(user, "123456");
@@ -408,7 +410,7 @@ namespace AutoRepairShop.Web.Data
                 IsActive = true,
                 CreationDate = DateTime.UtcNow,
                 CountyName = countyName,
-                DistrictId=districtId,
+                DistrictId = districtId,
             };
 
             _context.Counties.Add(county);
@@ -421,12 +423,12 @@ namespace AutoRepairShop.Web.Data
 
             var district = new District
             {
-                Id=count,
+                Id = count,
                 IsActive = true,
                 CreationDate = DateTime.UtcNow,
                 DistrictName = districtName,
                 CountryId = countryId,
-                
+
             };
 
             count += 1;

@@ -1,6 +1,8 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Data.Repositories;
+using AutoRepairShop.Web.Data.Repositories.Interfaces;
 using AutoRepairShop.Web.Helpers;
+using AutoRepairShop.Web.Helpers.Interfaces;
 using AutoRepairShop.Web.Models.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -218,7 +220,8 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                     return View(user);
                 }
 
-                var model = _converterHelper.ToUpdateDataViewModel(user);
+
+                //var model = _converterHelper.ToUpdateDataViewModel(user);
 
                 TempData["UserId"] = user.Id;
                 return RedirectToAction("UpdateUser", "Accounts");
@@ -246,7 +249,9 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
             ViewBag.User = user.UserName;
 
-            var model = _converterHelper.ToUpdateDataViewModel(user);
+            var zipCode = await _zipCodeRepository.GetByIdAsync(user.ZipCodeId);
+
+            var model = _converterHelper.ToUpdateDataViewModel(user, zipCode);
             return View(model);
         }
 
@@ -261,9 +266,15 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             {
                 var user = await _userHelper.GetUserByIdAsync(model.Id);
 
-                var updateUser = _converterHelper.ToUserFromUpdate(model, user);
+                var zipCodeId = await _zipCodeRepository.GetZipCodeIdAsync(model.ZipCode4, model.ZipCode3);
+
+                var updateUser = _converterHelper.ToUserFromUpdate(model, user, zipCodeId);
 
                 
+
+                //TODO if zipcode is null
+
+
 
                 if (updateUser==null)
                 {
@@ -401,8 +412,8 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
             if (user != null)
             {
-
-                var model = _converterHelper.ToUpdateDataViewModel(user);
+                var zipCode = await _zipCodeRepository.GetByIdAsync(user.ZipCodeId);
+                var model = _converterHelper.ToUpdateDataViewModel(user, zipCode);
 
                 return View(model);
             }
@@ -423,7 +434,10 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                     return NotFound();
                 }
 
-                var userUpdated = _converterHelper.ToUserFromUpdate(model, user);
+                var zipCodeId = await _zipCodeRepository.GetZipCodeIdAsync(model.ZipCode4, model.ZipCode3);
+
+                var userUpdated = _converterHelper.ToUserFromUpdate(model, user, zipCodeId);
+
 
                 var result = await _userHelper.UpdateUserAsync(userUpdated);
 

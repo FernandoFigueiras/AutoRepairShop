@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AutoRepairShop.Web.Data.Entities
 {
-    public class Country: IEntity
+    public class Country : IEntity
     {
 
         public int Id { get; set; }
@@ -41,7 +41,19 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
+
+
         public ICollection<District> Districts { get; set; }
+
+
+        [Display(Name ="Districts Count")]
+        public int DistrictsCount
+        {
+            get
+            {
+                return this.Districts == null ? 0 : Districts.Count;
+            }
+        }
 
     }
 }
