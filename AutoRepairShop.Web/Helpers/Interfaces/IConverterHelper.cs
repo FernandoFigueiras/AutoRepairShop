@@ -46,9 +46,11 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
 
         ChangePasswordViewModel ToChangePasswordViewModel(User user);
 
+
         District ToNewDistrictModel(int Id);
 
-        District ToDistrict(District district);
+
+        District ToDistrict(District district, bool isNew);
 
 
     }

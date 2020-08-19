@@ -231,8 +231,8 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             }
 
             var model = _converterHelper.ToNewDistrictModel(country.Id);
-            
 
+            ViewBag.CountryId = country.Id;
             return View(model);
             
         }
@@ -245,8 +245,6 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             if (ModelState.IsValid)
             {
 
-                
-
                 var country = await _countryRepository.GetByIdAsync(district.CountryId);
 
                 if (country==null)
@@ -255,24 +253,45 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                     return View(district);
                 }
 
-                var result = await _districtRepository.ExistsInCountryAsync(country.Id, district.DistrictName);
+                
 
-                if (result)
+                var newDistrict = _converterHelper.ToDistrict(district, true);
+
+                var exists = await _districtRepository.ExistsInCountryAsync(country.Id, newDistrict.DistrictName, newDistrict.Id);
+
+                if (exists)
                 {
-                    ModelState.AddModelError(string.Empty, $"There is already a District named {district.DistrictName} in {country.CountryName}");
+                    ModelState.AddModelError(string.Empty, $"There is allready a District registered with the name {newDistrict.DistrictName}, please insert another");
+                    ViewBag.CountryId = district.CountryId;
                     return View(district);
                 }
 
-                var newDistrict = _converterHelper.ToDistrict(district);
-
-                await _districtRepository.CreateAsync(newDistrict);
-
-
-                return RedirectToAction($"DetailsCountry/{country.Id}");
+                try
+                {
+                    await _districtRepository.CreateAsync(newDistrict);
 
 
+                    return RedirectToAction($"DetailsCountry/{country.Id}");
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException.Message.Contains("duplicate"))
+                    {
+
+                        ModelState.AddModelError(String.Empty, $"There is allready a District registered with the name {newDistrict.DistrictName}, please insert another");
+                        ViewBag.CountryId = district.CountryId;
+                        return View(district);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+
+                        return View(district);
+                    }
+                }
+                
             }
-
+            ViewBag.CountryId = district.CountryId;
             return View(district);
         }
 
@@ -306,14 +325,14 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             {
 
                 var country = await _countryRepository.GetByIdAsync(district.CountryId);
-
+                ViewBag.CountryId = district.CountryId;
                 if (country==null)
                 {
                     ModelState.AddModelError(string.Empty, $"The country {country.CountryName} is no longer available");
                     return RedirectToAction(nameof(Index));
                 }
 
-                var exists = await _districtRepository.ExistsInCountryAsync(district.CountryId, district.DistrictName);
+                var exists = await _districtRepository.ExistsInCountryAsync(district.CountryId, district.DistrictName, district.Id);
 
                 if (exists)
                 {
@@ -322,7 +341,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
                 }
 
-                var newDistrict = _converterHelper.ToDistrict(district);
+                var newDistrict = _converterHelper.ToDistrict(district, false);
 
                 try
                 {
@@ -346,7 +365,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                 }
 
             }
-
+            ViewBag.CountryId = district.CountryId;
             return View(district);
         }
 
@@ -421,5 +440,8 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
             return View();
         }
+
+
+        
     }
 }

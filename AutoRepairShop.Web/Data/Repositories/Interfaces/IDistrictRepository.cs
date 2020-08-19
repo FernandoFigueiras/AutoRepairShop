@@ -5,7 +5,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Interfaces
 {
     public interface IDistrictRepository : IGenericRepository<District>
     {
-        Task<bool> ExistsInCountryAsync(int id, string districtName);
+        Task<bool> ExistsInCountryAsync(int id, string districtName, int districtId);
 
     }
 }

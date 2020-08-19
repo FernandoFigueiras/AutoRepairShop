@@ -269,14 +269,29 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
 
 
-        public District ToDistrict(District district)
+        public District ToDistrict(District district, bool isNew)
         {
-            return new District
+
+            if (isNew)
             {
-                DistrictName = district.DistrictName,
-                CountryId = district.CountryId,
-                Id = 0,
-            };
+                return new District
+                {
+                    DistrictName = district.DistrictName,
+                    CountryId = district.CountryId,
+                    Id = 0,
+                };
+            }
+            else
+            {
+                return new District
+                {
+                    DistrictName = district.DistrictName,
+                    CountryId = district.CountryId,
+                    Id = district.Id,
+                };
+            }
+            
+
         }
 
 
