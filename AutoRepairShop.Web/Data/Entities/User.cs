@@ -41,7 +41,7 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
-
+     
         public ZipCode ZipCode { get; set; }
 
 

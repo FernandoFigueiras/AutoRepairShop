@@ -87,12 +87,31 @@
     <Compile Remove="Migrations\20200819150409_SetDb.Designer.cs" />
     <Compile Remove="Migrations\20200819150724_SetDb.cs" />
     <Compile Remove="Migrations\20200819150724_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200819152429_SetDb.cs" />
+    <Compile Remove="Migrations\20200819152429_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200819202120_SetDb.cs" />
+    <Compile Remove="Migrations\20200819202120_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200819202516_SetDb.cs" />
+    <Compile Remove="Migrations\20200819202516_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200819213353_SetDb.cs" />
+    <Compile Remove="Migrations\20200819213353_SetDb.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MailKit" Version="2.8.0" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.7" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.14">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.10" />
   </ItemGroup>
 

@@ -66,9 +66,6 @@ namespace AutoRepairShop.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CityName")
-                        .IsUnique();
-
                     b.HasIndex("DistrictId");
 
                     b.ToTable("Cities");
@@ -123,6 +120,35 @@ namespace AutoRepairShop.Web.Migrations
                         .IsUnique();
 
                     b.ToTable("Countries");
+                });
+
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.Dealership", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .IsRequired();
+
+                    b.Property<DateTime?>("CreationDate");
+
+                    b.Property<DateTime?>("DeactivationDate");
+
+                    b.Property<string>("DealerShipName")
+                        .IsRequired();
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<DateTime?>("UpdateDate");
+
+                    b.Property<int>("ZipCodeId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ZipCodeId");
+
+                    b.ToTable("Dealerships");
                 });
 
             modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.District", b =>
@@ -204,6 +230,97 @@ namespace AutoRepairShop.Web.Migrations
                         .IsUnique();
 
                     b.ToTable("Models");
+                });
+
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.Schedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreationDate");
+
+                    b.Property<DateTime?>("DeactivationDate");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("Remarks");
+
+                    b.Property<DateTime>("ScheduleDay");
+
+                    b.Property<int>("ScheduleHour");
+
+                    b.Property<int?>("ServicesId");
+
+                    b.Property<DateTime?>("UpdateDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ServicesId");
+
+                    b.ToTable("Schedules");
+                });
+
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.ScheduleDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ScheduleId");
+
+                    b.Property<int?>("VehicleId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ScheduleId");
+
+                    b.HasIndex("VehicleId");
+
+                    b.ToTable("ScheduleDetails");
+                });
+
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.Service", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreationDate");
+
+                    b.Property<DateTime?>("DeactivationDate");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("ServiceDescription");
+
+                    b.Property<string>("ServiceType")
+                        .IsRequired();
+
+                    b.Property<DateTime?>("UpdateDate");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Services");
+                });
+
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.ServiceDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("DealershipId");
+
+                    b.Property<int?>("ServicesId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DealershipId");
+
+                    b.HasIndex("ServicesId");
+
+                    b.ToTable("ServiceDetails");
                 });
 
             modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.User", b =>
@@ -300,9 +417,15 @@ namespace AutoRepairShop.Web.Migrations
                         .IsRequired()
                         .HasMaxLength(10);
 
+                    b.Property<double>("Mileage");
+
                     b.Property<int>("ModelId");
 
                     b.Property<DateTime?>("UpdateDate");
+
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("VIN");
 
                     b.HasKey("Id");
 
@@ -314,6 +437,8 @@ namespace AutoRepairShop.Web.Migrations
                         .IsUnique();
 
                     b.HasIndex("ModelId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Vehicles");
                 });
@@ -465,6 +590,14 @@ namespace AutoRepairShop.Web.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.Dealership", b =>
+                {
+                    b.HasOne("AutoRepairShop.Web.Data.Entities.ZipCode", "ZipCode")
+                        .WithMany()
+                        .HasForeignKey("ZipCodeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.District", b =>
                 {
                     b.HasOne("AutoRepairShop.Web.Data.Entities.Country", "Country")
@@ -479,6 +612,35 @@ namespace AutoRepairShop.Web.Migrations
                         .WithMany("Models")
                         .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.Schedule", b =>
+                {
+                    b.HasOne("AutoRepairShop.Web.Data.Entities.Service", "Services")
+                        .WithMany()
+                        .HasForeignKey("ServicesId");
+                });
+
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.ScheduleDetail", b =>
+                {
+                    b.HasOne("AutoRepairShop.Web.Data.Entities.Schedule", "Schedule")
+                        .WithMany()
+                        .HasForeignKey("ScheduleId");
+
+                    b.HasOne("AutoRepairShop.Web.Data.Entities.Vehicle", "Vehicle")
+                        .WithMany()
+                        .HasForeignKey("VehicleId");
+                });
+
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.ServiceDetail", b =>
+                {
+                    b.HasOne("AutoRepairShop.Web.Data.Entities.Dealership", "Dealership")
+                        .WithMany()
+                        .HasForeignKey("DealershipId");
+
+                    b.HasOne("AutoRepairShop.Web.Data.Entities.Service", "Services")
+                        .WithMany()
+                        .HasForeignKey("ServicesId");
                 });
 
             modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.User", b =>
@@ -505,6 +667,10 @@ namespace AutoRepairShop.Web.Migrations
                         .WithMany()
                         .HasForeignKey("ModelId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("AutoRepairShop.Web.Data.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.ZipCode", b =>

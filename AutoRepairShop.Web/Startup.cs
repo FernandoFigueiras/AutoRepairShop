@@ -78,7 +78,9 @@ namespace AutoRepairShop.Web
             services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddScoped<ICityRepository, CityRepository>();
             services.AddScoped<IZipCodeRepository, ZipCodeRepository>();
-
+            services.AddScoped<IScheduleRepository, ScheduleRepository>();
+            services.AddScoped<IServiceRepository, ServiceRepository>();
+            services.AddScoped<IDealershipRepository, DealershipRepository>();
 
 
 

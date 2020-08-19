@@ -36,6 +36,23 @@ namespace AutoRepairShop.Web.Data
         public DbSet<ZipCode> ZipCodes { get; set; }
 
 
+        public DbSet<Schedule> Schedules { get; set; }
+
+
+        public DbSet<ScheduleDetail> ScheduleDetails { get; set; }
+
+
+        public DbSet<Dealership> Dealerships { get; set; }
+
+
+        public DbSet<Service> Services { get; set; }
+
+
+        public DbSet<ServiceDetail> ServiceDetails { get; set; }
+
+
+
+
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }

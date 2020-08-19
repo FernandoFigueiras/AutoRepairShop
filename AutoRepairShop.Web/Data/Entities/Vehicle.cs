@@ -76,6 +76,16 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
+        public double Mileage { get; set; }
+
+
+
+
+        [Display(Name ="Vehicle Identification NUmber")]
+        public string VIN { get; set; }
+
+
+
 
 
         [Display(Name = "Fuel")]
@@ -107,6 +117,12 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
         public Fuel Fuel { get; set; }
+
+
+
+
+    
+        public User User { get; set; }
 
     }
 }

@@ -91,6 +91,24 @@ namespace AutoRepairShop.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Services",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreationDate = table.Column<DateTime>(nullable: true),
+                    UpdateDate = table.Column<DateTime>(nullable: true),
+                    DeactivationDate = table.Column<DateTime>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
+                    ServiceType = table.Column<string>(nullable: false),
+                    ServiceDescription = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Services", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -160,7 +178,7 @@ namespace AutoRepairShop.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Vehicles",
+                name: "Schedules",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -169,34 +187,20 @@ namespace AutoRepairShop.Web.Migrations
                     UpdateDate = table.Column<DateTime>(nullable: true),
                     DeactivationDate = table.Column<DateTime>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false),
-                    LicencePlate = table.Column<string>(maxLength: 10, nullable: false),
-                    BrandId = table.Column<int>(nullable: false),
-                    ModelId = table.Column<int>(nullable: false),
-                    EngineCapacity = table.Column<string>(nullable: false),
-                    FuelId = table.Column<int>(nullable: false),
-                    ColorId = table.Column<int>(nullable: false)
+                    ScheduleDay = table.Column<DateTime>(nullable: false),
+                    ScheduleHour = table.Column<int>(nullable: false),
+                    Remarks = table.Column<string>(nullable: true),
+                    ServicesId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Vehicles", x => x.Id);
+                    table.PrimaryKey("PK_Schedules", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Vehicles_Colors_ColorId",
-                        column: x => x.ColorId,
-                        principalTable: "Colors",
+                        name: "FK_Schedules_Services_ServicesId",
+                        column: x => x.ServicesId,
+                        principalTable: "Services",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Vehicles_Fuels_FuelId",
-                        column: x => x.FuelId,
-                        principalTable: "Fuels",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Vehicles_Models_ModelId",
-                        column: x => x.ModelId,
-                        principalTable: "Models",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -288,6 +292,31 @@ namespace AutoRepairShop.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Dealerships",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreationDate = table.Column<DateTime>(nullable: true),
+                    UpdateDate = table.Column<DateTime>(nullable: true),
+                    DeactivationDate = table.Column<DateTime>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
+                    DealerShipName = table.Column<string>(nullable: false),
+                    Address = table.Column<string>(nullable: false),
+                    ZipCodeId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Dealerships", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Dealerships_ZipCodes_ZipCodeId",
+                        column: x => x.ZipCodeId,
+                        principalTable: "ZipCodes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
@@ -372,6 +401,107 @@ namespace AutoRepairShop.Web.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Vehicles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreationDate = table.Column<DateTime>(nullable: true),
+                    UpdateDate = table.Column<DateTime>(nullable: true),
+                    DeactivationDate = table.Column<DateTime>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
+                    LicencePlate = table.Column<string>(maxLength: 10, nullable: false),
+                    BrandId = table.Column<int>(nullable: false),
+                    ModelId = table.Column<int>(nullable: false),
+                    EngineCapacity = table.Column<string>(nullable: false),
+                    Mileage = table.Column<double>(nullable: false),
+                    VIN = table.Column<string>(nullable: true),
+                    FuelId = table.Column<int>(nullable: false),
+                    ColorId = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vehicles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_Colors_ColorId",
+                        column: x => x.ColorId,
+                        principalTable: "Colors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_Fuels_FuelId",
+                        column: x => x.FuelId,
+                        principalTable: "Fuels",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_Models_ModelId",
+                        column: x => x.ModelId,
+                        principalTable: "Models",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ServiceDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DealershipId = table.Column<int>(nullable: true),
+                    ServicesId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ServiceDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ServiceDetails_Dealerships_DealershipId",
+                        column: x => x.DealershipId,
+                        principalTable: "Dealerships",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ServiceDetails_Services_ServicesId",
+                        column: x => x.ServicesId,
+                        principalTable: "Services",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ScheduleDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    VehicleId = table.Column<int>(nullable: true),
+                    ScheduleId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ScheduleDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ScheduleDetails_Schedules_ScheduleId",
+                        column: x => x.ScheduleId,
+                        principalTable: "Schedules",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ScheduleDetails_Vehicles_VehicleId",
+                        column: x => x.VehicleId,
+                        principalTable: "Vehicles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -423,12 +553,6 @@ namespace AutoRepairShop.Web.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cities_CityName",
-                table: "Cities",
-                column: "CityName",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Cities_DistrictId",
                 table: "Cities",
                 column: "DistrictId");
@@ -444,6 +568,11 @@ namespace AutoRepairShop.Web.Migrations
                 table: "Countries",
                 column: "CountryName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Dealerships_ZipCodeId",
+                table: "Dealerships",
+                column: "ZipCodeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Districts_CountryId",
@@ -468,6 +597,31 @@ namespace AutoRepairShop.Web.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_ScheduleDetails_ScheduleId",
+                table: "ScheduleDetails",
+                column: "ScheduleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ScheduleDetails_VehicleId",
+                table: "ScheduleDetails",
+                column: "VehicleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Schedules_ServicesId",
+                table: "Schedules",
+                column: "ServicesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ServiceDetails_DealershipId",
+                table: "ServiceDetails",
+                column: "DealershipId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ServiceDetails_ServicesId",
+                table: "ServiceDetails",
+                column: "ServicesId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Vehicles_ColorId",
                 table: "Vehicles",
                 column: "ColorId");
@@ -487,6 +641,11 @@ namespace AutoRepairShop.Web.Migrations
                 name: "IX_Vehicles_ModelId",
                 table: "Vehicles",
                 column: "ModelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vehicles_UserId",
+                table: "Vehicles",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ZipCodes_CityId",
@@ -512,13 +671,25 @@ namespace AutoRepairShop.Web.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Vehicles");
+                name: "ScheduleDetails");
+
+            migrationBuilder.DropTable(
+                name: "ServiceDetails");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Schedules");
+
+            migrationBuilder.DropTable(
+                name: "Vehicles");
+
+            migrationBuilder.DropTable(
+                name: "Dealerships");
+
+            migrationBuilder.DropTable(
+                name: "Services");
 
             migrationBuilder.DropTable(
                 name: "Colors");
@@ -530,10 +701,13 @@ namespace AutoRepairShop.Web.Migrations
                 name: "Models");
 
             migrationBuilder.DropTable(
-                name: "ZipCodes");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Brands");
+
+            migrationBuilder.DropTable(
+                name: "ZipCodes");
 
             migrationBuilder.DropTable(
                 name: "Cities");

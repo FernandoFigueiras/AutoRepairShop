@@ -372,9 +372,57 @@ namespace AutoRepairShop.Web.Data
                     await _context.SaveChangesAsync();
                 }
 
+
+                if (! _context.Services.Any())
+                {
+                    AddService("Maintenance");
+                    AddService("Rims / tires");
+                    AddService("Mandatory periodic inspection");
+                    AddService("Campaign");
+                    AddService("Collision");
+                    AddService("Paint");
+                    AddService("Spare Parts");
+
+
+                    await _context.SaveChangesAsync();
+                }
+
+
+                if (!_context.Dealerships.Any())
+                {
+                    AddDealership("AutorepairShop");
+
+                    await _context.SaveChangesAsync();
+                }
             }
 
 
+        }
+
+        private void AddDealership(string dealershipName)
+        {
+            var dealership = new Dealership
+            {
+                IsActive =true,
+                CreationDate = DateTime.UtcNow,
+                DealerShipName=dealershipName,
+                Address = "Rua da Autorepairshop",
+                ZipCodeId = 1,
+            };
+
+            _context.Dealerships.Add(dealership);
+        }
+
+        private void AddService(string serviceType)
+        {
+            var service = new Service
+            {
+                IsActive=true,
+                CreationDate = DateTime.UtcNow,
+                ServiceType = serviceType,
+            };
+
+            _context.Services.Add(service);
         }
 
         private void AddZipCode(int cityId, string zipCode4, string zipCode3)
@@ -419,19 +467,14 @@ namespace AutoRepairShop.Web.Data
         private void AddDistrict(string districtName, int countryId)
         {
 
-            int count = 0;
-
             var district = new District
             {
-                Id = count,
                 IsActive = true,
                 CreationDate = DateTime.UtcNow,
                 DistrictName = districtName,
                 CountryId = countryId,
 
             };
-
-            count += 1;
 
             _context.Districts.Add(district);
         }
