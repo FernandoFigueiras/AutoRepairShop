@@ -76,7 +76,7 @@ namespace AutoRepairShop.Web
             services.AddScoped<IColorRepository, ColorRepository>();
             services.AddScoped<IDistrictRepository, DistrictRepository>();
             services.AddScoped<ICountryRepository, CountryRepository>();
-            services.AddScoped<ICountyRepository, CountyRepository>();
+            services.AddScoped<ICityRepository, CityRepository>();
             services.AddScoped<IZipCodeRepository, ZipCodeRepository>();
 
 

@@ -79,6 +79,14 @@
     <Compile Remove="Migrations\20200819035141_SetDb.Designer.cs" />
     <Compile Remove="Migrations\20200819035312_SetDb.cs" />
     <Compile Remove="Migrations\20200819035312_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200819035440_SetDb.cs" />
+    <Compile Remove="Migrations\20200819035440_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200819150008_SetDb.cs" />
+    <Compile Remove="Migrations\20200819150008_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200819150409_SetDb.cs" />
+    <Compile Remove="Migrations\20200819150409_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200819150724_SetDb.cs" />
+    <Compile Remove="Migrations\20200819150724_SetDb.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

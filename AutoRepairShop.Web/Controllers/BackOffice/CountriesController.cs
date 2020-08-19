@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
 using AutoRepairShop.Web.Helpers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Logging;
 
 namespace AutoRepairShop.Web.Controllers.BackOffice
@@ -15,14 +17,17 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         private readonly ICountryRepository _countryRepository;
         private readonly IConverterHelper _converterHelper;
         private readonly IDistrictRepository _districtRepository;
+        private readonly ICityRepository _cityRepository;
 
         public CountriesController(ICountryRepository countryRepository,
             IConverterHelper converterHelper,
-            IDistrictRepository districtRepository)
+            IDistrictRepository districtRepository,
+            ICityRepository cityRepository)
         {
             _countryRepository = countryRepository;
             _converterHelper = converterHelper;
             _districtRepository = districtRepository;
+            _cityRepository = cityRepository;
         }
 
 
@@ -442,6 +447,241 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
 
+
+        public async Task<IActionResult> DetailsDistrict(int? id)
+        {
+            if (id==null)
+            {
+                return NotFound();
+            }
+
+            var district = await _districtRepository.GetDistrictWithCountiesAsync(id.Value);
+
+            if (district == null)
+            {
+                return NotFound();
+            }
+
+            return View(district);
+        }
         
+
+
+        /*##############################################    Cities  ############################################################*/
+
+        public async Task<IActionResult> AddCity(int? id)
+        {
+            if (id==null)
+            {
+                return NotFound();
+            }
+
+            var district = await _districtRepository.GetByIdAsync(id.Value);
+
+            if (district==null)
+            {
+                return NotFound();
+            }
+
+            var model = _converterHelper.ToNewCityModel(district.Id);
+
+            return View(model);
+        }
+
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddCity(City city)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var district = await _districtRepository.GetByIdAsync(city.DistrictId);
+
+                if (district==null)
+                {
+                    ModelState.AddModelError(string.Empty, $"The District {district.DistrictName} is not available to add Counties");
+                    return View();
+                }
+
+                var newCity = _converterHelper.ToCity(city, true);
+
+                var exists = await _cityRepository.ExistsCityInDistrictAsync(district.Id, newCity);
+
+                if (exists)
+                {
+                    ModelState.AddModelError(string.Empty, $"There is already a city named {newCity.CityName} in district {district.DistrictName}, please insert another");
+                    return View(city);
+                }
+
+                try
+                {
+                    await _cityRepository.CreateAsync(newCity);
+                    return RedirectToAction($"DetailsDistrict/{district.Id}", "Countries");
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException.Message.Contains("duplicate"))
+                    {
+
+                        ModelState.AddModelError(String.Empty, $"There is allready a city registered with the name {city.CityName}, please insert another");
+                        return View(city);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                        return View(city);
+                    }
+                }
+                
+
+            }
+
+            return View(city);
+        }
+
+
+
+
+        public async Task<IActionResult> EditCity(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var city = await _cityRepository.GetByIdAsync(id.Value);
+
+            if (city==null)
+            {
+                return NotFound();
+            }
+
+            return View(city);
+        }
+
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditCity(City city)
+        {
+            if (ModelState.IsValid)
+            {
+
+                if (city==null)
+                {
+                    return NotFound();
+                }
+
+                var district = await _districtRepository.GetByIdAsync(city.DistrictId);
+
+                if (district==null)
+                {
+                    ModelState.AddModelError(string.Empty, $"The district {district.DistrictName} is no longer available");
+                    return View();
+                }
+
+                var editCity = _converterHelper.ToCity(city, false);
+
+
+                var exists = await _cityRepository.ExistsCityInDistrictAsync(district.Id, editCity);
+
+                if (exists)
+                {
+                    ModelState.AddModelError(string.Empty, $"There is already a city named {city.CityName} in district {district.DistrictName}");
+                    return View(city);
+                }
+
+
+                try
+                {
+                    await _cityRepository.UpdateAsync(editCity);
+                    return RedirectToAction($"DetailsDistrict/{district.Id}");
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException.Message.Contains("duplicate"))
+                    {
+
+                        ModelState.AddModelError(String.Empty, $"There is allready a city registered with the name {city.CityName}, please insert another");
+                        return View(city);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                        return View(city);
+                    }
+                }
+            }
+
+            return View();
+        }
+
+
+
+        public async Task<IActionResult> DeleteCity(int? id)
+        {
+            if (id==null)
+            {
+                return NotFound();
+            }
+
+            var city = await _cityRepository.GetByIdAsync(id.Value);
+
+            if (city==null)
+            {
+                return NotFound();
+            }
+
+            return View(city);
+        }
+
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteCity(int id )
+        {
+            var city = await _cityRepository.GetByIdAsync(id);
+            if (ModelState.IsValid)
+            {
+                
+
+                if (city==null)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+
+                try
+                {
+                    await _cityRepository.DeleteAsync(city);
+
+                    return RedirectToAction($"DetailsDistrict/{city.DistrictId}");
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException.Message.Contains("REFERENCE constraint"))
+                    {
+
+                        if (ModelState.IsValid)
+                        {
+                            ViewBag.Error = $"There are ZipCodes associated with the City named {city.CityName}, either delete them or deactivate city ";
+                            return View();
+                        }
+
+                    }
+                    else
+                    {
+                        ViewBag.Error = ex.InnerException.Message;
+                        return View();
+                    }
+                }
+            }
+
+            return View(city);
+        }
+
     }
 }

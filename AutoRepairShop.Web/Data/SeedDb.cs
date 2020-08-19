@@ -73,9 +73,9 @@ namespace AutoRepairShop.Web.Data
                 }
 
 
-                if (!_context.Counties.Any())
+                if (!_context.Cities.Any())
                 {
-                    string CountyFile = "Counties.txt";
+                    string CountyFile = "Cities.txt";
 
 
                     string pathCounty = Path.Combine(
@@ -86,22 +86,22 @@ namespace AutoRepairShop.Web.Data
 
                     if (File.Exists(pathCounty))
                     {
-                        using (StreamReader srCounty = new StreamReader(pathCounty))
+                        using (StreamReader srCity = new StreamReader(pathCounty))
                         {
                             string c;
 
-                            while ((c = srCounty.ReadLine()) != null)
+                            while ((c = srCity.ReadLine()) != null)
                             {
                                 string[] line = new string[2];
 
                                 line = c.Split(';');
 
                                 int districtId = Convert.ToInt32(line[0]);
-                                string countyName = line[1];
+                                string cityName = line[1];
 
-                                AddCounty(countyName, districtId);
+                                AddCity(cityName, districtId);
                             }
-                            srCounty.Close();
+                            srCity.Close();
                         }
 
 
@@ -137,11 +137,11 @@ namespace AutoRepairShop.Web.Data
 
                                 line = c.Split(',');
 
-                                int countyId = Convert.ToInt32(line[1]);
+                                int cityId = Convert.ToInt32(line[1]);
                                 string zipCode4 = line[14];
                                 string zipCode3 = line[15];
 
-                                AddZipCode(countyId, zipCode4, zipCode3);
+                                AddZipCode(cityId, zipCode4, zipCode3);
                             }
                             srZipCode.Close();
                         }
@@ -377,13 +377,13 @@ namespace AutoRepairShop.Web.Data
 
         }
 
-        private void AddZipCode(int countyId, string zipCode4, string zipCode3)
+        private void AddZipCode(int cityId, string zipCode4, string zipCode3)
         {
             var zipCode = new ZipCode
             {
                 ZipCode4 = zipCode4,
                 ZipCode3 = zipCode3,
-                CountyId = countyId,
+                CityId = cityId,
             };
 
             _context.ZipCodes.Add(zipCode);
@@ -403,17 +403,17 @@ namespace AutoRepairShop.Web.Data
 
 
 
-        private void AddCounty(string countyName, int districtId)
+        private void AddCity(string countyName, int districtId)
         {
-            var county = new County
+            var county = new City
             {
                 IsActive = true,
                 CreationDate = DateTime.UtcNow,
-                CountyName = countyName,
+                CityName = countyName,
                 DistrictId = districtId,
             };
 
-            _context.Counties.Add(county);
+            _context.Cities.Add(county);
         }
 
         private void AddDistrict(string districtName, int countryId)

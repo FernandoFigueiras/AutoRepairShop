@@ -53,5 +53,11 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
         District ToDistrict(District district, bool isNew);
 
 
+        City ToNewCityModel(int id);
+
+
+        City ToCity(City city, bool isNew);
+
+
     }
 }

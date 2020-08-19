@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoRepairShop.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200819035440_SetDb")]
+    [Migration("20200819152429_SetDb")]
     partial class SetDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,6 +45,35 @@ namespace AutoRepairShop.Web.Migrations
                         .IsUnique();
 
                     b.ToTable("Brands");
+                });
+
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.City", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CityName")
+                        .IsRequired();
+
+                    b.Property<DateTime?>("CreationDate");
+
+                    b.Property<DateTime?>("DeactivationDate");
+
+                    b.Property<int>("DistrictId");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<DateTime?>("UpdateDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CityName")
+                        .IsUnique();
+
+                    b.HasIndex("DistrictId");
+
+                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.Color", b =>
@@ -96,35 +125,6 @@ namespace AutoRepairShop.Web.Migrations
                         .IsUnique();
 
                     b.ToTable("Countries");
-                });
-
-            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.County", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CountyName")
-                        .IsRequired();
-
-                    b.Property<DateTime?>("CreationDate");
-
-                    b.Property<DateTime?>("DeactivationDate");
-
-                    b.Property<int>("DistrictId");
-
-                    b.Property<bool>("IsActive");
-
-                    b.Property<DateTime?>("UpdateDate");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CountyName")
-                        .IsUnique();
-
-                    b.HasIndex("DistrictId");
-
-                    b.ToTable("Counties");
                 });
 
             modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.District", b =>
@@ -326,7 +326,7 @@ namespace AutoRepairShop.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CountyId");
+                    b.Property<int>("CityId");
 
                     b.Property<DateTime?>("CreationDate");
 
@@ -344,7 +344,7 @@ namespace AutoRepairShop.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CountyId");
+                    b.HasIndex("CityId");
 
                     b.ToTable("ZipCodes");
                 });
@@ -459,10 +459,10 @@ namespace AutoRepairShop.Web.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.County", b =>
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.City", b =>
                 {
                     b.HasOne("AutoRepairShop.Web.Data.Entities.District", "District")
-                        .WithMany("Counties")
+                        .WithMany("Cities")
                         .HasForeignKey("DistrictId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -511,9 +511,9 @@ namespace AutoRepairShop.Web.Migrations
 
             modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.ZipCode", b =>
                 {
-                    b.HasOne("AutoRepairShop.Web.Data.Entities.County", "County")
+                    b.HasOne("AutoRepairShop.Web.Data.Entities.City", "City")
                         .WithMany("ZipCodes")
-                        .HasForeignKey("CountyId")
+                        .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

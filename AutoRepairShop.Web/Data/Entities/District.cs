@@ -51,7 +51,18 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
-        public ICollection<County> Counties { get; set; }
+        public ICollection<City> Cities { get; set; }
+
+
+
+        [Display(Name ="Cities Count")]
+        public int CitiesCount
+        {
+            get
+            {
+                return this.Cities == null ? 0 : Cities.Count;
+            }
+        }
 
     }
 }

@@ -30,7 +30,7 @@ namespace AutoRepairShop.Web.Data
         public DbSet<District> Districts { get; set; }
 
 
-        public DbSet<County> Counties { get; set; }
+        public DbSet<City> Cities { get; set; }
 
 
         public DbSet<ZipCode> ZipCodes { get; set; }
@@ -43,7 +43,21 @@ namespace AutoRepairShop.Web.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            var cascadeFKs = modelBuilder.Model
+             .GetEntityTypes()
+             .SelectMany(t => t.GetForeignKeys())
+             .Where(fk => fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade);
 
+
+            foreach (var fk in cascadeFKs)
+            {
+                fk.DeleteBehavior = DeleteBehavior.Restrict;
+                //if (fk.DependentToPrincipal.DeclaringEntityType.GetType().FullName == "Vehicle")
+                //{
+                //    fk.DeleteBehavior = DeleteBehavior.Cascade;
+                //}
+
+            }
 
             modelBuilder.Entity<Brand>()
                 .HasIndex(b => b.BrandName)
@@ -79,29 +93,15 @@ namespace AutoRepairShop.Web.Data
             // .IsUnique();
 
 
-            modelBuilder.Entity<County>()
-              .HasIndex(c => c.CountyName)
-              .IsUnique();
+            //modelBuilder.Entity<City>()
+            //  .HasIndex(c => c.CityName)
+            //  .IsUnique();
 
 
            
 
             //Cascade Deleting Rule
-            var cascadeFKs = modelBuilder.Model
-                .GetEntityTypes()
-                .SelectMany(t => t.GetForeignKeys())
-                .Where(fk => fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade);
-
-
-            foreach (var fk in cascadeFKs)
-            {
-                fk.DeleteBehavior = DeleteBehavior.Restrict;
-                //if (fk.DependentToPrincipal.DeclaringEntityType.GetType().FullName == "Vehicle")
-                //{
-                //    fk.DeleteBehavior = DeleteBehavior.Cascade;
-                //}
-               
-            }
+         
 
 
 

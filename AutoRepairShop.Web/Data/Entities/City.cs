@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace AutoRepairShop.Web.Data.Entities
 {
     public class City : IEntity
     {
-
 
         public int Id { get; set; }
 
@@ -34,18 +34,22 @@ namespace AutoRepairShop.Web.Data.Entities
         public bool IsActive { get; set; }
 
 
-        [Required]
         [Display(Name = "City")]
+        [Required]
         public string CityName { get; set; }
 
 
 
-
-        public int CountryId { get; set; }
-
+        public int DistrictId { get; set; }
 
 
-        public Country Country { get; set; }
+
+        public District District { get; set; }
+
+
+
+        public ICollection<ZipCode> ZipCodes { get; set; }
+
 
     }
 }

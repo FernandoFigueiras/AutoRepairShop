@@ -43,11 +43,11 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
-        public int CountyId { get; set; }
+        public int CityId { get; set; }
 
 
 
-        public County County { get; set; }
+        public City City { get; set; }
 
 
 

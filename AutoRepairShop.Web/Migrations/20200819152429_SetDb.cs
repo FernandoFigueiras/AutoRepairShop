@@ -200,7 +200,7 @@ namespace AutoRepairShop.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Counties",
+                name: "Cities",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -209,14 +209,14 @@ namespace AutoRepairShop.Web.Migrations
                     UpdateDate = table.Column<DateTime>(nullable: true),
                     DeactivationDate = table.Column<DateTime>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false),
-                    CountyName = table.Column<string>(nullable: false),
+                    CityName = table.Column<string>(nullable: false),
                     DistrictId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Counties", x => x.Id);
+                    table.PrimaryKey("PK_Cities", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Counties_Districts_DistrictId",
+                        name: "FK_Cities_Districts_DistrictId",
                         column: x => x.DistrictId,
                         principalTable: "Districts",
                         principalColumn: "Id",
@@ -235,15 +235,15 @@ namespace AutoRepairShop.Web.Migrations
                     IsActive = table.Column<bool>(nullable: false),
                     ZipCode4 = table.Column<string>(nullable: false),
                     ZipCode3 = table.Column<string>(nullable: false),
-                    CountyId = table.Column<int>(nullable: false)
+                    CityId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ZipCodes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ZipCodes_Counties_CountyId",
-                        column: x => x.CountyId,
-                        principalTable: "Counties",
+                        name: "FK_ZipCodes_Cities_CityId",
+                        column: x => x.CityId,
+                        principalTable: "Cities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -423,21 +423,21 @@ namespace AutoRepairShop.Web.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Cities_CityName",
+                table: "Cities",
+                column: "CityName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cities_DistrictId",
+                table: "Cities",
+                column: "DistrictId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Colors_ColorName",
                 table: "Colors",
                 column: "ColorName",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Counties_CountyName",
-                table: "Counties",
-                column: "CountyName",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Counties_DistrictId",
-                table: "Counties",
-                column: "DistrictId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Countries_CountryName",
@@ -489,9 +489,9 @@ namespace AutoRepairShop.Web.Migrations
                 column: "ModelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ZipCodes_CountyId",
+                name: "IX_ZipCodes_CityId",
                 table: "ZipCodes",
-                column: "CountyId");
+                column: "CityId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -536,7 +536,7 @@ namespace AutoRepairShop.Web.Migrations
                 name: "Brands");
 
             migrationBuilder.DropTable(
-                name: "Counties");
+                name: "Cities");
 
             migrationBuilder.DropTable(
                 name: "Districts");

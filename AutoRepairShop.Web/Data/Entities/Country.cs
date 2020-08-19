@@ -42,7 +42,6 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
-
         public ICollection<District> Districts { get; set; }
 
 

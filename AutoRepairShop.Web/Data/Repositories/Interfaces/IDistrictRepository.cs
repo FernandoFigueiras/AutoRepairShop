@@ -7,5 +7,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Interfaces
     {
         Task<bool> ExistsInCountryAsync(int id, string districtName, int districtId);
 
+
+        Task<District> GetDistrictWithCountiesAsync(int id);
     }
 }

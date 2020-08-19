@@ -1,0 +1,60 @@
+﻿@model AutoRepairShop.Web.Data.Entities.District
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+
+<div>
+    <h4>District</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DistrictName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DistrictName)
+        </dd>
+
+    </dl>
+</div>
+<div>
+    <a asp-action="EditDistrict" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+    <a asp-action="AddCity" asp-route-id="@Model.Id" class="btn btn-info">Add City</a>
+    <a asp-action="DetailsCountry" asp-route-id="@Model.CountryId" class="btn btn-success">Back to List</a>
+</div>
+
+<h4>Cities</h4>
+@if (Model.Cities == null || Model.Cities.Count == 0)
+{
+    <h5>No Cities added yet</h5>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cities.FirstOrDefault().CityName)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Cities.OrderBy(c => c.CityName))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CityName)
+                    </td>
+                    <td id="@item.Id">
+                        <a asp-action="EditCity" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
+                        <a asp-action="DeleteCity" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

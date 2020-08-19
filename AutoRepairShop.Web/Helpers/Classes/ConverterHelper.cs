@@ -290,12 +290,43 @@ namespace AutoRepairShop.Web.Helpers.Classes
                     Id = district.Id,
                 };
             }
-            
 
         }
 
 
+        public City ToNewCityModel(int id)
+        {
+            return new City
+            {
+                DistrictId = id,
+                Id = 0,
+            };
+        }
 
+
+        public City ToCity(City city, bool isNew)
+        {
+            if (isNew)
+            {
+                return new City
+                {
+                    Id = 0,
+                    CityName = city.CityName,
+                    DistrictId = city.DistrictId,
+                };
+
+            }
+            else
+            {
+                return new City
+                {
+                    Id = city.Id,
+                    CityName = city.CityName,
+                    DistrictId = city.DistrictId,
+                };
+
+            }
+        }
 
     }
 }
