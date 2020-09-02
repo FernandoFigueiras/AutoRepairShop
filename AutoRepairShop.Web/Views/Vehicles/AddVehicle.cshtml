@@ -1,4 +1,5 @@
 ﻿@model AutoRepairShop.Web.Models.VehicleViewModels.AddVehicleViewModel
+
 @{
     ViewData["Title"] = "Add Vehicle";
 }
@@ -7,7 +8,7 @@
 <h4>TODO enable and disable model name input if other not listed</h4>
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddVehicle">
+        <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
@@ -31,11 +32,14 @@
                 <span asp-validation-for="ModelId" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <label asp-for="ModelName">Other Model Not Listed</label>
-                <input asp-for="ModelName" class="form-control" value="" />
-                <span asp-validation-for="ModelName" class="text-warning"></span>
+            <div id="show"style="display:none">
+                <div class="form-group" >
+                    <label asp-for="ModelName">Other Model Not Listed</label>
+                    <input asp-for="ModelName" class="form-control" value="" />
+                    <span asp-validation-for="ModelName" class="text-warning"></span>
+                </div>
             </div>
+            
 
             <div class="form-group">
                 <label asp-for="EngineCapacity">Engine Capacity</label>
@@ -66,34 +70,64 @@
 </div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#BrandId").change(function () {
+   
+                $("#ModelId").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetModelsAsync")',
+                    dataType: 'json',
+                    data: { brandId: $("#BrandId").val() },
+                    
+                    success: function (models) {
+ 
+                        $("#ModelId").append('<option value="0">(Select a model...)</option>');
+                        
+                        $.each(models, function (i, model) {
+                            $("#ModelId").append('<option value="'
+                                + model.id + '">'
+                                + model.modelName + '</option>');
+                        });
+
+                        var test = -Infinity;
+                        $.each(models, function (i, model) {
+                            if (model.id >= test) {
+                                test = model.id;
+                            }
+                        });
+
+                        
+                        $("#ModelId").append(`<option value="${/*models.length+1*/test+1}">(Other not listed)</option>`);
+                    },
+                    error: function (ex) {
+                     
+                        alert('Failed to retrieve model.' + ex.responseText);
+                    }
+                });
+                return false;
+            })
+            $("#ModelId").change(function () {
+
+                if ($("#ModelId option:selected").html() === "(Other not listed)") {
+                    $("#show").show();
+                }
+                else {
+                    $("#show").hide();
+                }
+            });
+            //$("#ModelId").change(function () {
+
+            //    if ($("#ModelId").val() == $('#ModelId option').length - 1) {
+            //        $("#show").show()
+            //    }
+            //    else {
+            //        $("#show").hide()
+            //    }
+            //});
+        });
+    </script>
+
 }
 
-@*@section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $("#BrandId").change(function () {
-                    $("#ModelId").empty();
-                    $.ajax({
-                        type: 'POST',
-                        url: '@Url.Action("~/BrandRepository/GetModelByIdAsync")',
-                        dataType: 'json',
-                        data: { BrandId: $("#BrandId").val() },
-                        success: function (cities) {
-                            debugger;
-                            $("#ModelId").append('<option value="0">(Select a model...)</option>');
-                            $.each(models, function (i, model) {
-                                $("#ModelId").append('<option value="'
-                                    + city.id + '">'
-                                    + city.name + '</option>');
-                            });
-                        },
-                        error: function (ex) {
-                            alert('Failed to retrieve models.' + ex);
-                        }
-                    });
-                    return false;
-                })
-            });
-        </script>
-    }*@

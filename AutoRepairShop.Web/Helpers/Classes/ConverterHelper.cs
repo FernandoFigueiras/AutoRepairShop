@@ -3,6 +3,7 @@ using AutoRepairShop.Web.Data.Repositories;
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
 using AutoRepairShop.Web.Helpers.Interfaces;
 using AutoRepairShop.Web.Models.Account;
+using AutoRepairShop.Web.Models.DShip;
 using AutoRepairShop.Web.Models.VehicleViewModels;
 using System;
 using System.Collections.Generic;
@@ -98,10 +99,10 @@ namespace AutoRepairShop.Web.Helpers.Classes
                 Id = vehicle.Id,
                 LicencePlate = vehicle.LicencePlate,
                 BrandName = brand.BrandName,
-                ModelName = modelType.ModelName,
+                //ModelName = modelType.ModelName,
                 EngineCapacity = vehicle.EngineCapacity,
                 BrandId = vehicle.BrandId,
-                Models = _vehicleRepository.GetComboModels(),
+                Models = _vehicleRepository.GetComboModels(brand.Id),
                 ModelId = vehicle.ModelId,
                 FuelId = vehicle.FuelId,
                 Fuels = _vehicleRepository.GetComboFuels(),
@@ -328,5 +329,39 @@ namespace AutoRepairShop.Web.Helpers.Classes
             }
         }
 
+
+        public DealershipServicesViewModel ToDealershipViewModel(int dealershipId, string dealershipName, List<ServicesSupplied> services)
+        {
+            return new DealershipServicesViewModel
+            {
+                DealershipId = dealershipId,
+                Services = services,
+                DealershipName = dealershipName,
+            };
+        }
+
+
+        public ServicesSupplied ToServicesSupplied(Dealership dealership, Service service, int? serviceSuppliedId, bool isActive)
+        {
+            return new ServicesSupplied
+            {
+                Id = serviceSuppliedId.Value,
+                Dealership = dealership,
+                Service = service,
+                IsActive = isActive,
+            };
+        
+        }
+
+        public ServicesSupplied ToNewServicesSupplied(Dealership dealership, Service service)
+        {
+            return new ServicesSupplied
+            {
+                Dealership = dealership,
+                Service = service,
+                IsActive = false,
+            };
+
+        }
     }
 }

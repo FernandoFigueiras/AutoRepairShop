@@ -67,13 +67,21 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
         }
 
 
-        public IEnumerable<SelectListItem> GetComboModels()
+        public IEnumerable<SelectListItem> GetComboModels(int brandId)
         {
-            var list = _context.Models.Select(m => new SelectListItem
+            
+
+
+            var temp = _context.Models.AsEnumerable().Where(m => m.BrandId == brandId).ToList();
+
+            var list = temp.Select(m => new SelectListItem
             {
                 Text = m.ModelName,
                 Value = m.Id.ToString()
+
             }).ToList();
+
+            
 
 
             list.Insert(0, new SelectListItem
@@ -84,10 +92,10 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
 
             if (list.Count > 1)
             {
-                list.Insert(_context.Models.Count() + 1, new SelectListItem
+                list.Insert(list.Count(), new SelectListItem
                 {
-                    Text = "Other not Listed",
-                    Value = _context.Models.Last().Id + 1.ToString()
+                    Text = "(Other not listed)",
+                    Value = (_context.Models.Last().Id + 1).ToString()
                 });
             }
 

@@ -1,5 +1,6 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Models;
+using System.Collections.Generic;
 using System.Security.Policy;
 using System.Threading.Tasks;
 
@@ -58,5 +59,9 @@ namespace AutoRepairShop.Web.Data.Repositories.Interfaces
 
 
         Task<string> GetModelNameByIdAsync(int id);
+
+
+
+        IEnumerable<Model> GetModelsFromBrand(int brandId);
     }
 }

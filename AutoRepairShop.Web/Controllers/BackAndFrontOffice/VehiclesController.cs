@@ -23,7 +23,8 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             IBrandRepository brandRepository,
             IFuelRepository fuelRepository,
             IColorRepository colorRepository,
-            IConverterHelper converterHelper)
+            IConverterHelper converterHelper
+            )
         {
             _vehicleRepository = vehicleRepository;
             _brandRepository = brandRepository;
@@ -46,7 +47,6 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             var model = new AddVehicleViewModel
             {
                 Brands = _vehicleRepository.GetComboBrands(),
-                Models = _vehicleRepository.GetComboModels(),
                 Fuels = _vehicleRepository.GetComboFuels(),
                 Colors = _vehicleRepository.GetComboColors(),
             };
@@ -56,6 +56,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddVehicle(AddVehicleViewModel model)
         {
 
@@ -73,7 +74,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                         {
                             ModelState.AddModelError(string.Empty, $"There is already a model registered with {model.ModelName}, please chose from list of models");
                             model.Brands = await _vehicleRepository.GetComboSoloBrand(model).ToAsyncEnumerable().ToList();
-                            model.Models = _vehicleRepository.GetComboModels();
+                            model.Models = _vehicleRepository.GetComboModels(model.BrandId);
                             model.Fuels = _vehicleRepository.GetComboFuels();
                             model.Colors = _vehicleRepository.GetComboColors();
                             return View(model);
@@ -98,7 +99,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                                     ModelState.AddModelError(String.Empty, $"There is already a model registered with the name {newModel.ModelName}, please chose another from the list");
                                     model.Brands = await _vehicleRepository.GetComboSoloBrand(model).ToAsyncEnumerable().ToList();
-                                    model.Models = _vehicleRepository.GetComboModels();
+                                    model.Models = _vehicleRepository.GetComboModels(model.BrandId);
                                     model.Fuels = _vehicleRepository.GetComboFuels();
                                     model.Colors = _vehicleRepository.GetComboColors();
                                     return View(model);
@@ -108,7 +109,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                                 {
                                     ModelState.AddModelError(string.Empty, ex.InnerException.Message);
                                     model.Brands = await _vehicleRepository.GetComboSoloBrand(model).ToAsyncEnumerable().ToList();
-                                    model.Models = _vehicleRepository.GetComboModels();
+                                    model.Models = _vehicleRepository.GetComboModels(model.BrandId);
                                     model.Fuels = _vehicleRepository.GetComboFuels();
                                     model.Colors = _vehicleRepository.GetComboColors();
                                     return View(model);
@@ -132,7 +133,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                                     ModelState.AddModelError(String.Empty, $"There is already a Car registered with the Licence PLate number {vehicle.LicencePlate}");
                                     model.Brands = _vehicleRepository.GetComboBrands();
-                                    model.Models = _vehicleRepository.GetComboModels();
+                                    model.Models = _vehicleRepository.GetComboModels(model.BrandId);
                                     model.Fuels = _vehicleRepository.GetComboFuels();
                                     model.Colors = _vehicleRepository.GetComboColors();
                                     return View(model);
@@ -141,7 +142,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                                 {
                                     ModelState.AddModelError(string.Empty, ex.InnerException.Message);
                                     model.Brands = _vehicleRepository.GetComboBrands();
-                                    model.Models = _vehicleRepository.GetComboModels();
+                                    model.Models = _vehicleRepository.GetComboModels(model.BrandId);
                                     model.Fuels = _vehicleRepository.GetComboFuels();
                                     model.Colors = _vehicleRepository.GetComboColors();
                                     return View(model);
@@ -152,7 +153,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                         {
                             ModelState.AddModelError(string.Empty, "The Brand chosen is no longer available, please contact the company for more information");
                             model.Brands = _vehicleRepository.GetComboBrands();
-                            model.Models = _vehicleRepository.GetComboModels();
+                            model.Models = _vehicleRepository.GetComboModels(model.BrandId);
                             model.Fuels = _vehicleRepository.GetComboFuels();
                             model.Colors = _vehicleRepository.GetComboColors();
                             return View(model);
@@ -172,7 +173,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                         {
                             ModelState.AddModelError(String.Empty, $"There is already a Car registered with the licence Plate {vehicle}, please insert another");
                             model.Brands = _vehicleRepository.GetComboBrands();
-                            model.Models = _vehicleRepository.GetComboModels();
+                            model.Models = _vehicleRepository.GetComboModels(model.BrandId);
                             model.Fuels = _vehicleRepository.GetComboFuels();
                             model.Colors = _vehicleRepository.GetComboColors();
                             return View(model);
@@ -182,7 +183,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                     {
                         ModelState.AddModelError(string.Empty, ex.InnerException.Message);
                         model.Brands = _vehicleRepository.GetComboBrands();
-                        model.Models = _vehicleRepository.GetComboModels();
+                        model.Models = _vehicleRepository.GetComboModels(model.BrandId);
                         model.Fuels = _vehicleRepository.GetComboFuels();
                         model.Colors = _vehicleRepository.GetComboColors();
                         return View(model);
@@ -364,5 +365,16 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
             return View(model);
         }
+
+
+
+        public JsonResult GetModelsAsync(int brandId)
+        {
+            var models = _brandRepository.GetModelsFromBrand(brandId);
+
+            return this.Json(models);
+
+        }
+
     }
 }

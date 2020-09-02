@@ -48,7 +48,7 @@ namespace AutoRepairShop.Web.Data
         public DbSet<Service> Services { get; set; }
 
 
-        public DbSet<ServiceDetail> ServiceDetails { get; set; }
+        public DbSet<ServicesSupplied> ServicesSupplied { get; set; }
 
 
 

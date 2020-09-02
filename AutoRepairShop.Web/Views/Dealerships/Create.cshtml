@@ -45,9 +45,18 @@
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ZipCodeId" class="control-label"></label>
-                <select asp-for="ZipCodeId" class ="form-control" asp-items="ViewBag.ZipCodeId"></select>
+                <label asp-for="ZipCode.ZipCode4" class="control-label"></label>
+                <input asp-for="ZipCode.ZipCode4" class="form-control" id="zip4"/>
+                <span asp-validation-for="ZipCode.ZipCode4" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="ZipCode.ZipCode3" class="control-label"></label>
+                <input asp-for="ZipCode.ZipCode3" class="form-control" id="zip3"/>
+                <span asp-validation-for="ZipCode.ZipCode3" class="text-danger"></span>
+            </div>
+
+            <input type="hidden" asp-for="ZipCodeId" id="codeId"/>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
@@ -61,4 +70,24 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#zip3").change(function () {
+                $.ajax({
+                    type: 'POST',
+                        url: '@Url.Action("GetCityIdAsync")',
+                        dataType: 'json',
+                    data: { zipcode4: $("#zip4").val(), zipcode3: $("#zip3").val() },
+                    success: function (cityId) {
+                        //debugger;
+                        var data = JSON.stringify(cityId);
+                        $("#codeId").val(data);
+                    }
+                });
+
+            });
+
+    });
+</script>
 }

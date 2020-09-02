@@ -394,9 +394,33 @@ namespace AutoRepairShop.Web.Data
 
                     await _context.SaveChangesAsync();
                 }
+
+                if (!_context.ServicesSupplied.Any())
+                {
+                    var dealership = _context.Dealerships.FirstOrDefault();
+                    var services = _context.Services.AsEnumerable();
+
+                    foreach (var item in services)
+                    {
+                        AddServicesSupllied(dealership, item);
+                    }
+
+                    await _context.SaveChangesAsync();
+                }
             }
 
 
+        }
+
+        private void AddServicesSupllied(Dealership dealershipId, Service service)
+        {
+            var servicesSupplied = new ServicesSupplied
+            {
+                Dealership = dealershipId,
+                Service = service
+            };
+
+            _context.ServicesSupplied.Add(servicesSupplied);
         }
 
         private void AddDealership(string dealershipName)

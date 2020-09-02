@@ -1,6 +1,8 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Models.Account;
+using AutoRepairShop.Web.Models.DShip;
 using AutoRepairShop.Web.Models.VehicleViewModels;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AutoRepairShop.Web.Helpers.Interfaces
@@ -59,5 +61,11 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
         City ToCity(City city, bool isNew);
 
 
+        DealershipServicesViewModel ToDealershipViewModel(int dealershipId, string dealershipName, List<ServicesSupplied> services);
+
+
+        ServicesSupplied ToServicesSupplied(Dealership dealership, Service service, int? serviceSuppliedId, bool isActive);
+
+        ServicesSupplied ToNewServicesSupplied(Dealership dealership, Service service);
     }
 }

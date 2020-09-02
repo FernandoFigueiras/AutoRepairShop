@@ -4,6 +4,7 @@ using AutoRepairShop.Web.Models;
 using Microsoft.AspNetCore.Identity.UI.Pages.Internal.Account;
 using Microsoft.EntityFrameworkCore;
 using Remotion.Linq.Utilities;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -187,5 +188,11 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
             return model.ModelName;
         }
 
+
+        public IEnumerable<Model> GetModelsFromBrand(int brandId)
+        {
+            var test = _context.Models.AsEnumerable().Where(m => m.BrandId == brandId);
+            return test;
+        }
     }
 }

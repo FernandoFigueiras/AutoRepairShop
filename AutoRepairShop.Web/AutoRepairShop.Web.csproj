@@ -95,6 +95,22 @@
     <Compile Remove="Migrations\20200819202516_SetDb.Designer.cs" />
     <Compile Remove="Migrations\20200819213353_SetDb.cs" />
     <Compile Remove="Migrations\20200819213353_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200819220735_SetDb.cs" />
+    <Compile Remove="Migrations\20200819220735_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200820105352_SetDb.cs" />
+    <Compile Remove="Migrations\20200820105352_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200820122027_SetDb.cs" />
+    <Compile Remove="Migrations\20200820122027_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200820122546_SetDb.cs" />
+    <Compile Remove="Migrations\20200820122546_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200820124934_SetDb.cs" />
+    <Compile Remove="Migrations\20200820124934_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200820161714_ischeked.cs" />
+    <Compile Remove="Migrations\20200820161714_ischeked.Designer.cs" />
+    <Compile Remove="Migrations\20200820161929_SetDb.cs" />
+    <Compile Remove="Migrations\20200820161929_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200825131730_SetDb.cs" />
+    <Compile Remove="Migrations\20200825131730_SetDb.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

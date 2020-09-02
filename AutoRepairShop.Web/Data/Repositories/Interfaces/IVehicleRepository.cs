@@ -24,7 +24,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Interfaces
 
 
 
-        IEnumerable<SelectListItem> GetComboModels();
+        IEnumerable<SelectListItem> GetComboModels(int brandId);
 
 
 

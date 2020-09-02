@@ -3,8 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AutoRepairShop.Web.Data.Entities
 {
-    public class Dealership : IEntity
+    public class ServicesSupplied: IEntity
     {
+
         public int Id { get; set; }
 
 
@@ -32,28 +33,13 @@ namespace AutoRepairShop.Web.Data.Entities
         public bool IsActive { get; set; }
 
 
-
-
-        [Required]
-        [Display(Name = "DealerShip Name")]
-        public string DealerShipName { get; set; }
-
-
-
-
-        [Required]
-        public string Address { get; set; }
-
-
-
-        [Display(Name = "Zip Code")]
-        public int ZipCodeId { get; set; }
-
-
-
         
-        public ZipCode ZipCode { get; set; }
 
+        public Dealership Dealership { get; set; }
+
+
+
+        public Service Service { get; set; }
 
 
     }

@@ -8,6 +8,10 @@ namespace AutoRepairShop.Web.Data.Repositories.Interfaces
 
         Task<bool> ExistsCityInDistrictAsync(int districtId, City city);
 
+        Task<int> GetCityIdByZipCodeAsync(string zipCode4, string zipCode3);
+
+
+
     }
 
 }

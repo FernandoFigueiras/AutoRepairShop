@@ -38,12 +38,14 @@
                 <span asp-validation-for="ModelId" class="text-danger"></span>
             </div>
 
-
-            <div class="form-group">
-                <label asp-for="ModelName">Other Model Not Listed</label>
-                <input asp-for="ModelName" class="form-control" />
-                <span asp-validation-for="ModelName" class="text-warning"></span>
+            <div id="show" style="display: none">
+                <div class="form-group">
+                    <label asp-for="ModelName">Other Model Not Listed</label>
+                    <input asp-for="ModelName" class="form-control" />
+                    <span asp-validation-for="ModelName" class="text-warning"></span>
+                </div>
             </div>
+            
 
 
             <div class="form-group">
@@ -80,4 +82,18 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#ModelId").change(function () {
+                
+                if ($("#ModelId option:selected").html() === "(Other not listed)") {
+                    $("#show").show();
+                }
+                else {
+                    $("#show").hide();
+                }
+            });
+        });
+
+    </script>
 }

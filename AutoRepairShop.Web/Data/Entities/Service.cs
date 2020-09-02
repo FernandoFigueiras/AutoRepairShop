@@ -45,5 +45,8 @@ namespace AutoRepairShop.Web.Data.Entities
         public string ServiceDescription { get; set; }
 
 
+
+
+
     }
 }
