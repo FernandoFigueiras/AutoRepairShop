@@ -29,6 +29,13 @@ namespace AutoRepairShop.Web.Data
         {
             await _context.Database.EnsureCreatedAsync();
 
+
+            await _userHelper.CheckRoleAsync("Admin");
+            await _userHelper.CheckRoleAsync("Customer");
+            await _userHelper.CheckRoleAsync("Employee");
+
+
+
             if (!_context.Countries.Any())
             {
 
@@ -173,6 +180,15 @@ namespace AutoRepairShop.Web.Data
                     if (result != IdentityResult.Success)
                     {
                         throw new InvalidOperationException("The User could not be created in seeder");
+                    }
+
+
+                    var isInRole = await _userHelper.IsUSerInRoleAsync(user, "Admin");
+
+
+                    if (!isInRole)
+                    {
+                        await _userHelper.AddUserToRoleAsync(user, "Admin");
                     }
                 }
 

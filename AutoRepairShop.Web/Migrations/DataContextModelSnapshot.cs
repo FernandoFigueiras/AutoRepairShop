@@ -131,6 +131,10 @@ namespace AutoRepairShop.Web.Migrations
                     b.Property<string>("Address")
                         .IsRequired();
 
+                    b.Property<string>("City");
+
+                    b.Property<int>("CityId");
+
                     b.Property<DateTime?>("CreationDate");
 
                     b.Property<DateTime?>("DeactivationDate");

@@ -10,13 +10,16 @@ namespace AutoRepairShop.Web.Helpers.Classes
     {
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public UserHelper(SignInManager<User> signInManager,
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            RoleManager<IdentityRole> roleManager)
         {
 
             _signInManager = signInManager;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
 
@@ -41,6 +44,32 @@ namespace AutoRepairShop.Web.Helpers.Classes
         }
 
 
+
+        public async Task AddUserToRoleAsync(User user, string role)
+        {
+             await _userManager.AddToRoleAsync(user, role);
+        }
+
+
+        public async Task CheckRoleAsync(string roleName)
+        {
+            var existsRole = await _roleManager.RoleExistsAsync(roleName);
+
+            if (!existsRole)
+            {
+                await _roleManager.CreateAsync(new IdentityRole
+                {
+                    Name = roleName
+                });
+            }
+        }
+
+
+
+        public async Task<bool> IsUSerInRoleAsync(User user, string roleName)
+        {
+            return await _userManager.IsInRoleAsync(user, roleName);
+        }
 
 
 

@@ -255,15 +255,6 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
 
-        public async Task<int> GetZipCodeIdasync(string zipCode4, string zipCode3)
-        {
-            var teste=  await _zipCodeRepository.GetZipCodeIdAsync(zipCode4, zipCode3);
-
-            return teste;
-        }
-
-
-
 
 
 

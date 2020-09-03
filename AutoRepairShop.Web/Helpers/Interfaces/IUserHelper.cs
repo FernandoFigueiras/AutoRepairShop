@@ -28,6 +28,21 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
 
 
 
+        Task AddUserToRoleAsync(User user, string role);
+
+
+
+
+        Task CheckRoleAsync(string roleName);
+
+
+
+
+        Task<bool> IsUSerInRoleAsync(User user, string roleName);
+
+
+
+
         Task<User> GetUserByIdAsync(string userName);
 
 
