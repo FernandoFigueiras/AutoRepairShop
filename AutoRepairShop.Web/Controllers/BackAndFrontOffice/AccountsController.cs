@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Session;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Org.BouncyCastle.Crypto.Tls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,18 +26,24 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
         private readonly IMailHelper _mailHelper;
         private readonly IDataInputHelper _dataInputHelper;
         private readonly IZipCodeRepository _zipCodeRepository;
+        private readonly IImageHelper _imageHelper;
+        private readonly ICityRepository _cityRepository;
 
         public AccountsController(IUserHelper userHelper,
             IConverterHelper converterHelper,
             IMailHelper mailHelper,
             IDataInputHelper dataInputHelper,
-            IZipCodeRepository zipCodeRepository)
+            IZipCodeRepository zipCodeRepository,
+            IImageHelper imageHelper,
+            ICityRepository cityRepository)
         {
             _userHelper = userHelper;
             _converterHelper = converterHelper;
             _mailHelper = mailHelper;
             _dataInputHelper = dataInputHelper;
             _zipCodeRepository = zipCodeRepository;
+            _imageHelper = imageHelper;
+            _cityRepository = cityRepository;
         }
 
 
@@ -46,7 +53,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
         {
             if (this.User.Identity.IsAuthenticated)
             {
-                return this.RedirectToAction("index", "Home");
+                return this.RedirectToAction("Main", "Home");
             }
 
             return this.View();
@@ -82,7 +89,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                     }
 
 
-                    return this.RedirectToAction("Index", "Home");
+                    return this.RedirectToAction("Main", "Home");
                 }
             }
 
@@ -133,6 +140,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                     user.IsActive = false;
                     user.CreationDate = DateTime.UtcNow;
+                    
 
                     var result = await _userHelper.AddUserAsync(user, model.Password);
 
@@ -142,6 +150,13 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                     {
                         this.ModelState.AddModelError(string.Empty, "The user could not be created");
                         return this.View(model);
+                    }
+
+                    var UserRole = await _userHelper.IsUSerInRoleAsync(user, "Customer");
+
+                    if (!UserRole)
+                    {
+                        await _userHelper.AddUserToRoleAsync(user, "Customer");
                     }
 
                     var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
@@ -266,13 +281,63 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             {
                 var user = await _userHelper.GetUserByIdAsync(model.Id);
 
-                var zipCodeId = await _zipCodeRepository.GetZipCodeIdAsync(model.ZipCode4, model.ZipCode3);
+                var zipCodeId = await _zipCodeRepository.GetZipCodeAsync(model.ZipCode4, model.ZipCode3);
 
-                var updateUser = _converterHelper.ToUserFromUpdate(model, user, zipCodeId);
 
-                
+                if (zipCodeId == null)
+                {
+                    var zip = await _zipCodeRepository.GetCityIdFromZip4(model.ZipCode4);
 
-                //TODO if zipcode is null
+                    if (zip == null)
+                    {
+                        ModelState.AddModelError(string.Empty, "The first 4 numbers of zip code are not valid, please insert again");
+                        return View(model);
+                    }
+
+                    var newZipCode = _converterHelper.ToNewZipCode(model.ZipCode4, model.ZipCode3, zip.CityId);
+
+                    await _zipCodeRepository.CreateAsync(newZipCode);
+
+
+                    var pathZipNull = string.Empty;
+
+                    if (model.ImageFile != null)
+                    {
+                        pathZipNull = await _imageHelper.UploadImageAsync(model.ImageFile, "Users");
+                    }
+
+                    var zipCodeIdNew = await _zipCodeRepository.GetZipCodeAsync(model.ZipCode4, model.ZipCode3);
+
+                    var updateUserZipNull = _converterHelper.ToUserFromUpdate(model, user, zipCodeIdNew.Id, pathZipNull);
+
+
+                    if (updateUserZipNull == null)
+                    {
+                        ModelState.AddModelError(string.Empty, "User not found, please try again");
+                        return View(model);
+                    }
+
+                    updateUserZipNull.IsActive = true;
+                    var resultZipNull = await _userHelper.UpdateUserAsync(updateUserZipNull);
+
+                    if (resultZipNull.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+
+
+
+
+                var path = string.Empty;
+
+                if (model.ImageFile!=null)
+                {
+                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "Users");
+                }
+
+
+                var updateUser = _converterHelper.ToUserFromUpdate(model, user, zipCodeId.Id, path);
 
 
 
@@ -434,9 +499,17 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                     return NotFound();
                 }
 
-                var zipCodeId = await _zipCodeRepository.GetZipCodeIdAsync(model.ZipCode4, model.ZipCode3);
+                var zipCodeId = await _zipCodeRepository.GetZipCodeAsync(model.ZipCode4, model.ZipCode3);
 
-                var userUpdated = _converterHelper.ToUserFromUpdate(model, user, zipCodeId);
+                var path = string.Empty;
+
+                if (model.ImageUrl != null)
+                {
+                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "Users");
+                }
+
+
+                var userUpdated = _converterHelper.ToUserFromUpdate(model, user, zipCodeId.Id, path);
 
 
                 var result = await _userHelper.UpdateUserAsync(userUpdated);
@@ -515,5 +588,26 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             return View(model);
         }
 
+
+
+        public async Task<JsonResult> GetZipCodeAndCityId(string zip4, string zip3)
+        {
+            var exists = await _zipCodeRepository.ZipCodeExistsAsync(zip4, zip3);
+
+            if (exists)
+            {
+                var zipcode = await _zipCodeRepository.GetZipCodeAsync(zip4, zip3);
+
+                var cityName = await _cityRepository.GetByIdAsync(zipcode.CityId);
+
+                string data = zipcode.Id +"," + cityName.CityName;
+
+                var r = this.Json(data);
+
+                return r;
+            }
+
+            return null;
+        }
     }
 }

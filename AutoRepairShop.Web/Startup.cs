@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Pages.Account.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -82,6 +83,7 @@ namespace AutoRepairShop.Web
             services.AddScoped<IServiceRepository, ServiceRepository>();
             services.AddScoped<IDealershipRepository, DealershipRepository>();
             services.AddScoped<IServicesSuppliedRepository, ServicesSuppliedRepository>();
+            services.AddScoped<IImageHelper, ImageHelper>();
 
 
 
@@ -90,6 +92,7 @@ namespace AutoRepairShop.Web
             services.AddScoped<IUserHelper, UserHelper>();
             services.AddScoped<IMailHelper, MailHelper>();
             services.AddScoped<IDataInputHelper, DataInputHelper>();
+            services.AddScoped<IMainWindowConverterHelper, MainWindowConverterHelper>();
 
 
 
@@ -105,8 +108,11 @@ namespace AutoRepairShop.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().AddRazorPagesOptions(options =>
+            {
+                options.Conventions.AddPageRoute("/Home/Main", "");
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -127,9 +133,12 @@ namespace AutoRepairShop.Web
             app.UseAuthentication();
             app.UseCookiePolicy();
 
+
+            
+
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
+                    routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });

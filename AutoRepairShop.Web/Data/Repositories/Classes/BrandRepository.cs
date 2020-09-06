@@ -1,6 +1,7 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
 using AutoRepairShop.Web.Models;
+using AutoRepairShop.Web.Models.ModelBrand;
 using Microsoft.AspNetCore.Identity.UI.Pages.Internal.Account;
 using Microsoft.EntityFrameworkCore;
 using Remotion.Linq.Utilities;
@@ -23,7 +24,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
 
 
 
-        public async Task AddModelAsync(ModelViewModel model)
+        public async Task AddModelAsync(ModelBrandViewModel model)
         {
             var brand = await GetBrandWithModelsAsycn(model.BrandId);
 

@@ -36,9 +36,7 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
-
         public int ZipCodeId { get; set; }
-
 
 
      
@@ -47,6 +45,11 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
         public string TaxPayerNumber { get; set; }
+
+
+
+        [Display(Name ="Image")]
+        public string ImageUrl { get; set; }
 
 
 

@@ -356,6 +356,8 @@ namespace AutoRepairShop.Web.Migrations
 
                     b.Property<string>("FirstName");
 
+                    b.Property<string>("ImageUrl");
+
                     b.Property<bool?>("IsActive");
 
                     b.Property<string>("LastName");

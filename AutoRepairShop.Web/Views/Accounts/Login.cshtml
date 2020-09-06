@@ -3,39 +3,99 @@
     ViewData["Title"] = "Login";
 }
 
-<h2>Login</h2>
+<form method="post">
+    <section class="body-sign">
+        <div class="center-sign">
+            <a href="/" class="logo pull-left">
+                @*<img src="assets/images/logo.png" height="54" alt="Porto Admin" />*@
+            </a>
 
-<div class="row">
-    <div class="col-md-4 offset-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly"></div>
-            <div class="form-group">
-                <label asp-for="UserName">Username</label>
-                <input asp-for="UserName" class="form-control" />
-                <span asp-validation-for="UserName" class="text-warning"></span>
-            </div>
-            <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-            <div class="form-group">
-                <label asp-for="Password">Password</label>
-                <input asp-for="Password" type="password" class="form-control" />
-                <span asp-validation-for="Password" class="text-warning"></span>
-            </div>
-            <div class="form-group">
-                <div class="form-check">
-                    <input asp-for="RememberMe" type="checkbox" class="form-check-input" />
-                    <label asp-for="RememberMe" class="form-check-label">Remember Me?</label>
+
+
+
+            <div class="panel panel-sign">
+                <div class="panel-title-sign mt-xl text-right">
+                    <h2 class="title text-uppercase text-bold m-none"><i class="fa fa-user mr-xs"></i> Sign In</h2>
                 </div>
-                <span asp-validation-for="RememberMe" class="text-warning"></span>
+                <div class="panel-body">
+                    <div asp-validation-summary="ModelOnly"></div>
+
+
+                    <div class="form-group mb-lg">
+                        <label asp-for="UserName">Username</label>
+                        <div class="input-group input-group-icon">
+                            <input asp-for="UserName" name="username" type="text" class="form-control input-lg" />
+                            <span class="input-group-addon">
+                                <span class="icon icon-lg">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                    <span asp-validation-for="UserName" class="text-warning"></span>
+
+
+                    <div class="form-group mb-lg">
+                        <div class="clearfix">
+                            <label asp-for="Password" class="pull-left">Password</label>
+                            <a href="pages-recover-password.html" class="pull-right">Lost Password?</a>
+                        </div>
+                        <div class="input-group input-group-icon">
+                            <input asp-for="Password" type="password" class="form-control input-lg" />
+                            <span class="input-group-addon">
+                                <span class="icon icon-lg">
+
+                                    <i class="fa fa-lock"></i>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Password" class="text-warning"></span>
+
+
+
+
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="checkbox-custom checkbox-default">
+                                <input asp-for="RememberMe" type="checkbox" class="form-check-input" />
+                                <label asp-for="RememberMe" class="form-check-label">Remember Me?</label>
+                            </div>
+                            <span asp-validation-for="RememberMe" class="text-warning"></span>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary hidden-xs" value="Login">Sign In</button>
+                            @*<button type="submit" class="btn btn-primary btn-block btn-lg visible-xs mt-lg" value="Login">Sign In</button>*@
+                        </div>
+                        <div class="col-sm-4 text-right">
+                        </div>
+                    </div>
+
+
+
+
+
+                    <span class="mt-lg mb-lg line-thru text-center text-uppercase">
+                        <span>or</span>
+                    </span>
+
+                    <div class="mb-xs text-center">
+                        <a class="btn btn-facebook mb-md ml-xs mr-xs">Connect with <i class="fa fa-facebook"></i></a>
+                        <a class="btn btn-twitter mb-md ml-xs mr-xs">Connect with <i class="fa fa-twitter"></i></a>
+                    </div>
+
+                    <p class="text-center">Don't have an account yet? <a asp-action="Register">Sign Up!</a>
+
+
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Login" class="btn btn-success" />
-                <a asp-action="Register" class="btn btn-primary">Register New User</a>
-                <a asp-action="RecoverPassword" class="btn btn-link">Forgot Password ?</a>
-            </div>
-        </form>
-    </div>
-</div>
+
+            <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+        </div>
+    </section>
+</form>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<p class="text-center text-muted mt-md mb-md">&copy; Copyright 2018. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>

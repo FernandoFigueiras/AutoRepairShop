@@ -195,13 +195,14 @@ namespace AutoRepairShop.Web.Helpers.Classes
             {
                 Id = user.Id,
                 Email = user.Email,
-                UserName=user.Email,
+                UserName = user.Email,
                 FirstName = user.FirstName,
-                LastName =user.LastName,
-                Address=user.Address,
-                ZipCode4=zipCode.ZipCode4,
+                LastName = user.LastName,
+                Address = user.Address,
+                ZipCode4 = zipCode.ZipCode4,
                 ZipCode3 = zipCode.ZipCode3,
-                PhoneNumber=user.PhoneNumber,
+                PhoneNumber = user.PhoneNumber,
+                ImageUrl = user.ImageUrl,
             };
 
             return model;
@@ -209,7 +210,7 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
 
 
-        public User ToUserFromUpdate (UpdateUserDataViewModel model, User user, int zipCodeId)
+        public User ToUserFromUpdate (UpdateUserDataViewModel model, User user, int zipCodeId, string path)
         {
 
 
@@ -221,8 +222,10 @@ namespace AutoRepairShop.Web.Helpers.Classes
             updateUser.FirstName = model.FirstName;
             updateUser.LastName = model.LastName;
             updateUser.Address = model.Address;
+            updateUser.TaxPayerNumber = model.TaxPayerNumber;
             updateUser.ZipCodeId = zipCodeId;
             updateUser.PhoneNumber = model.PhoneNumber;
+            updateUser.ImageUrl = path;
 
             return updateUser;
         }
@@ -362,6 +365,19 @@ namespace AutoRepairShop.Web.Helpers.Classes
                 IsActive = false,
             };
 
+        }
+
+
+        public ZipCode ToNewZipCode (string zipcode4, string zipcode3, int cityId)
+        {
+            return new ZipCode
+            {
+                Id = 0,
+                IsActive = true,
+                ZipCode4 = zipcode4,
+                ZipCode3 = zipcode3,
+                CityId = cityId,
+            };
         }
     }
 }

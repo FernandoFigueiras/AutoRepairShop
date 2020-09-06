@@ -33,7 +33,7 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
         UpdateUserDataViewModel ToUpdateDataViewModel(User user, ZipCode zipCode);
 
 
-        User ToUserFromUpdate(UpdateUserDataViewModel model, User user, int zipCodeId);
+        User ToUserFromUpdate(UpdateUserDataViewModel model, User user, int zipCodeId, string path);
 
 
 
@@ -67,5 +67,7 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
         ServicesSupplied ToServicesSupplied(Dealership dealership, Service service, int? serviceSuppliedId, bool isActive);
 
         ServicesSupplied ToNewServicesSupplied(Dealership dealership, Service service);
+
+        ZipCode ToNewZipCode(string zipcode4, string zipcode3, int cityId);
     }
 }

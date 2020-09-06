@@ -1,5 +1,6 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Models;
+using AutoRepairShop.Web.Models.ModelBrand;
 using System.Collections.Generic;
 using System.Security.Policy;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Interfaces
 {
     public interface IBrandRepository : IGenericRepository<Brand>
     {
-        Task AddModelAsync(ModelViewModel model);
+        Task AddModelAsync(ModelBrandViewModel model);
 
 
 

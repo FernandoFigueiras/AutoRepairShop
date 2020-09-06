@@ -3,74 +3,179 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - AutoRepairShop.Web</title>
+    <title>@ViewData["Title"] - ShopAmazing.Web</title>
 
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
+        <!--Landing Page-->
+        <link href="~/css/bootstrap.min.css" rel="stylesheet">
+        <link href="~/css/font-awesome.min.css" rel="stylesheet">
+        <link href="~/css/pe-icons.css" rel="stylesheet">
+        <link href="~/css/prettyPhoto.css" rel="stylesheet">
+        <link href="~/css/animate.css" rel="stylesheet">
+        <link href="~/css/style.css" rel="stylesheet">
+        <script src="~/js/jquery.js"></script>
+        @*[if lt IE 9]>
+        <script src="js/html5shiv.js"></script>
+        <script src="js/respond.min.js"></script>
+        <![endif]*@
+        <link rel="shortcut icon" href="~/images/ico/favicon.ico">
+        <link rel="apple-touch-icon" sizes="144x144" href="~/images/ico/apple-touch-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="~/images/ico/apple-touch-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="~/images/ico/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" href="~/images/ico/apple-touch-icon-57x57.png">
+        <!--Landing Page-->
+        <!--INDEX-->
+        <!-- Mobile Metas -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+        <!-- Web Fonts  -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+
+        <!-- Vendor CSS -->
+        <link href="~/assets/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" />
+        <link href="~/assets/vendor/font-awesome/css/font-awesome.css" rel="stylesheet" />
+        <link href="~/assets/vendor/magnific-popup/magnific-popup.css" rel="stylesheet" />
+        <link href="~/assets/vendor/bootstrap-datepicker/css/datepicker3.css" rel="stylesheet" />
+
+
+
+        <!-- Specific Page Vendor CSS -->
+        <link href="~/assets/vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet" />
+        <link href="~/assets/vendor/bootstrap-multiselect/bootstrap-multiselect.css" rel="stylesheet" />
+        <link href="~/assets/vendor/morris/morris.css" rel="stylesheet" />
+
+
+        <!-- Theme CSS -->
+        <link href="~/assets/stylesheets/theme.css" rel="stylesheet" />
+
+        <!-- Skin CSS -->
+        <link href="~/assets/stylesheets/skins/default.css" rel="stylesheet" />
+
+        <!-- Theme Custom CSS -->
+        <link href="~/assets/stylesheets/theme-custom.css" rel="stylesheet" />
+
+        <!-- Head Libs -->
+
+        <script src="~/assets/vendor/modernizr/modernizr.js"></script>
+
+
+        <!--Update User Page-->
+        <link rel="stylesheet" href="~/assets/vendor/bootstrap-fileupload/bootstrap-fileupload.min.css" />
+
+        <!--INDEX-->
+
+
+
+
+
+
+
+
+
     </environment>
     <environment exclude="Development">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+
+
+        <!--Landing Page-->
+        <link href="~/css/bootstrap.min.css" rel="stylesheet">
+        <link href="~/css/font-awesome.min.css" rel="stylesheet">
+        <link href="~/css/pe-icons.css" rel="stylesheet">
+        <link href="~/css/prettyPhoto.css" rel="stylesheet">
+        <link href="~/css/animate.css" rel="stylesheet">
+        <link href="~/css/style.css" rel="stylesheet">
+        <script src="~/js/jquery.js"></script>
+        <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+        <link rel="shortcut icon" href="~/images/ico/favicon.ico">
+        <link rel="apple-touch-icon" sizes="144x144" href="~/images/ico/apple-touch-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="~/images/ico/apple-touch-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="~/images/ico/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" href="~/images/ico/apple-touch-icon-57x57.png">
+        <!--Landing Page-->
+
+
+
+
+
+        <!--INDEX-->
+        <!-- Mobile Metas -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+        <!-- Web Fonts  -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+
+        <!-- Vendor CSS -->
+        <link href="~/assets/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" />
+        <link href="~/assets/vendor/font-awesome/css/font-awesome.css" rel="stylesheet" />
+        <link href="~/assets/vendor/magnific-popup/magnific-popup.css" rel="stylesheet" />
+        <link href="~/assets/vendor/bootstrap-datepicker/css/datepicker3.css" rel="stylesheet" />
+
+
+
+        <!-- Specific Page Vendor CSS -->
+        <link href="~/assets/vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet" />
+        <link href="~/assets/vendor/bootstrap-multiselect/bootstrap-multiselect.css" rel="stylesheet" />
+        <link href="~/assets/vendor/morris/morris.css" rel="stylesheet" />
+
+
+        <!-- Theme CSS -->
+        <link href="~/assets/stylesheets/theme.css" rel="stylesheet" />
+
+        <!-- Skin CSS -->
+        <link href="~/assets/stylesheets/skins/default.css" rel="stylesheet" />
+
+        <!-- Theme Custom CSS -->
+        <link href="~/assets/stylesheets/theme-custom.css" rel="stylesheet" />
+
+        <!-- Head Libs -->
+
+        <script src="~/assets/vendor/modernizr/modernizr.js"></script>
+
+        <!--INDEX-->
+
+
+
+
+
+
+
+
+
+
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">AutoRepairShop.Web</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                    <li><a asp-area="" asp-controller="Brands" asp-action="Index">Brands</a></li>
-                    <li><a asp-area="" asp-controller="Fuels" asp-action="Index">Fuel</a></li>
-                    <li><a asp-area="" asp-controller="Colors" asp-action="Index">Color</a></li>
-                    <li><a asp-area="" asp-controller="Vehicles" asp-action="Index">Vehicles</a></li>
-                    <li><a asp-area="" asp-controller="Countries" asp-action="Index">Countries</a></li>
-                    <li><a asp-area="" asp-controller="Services" asp-action="Index">Services</a></li>
-                    <li><a asp-area="" asp-controller="Dealerships" asp-action="Index">Dealerships</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    @if (this.User.Identity.IsAuthenticated)
-                    {
-                        <li><a asp-area="" asp-controller="Accounts" asp-action="EditUser">@this.User.Identity.Name</a></li>
-                        <li><a asp-area="" asp-controller="Accounts" asp-action="Logout">Logout</a></li>
-                    }
-                    else
-                    {
-                        <li><a asp-area="" asp-controller="Accounts" asp-action="Login">Login</a></li>
-                    }
-                </ul>
-            </div>
-        </div>
-    </nav>
+
+
+
+
 
     <partial name="_CookieConsentPartial" />
 
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2020 - AutoRepairShop.Web</p>
-        </footer>
-    </div>
 
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
+    @RenderBody()
+
+
+
+
+
+
+
+
+
+
+<environment include="Development">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+
+
+
+
+</environment>
     <environment exclude="Development">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
                 asp-fallback-src="~/lib/jquery/dist/jquery.min.js"

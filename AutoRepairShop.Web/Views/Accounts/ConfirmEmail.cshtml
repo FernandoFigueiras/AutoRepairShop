@@ -3,23 +3,28 @@
     ViewData["Title"] = "Edit User";
 }
 
-<h2>Hello @ViewBag.User, your email is now confirmed</h2>
+<div style="text-align: center">
+    <h3>Hello @ViewBag.User, your email is now confirmed</h3>
 
-<h2>Please click the button below to resume your registration</h2>
+    <h4>Please click the button below to resume your registration</h4>
 
-<div class="row">
-    <div class="col-md-4 offset-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly"></div>
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="Email" />
+    <form method="post">
 
+
+        <div asp-validation-summary="ModelOnly"></div>
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="Email" />
+        <div style="text-align: center">
 
             <div class="form-group">
-                <input type="submit" value="Resume Registration" class="btn btn-primary" />
+                <button type="submit" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary">Resume Registration</button>
             </div>
+        </div>
 
-        </form>
-    </div>
+
+
+    </form>
 </div>
+
+
 

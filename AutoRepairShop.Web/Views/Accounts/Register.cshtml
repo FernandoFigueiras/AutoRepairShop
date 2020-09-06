@@ -3,44 +3,105 @@
     ViewData["Title"] = "Register";
 }
 
-<h2>Register New User</h2>
 
-<div class="row">
-    <div class="col-md-4 offset-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly"></div>
 
-            <div class="form-group">
-                <label asp-for="UserName">Username</label>
-                <input asp-for="UserName" class="form-control" placeholder="e-mail" />
-                <span asp-validation-for="UserName" class="text-warning"></span>
+
+
+
+
+
+<!-- start: page -->
+<form method="post">
+    @if (ViewBag.Message != null)
+    {
+
+        <div class="row" style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; text-align:center">
+            <div class="col-md-6">
+                <div class="alert alert-info fade in nomargin">
+                    <h4>HI!!!</h4>
+                    <p>@ViewBag.Message</p>
+                    <p>
+                        <button class="btn btn-info mt-xs mb-xs" type="button" onclick="location.href='@Url.Action("Login", "Accounts")'">Continue</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    }
+
+    <section class="body-sign">
+        <div class="center-sign">
+            <a href="/" class="logo pull-left">
+                @*<img src="assets/images/logo.png" height="54" alt="Porto Admin" />*@
+            </a>
+
+            <div class="panel panel-sign">
+                <div class="panel-title-sign mt-xl text-right">
+                    <h2 class="title text-uppercase text-bold m-none"><i class="fa fa-user mr-xs"></i> Sign Up</h2>
+                </div>
+                <div class="panel-body">
+
+
+                    <div class="form-group mb-lg">
+                        <label asp-for="UserName">E-mail Address</label>
+                        <input asp-for="UserName" class="form-control" placeholder="your-email@email.com" />
+                    </div>
+                    <span asp-validation-for="UserName" class="text-warning"></span>
+
+
+                    <div class="form-group mb-none">
+                        <div class="row">
+                            <div class="col-sm-6 mb-lg">
+                                <label asp-for="Password">Password</label>
+                                <input asp-for="Password" type="password" class="form-control input-lg" />
+                            </div>
+                            <div class="col-sm-6 mb-lg">
+                                <label asp-for="ConfirmPassword">Password Confirmation</label>
+                                <input asp-for="ConfirmPassword" type="password" class="form-control input-lg" />
+                            </div>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Password" class="text-warning"></span>
+                    <span asp-validation-for="ConfirmPassword" class="text-warning"></span>
+
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="checkbox-custom checkbox-default">
+                                <input id="AgreeTerms" name="agreeterms" type="checkbox" />
+                                <label for="AgreeTerms">I agree with <a href="#">terms of use</a></label>
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-4 text-right">
+                            <button type="submit" class="btn btn-primary hidden-xs">Sign Up</button>
+                        </div>
+                    </div>
+
+                    <span class="mt-lg mb-lg line-thru text-center text-uppercase">
+                        <span>or</span>
+                    </span>
+
+                    <div class="mb-xs text-center">
+                        <a class="btn btn-facebook mb-md ml-xs mr-xs">Connect with <i class="fa fa-facebook"></i></a>
+                        <a class="btn btn-twitter mb-md ml-xs mr-xs">Connect with <i class="fa fa-twitter"></i></a>
+                    </div>
+
+                    <p class="text-center">Already have an account? <a asp-action="Login">Sign In!</a>
+
+                </div>
             </div>
 
-            <div class="form-group">
-                <label asp-for="Password">Password</label>
-                <input asp-for="Password" type="password" class="form-control" />
-                <span asp-validation-for="Password" class="text-warning"></span>
-            </div>
 
-            <div class="form-group">
-                <label asp-for="ConfirmPassword">Confirm Password</label>
-                <input asp-for="ConfirmPassword" type="password" class="form-control" />
-                <span asp-validation-for="ConfirmPassword" class="text-warning"></span>
-            </div>
+        </div>
+    </section>
+</form>
 
-            <div class="form-group">
-                <input type="submit" value="Register New User" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-<div class="text-success">
-    <p>
-        @ViewBag.Message
-    </p>
-</div>
+
+<!-- end: page -->
 
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<p class="text-center text-muted mt-md mb-md">&copy; Copyright 2018. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>

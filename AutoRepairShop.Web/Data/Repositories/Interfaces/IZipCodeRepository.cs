@@ -7,9 +7,12 @@ namespace AutoRepairShop.Web.Data.Repositories.Interfaces
     public interface IZipCodeRepository : IGenericRepository<ZipCode>
     {
 
-        Task<int> GetZipCodeIdAsync(string zipCode4, string zipCode3);
+        Task<ZipCode> GetZipCodeAsync(string zipCode4, string zipCode3);
 
         Task<ZipCode> GetZipCodeByIdAsync(int zipCodeId);
 
+        Task<bool> ZipCodeExistsAsync(string zip4, string zip3);
+
+        Task<ZipCode> GetCityIdFromZip4(string zip4);
     }
 }

@@ -12,6 +12,7 @@ using AutoRepairShop.Web.Models;
 using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Identity.UI.Pages.Internal.Account;
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
+using AutoRepairShop.Web.Models.ModelBrand;
 
 namespace AutoRepairShop.Web.Controllers.BackOffice
 {
@@ -244,7 +245,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                 return NotFound();
             }
 
-            var model = new ModelViewModel
+            var model = new ModelBrandViewModel
             {
                 BrandId = brand.Id,
             };
@@ -257,7 +258,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
 
         [HttpPost]
-        public async Task<IActionResult> AddModel(ModelViewModel model)
+        public async Task<IActionResult> AddModel(ModelBrandViewModel model)
         {
 
             if (this.ModelState.IsValid)

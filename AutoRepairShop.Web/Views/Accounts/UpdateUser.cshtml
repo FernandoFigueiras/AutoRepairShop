@@ -3,65 +3,248 @@
     ViewData["Title"] = "Edit User";
 }
 
-<h2>Hello @ViewBag.User, please complete your registration by entering the data below</h2>
+<div style="text-align: center">
+    <h2 style="align-self: center">Hello @ViewBag.User, please complete your registration by entering the data below</h2>
+</div>
+
+
 
 <div class="row">
-    <div class="col-md-4 offset-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly"></div>
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="Email" />
-
-            <div class="form-group">
-                <label asp-for="FirstName">First Name</label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-warning"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="LastName">Last Name</label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-warning"></span>
-            </div>
+    <div class="col-lg-12">
+        <section class="panel">
+            <form method="post" enctype="multipart/form-data">
+                <div class="panel-body" style="margin-top: 2%; margin-bottom: auto; margin-left: 25%; margin-right: 25%">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="Email" />
 
 
-            <div class="form-group">
-                <label asp-for="Address">Address</label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-warning"></span>
-            </div>
 
-            <div class="form-group">
-                <label asp-for="ZipCode4">Zip Code</label>
-                <input asp-for="ZipCode4" class="form-control" /> - <input asp-for="ZipCode3" class="form-control" />
-                <span asp-validation-for="ZipCode4" class="text-warning"></span>
-            </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" asp-for="FirstName">First Name</label>
+                        <div class="col-md-6">
+                            <input type="text" asp-for="FirstName" maxlength="50" class="form-control" id="inputDefault">
+                        </div>
+                        <span asp-validation-for="FirstName" class="text-warning"></span>
+                    </div>
 
 
-            <div class="form-group">
-                <label asp-for="PhoneNumber">Phone Number</label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-warning"></span>
-            </div>
 
-            <div class="form-group">
-                <label asp-for="TaxPayerNumber">TaxPayer Number</label>
-                <input asp-for="TaxPayerNumber" class="form-control" />
-                <span asp-validation-for="TaxPayerNumber" class="text-warning"></span>
-            </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" asp-for="LastName">Last Name</label>
+                        <div class="col-md-6">
+                            <input type="text" asp-for="LastName" maxlength="50" class="form-control" id="inputDefault">
+                        </div>
+                        <span asp-validation-for="LastName" class="text-warning"></span>
+                    </div>
 
 
-            <div class="form-group">
-                <input type="submit" value="Confirm" class="btn btn-primary" />
-            </div>
 
-            <div class="text-success">@ViewBag.UserMessage</div>
-        </form>
+
+
+
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" asp-for="Address">Address</label>
+                        <div class="col-md-6">
+                            <input type="text" asp-for="Address" maxlength="150" class="form-control" id="inputDefault">
+                        </div>
+                        <span asp-validation-for="Address" class="text-warning"></span>
+                    </div>
+
+
+
+
+
+
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" asp-for="ZipCode4">Zip Code</label>
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <input type="text" asp-for="ZipCode4" maxlength="4" class="form-control" value="" placeholder="0000" id="zipcode4input">
+                                </div>
+                                <div class="visible-xs mb-md"></div>
+                                <div class="col-sm-2">
+                                    <input type="text" asp-for="ZipCode3" maxlength="3" class="form-control" value="" placeholder="000" id="zipcode3input">
+                                </div>
+                                <div class="visible-xs mb-md"></div>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="City" class="form-control" placeholder="city" id="cityText">
+                                </div>
+                            </div>
+                            <input type="hidden" asp-for="ZipCodeId" id="zipId" />
+                        </div>
+
+                    </div>
+                    <span id="validationZip" style="display: none" class="text-warning"></span>
+                    @*<span asp-validation-for="ZipCode4" class="text-warning"></span>
+                        <span asp-validation-for="ZipCode3" class="text-warning"></span>*@
+
+
+
+
+
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" asp-for="TaxPayerNumber">Tax Payer Number</label>
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <div class="visible-xs mb-md"></div>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="TaxPayerNumber" maxlength="15" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <span asp-validation-for="TaxPayerNumber" class="text-warning"></span>
+                    </div>
+
+
+
+
+
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" asp-for="PhoneNumber">Phone Number</label>
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <div class="visible-xs mb-md"></div>
+                                <div class="col-sm-4">
+                                    <input type="text" asp-for="PhoneNumber" maxlength="15" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <span asp-validation-for="PhoneNumber" class="text-warning"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" asp-for="ImageFile">Chose a picture</label>
+                        <div class="col-md-6">
+                            <div class="fileupload fileupload-new" data-provides="fileupload">
+                                <div class="input-append">
+                                    <div class="uneditable-input">
+                                        <i class="fa fa-file fileupload-exists"></i>
+                                        <span class="fileupload-preview"></span>
+                                    </div>
+                                    <span class="btn btn-default btn-file">
+                                        <span class="fileupload-exists">Change</span>
+                                        <span class="fileupload-new">Select file</span>
+                                        <input type="file" asp-for="ImageFile" id="fileuploadkko" />
+                                    </span>
+                                    <a href="#" class="btn btn-default fileupload-exists" data-dismiss="fileupload">Remove</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="form-group">
+                        <section class="panel" style="text-align: center">
+                            <div class="panel-body">
+                                <p class="m-none">
+                                    <button type="submit" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary">Confirm</button>
+                                </p>
+                            </div>
+                        </section>
+                    </div>
+
+
+                    <div class="text-success">@ViewBag.UserMessage</div>
+
+
+                </div>
+            </form>
+        </section>
+
+
     </div>
 </div>
 
 
+<!-- end: page -->
+
+
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+    <!-- Specific Page Vendor -->
+    <script src="~/assets/vendor/jquery-autosize/jquery.autosize.js"></script>
+    <script src="~/assets/vendor/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#zipcode4input").change(function () {
+                let zip4 = $("#zipcode4input").val();
+
+
+                let zip4n = parseInt($("#zipcode4input").val());
+
+                if (zip4.length != 4 || isNaN(zip4n)) {
+                    $("#validationZip").show().html("The correct zip code format must be 0000-000");
+                    return;
+                }
+                $("#validationZip").hide();
+            });
+
+
+            $("#zipcode3input").change(function () {
+                let zip3 = $("#zipcode3input").val();
+
+
+                let zip3n = parseInt($("#zipcode4input").val());
+
+                if (zip3.length != 3 || isNaN(zip3n)) {
+                    $("#validationZip").show().html("The correct zip code format must be 0000-000");
+                    return;
+                }
+
+                $("#validationZip").hide();
+
+            });
+        });
+
+    </script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#zipcode3input").blur(function () {
+                if ($("#zipcode3input").val().length != 3) {
+                    return;
+                }
+       
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetZipCodeAndCityId")',
+                    dataType: 'json',
+                    data: {zip4: $("#zipcode4input").val(), zip3: $("#zipcode3input").val()},
+                    success: function (data) {
+                        $("#cityText").val(data.split(',')[1]);
+                        $("#zipId").val(data.split(',')[0]);
+
+                },
+                error: function () {
+                    alert("The zip code entered does not exists in our database, do you confirm it is correct?");
+                }
+
+            });
+        });
+        })
+
+
+    </script>
+
+
+
+
 
 }

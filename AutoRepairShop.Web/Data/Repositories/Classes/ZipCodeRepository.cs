@@ -16,11 +16,11 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
 
 
 
-        public async Task<int> GetZipCodeIdAsync(string zipCode4, string zipCode3)
+        public async Task<ZipCode> GetZipCodeAsync(string zipCode4, string zipCode3)
         {
             var zipCode = await _context.ZipCodes.FirstOrDefaultAsync(z => z.ZipCode4 == zipCode4 && z.ZipCode3 == zipCode3);
 
-            return zipCode.Id;
+            return zipCode;
         }
 
 
@@ -33,6 +33,19 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
 
 
 
+        public async Task<bool> ZipCodeExistsAsync(string zip4, string zip3)
+        {
+            return await _context.ZipCodes.AnyAsync(z => z.ZipCode4 == zip4 && z.ZipCode3 == zip3);
+        }
+
+
+
+        public async Task<ZipCode> GetCityIdFromZip4(string zip4)
+        {
+            return await _context.ZipCodes.FirstOrDefaultAsync(z => z.ZipCode4 == zip4);
+
+
+        }
 
     }
 }
