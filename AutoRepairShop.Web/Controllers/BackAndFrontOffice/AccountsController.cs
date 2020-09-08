@@ -94,6 +94,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             }
 
             this.ModelState.AddModelError(string.Empty, "Failed to login");
+            //ViewData["Partial"] = "None";
             return this.View(model);
         }
 
@@ -267,7 +268,9 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             var zipCode = await _zipCodeRepository.GetByIdAsync(user.ZipCodeId);
 
             var model = _converterHelper.ToUpdateDataViewModel(user, zipCode);
+
             return View(model);
+            
         }
 
 
@@ -279,7 +282,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
         {
             if (ModelState.IsValid)
             {
-                var user = await _userHelper.GetUserByIdAsync(model.Id);
+                var user = await _userHelper.GetUserByIdAsync(model.User.Id);
 
                 var zipCodeId = await _zipCodeRepository.GetZipCodeAsync(model.ZipCode4, model.ZipCode3);
 
@@ -471,9 +474,9 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
         }
 
 
-        public async Task<IActionResult> EditUser()
+        public async Task<IActionResult> EditUser(string id)
         {
-            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+            var user = await _userHelper.GetUserByIdAsync(id);
 
             if (user != null)
             {
@@ -482,7 +485,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                 return View(model);
             }
-
+            ViewData["Name"] = "Edit User";
             return NotFound();
         }
 
@@ -492,7 +495,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
         {
             if (ModelState.IsValid)
             {
-                var user = await _userHelper.GetUserByIdAsync(model.Id);
+                var user = await _userHelper.GetUserByIdAsync(model.User.Id);
 
                 if (user==null)
                 {
@@ -503,7 +506,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                 var path = string.Empty;
 
-                if (model.ImageUrl != null)
+                if (model.User.ImageUrl != null)
                 {
                     path = await _imageHelper.UploadImageAsync(model.ImageFile, "Users");
                 }

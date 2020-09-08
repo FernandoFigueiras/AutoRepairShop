@@ -117,6 +117,8 @@
     <Compile Remove="Migrations\20200903081818_SetDb.Designer.cs" />
     <Compile Remove="Migrations\20200904210815_SetDb.cs" />
     <Compile Remove="Migrations\20200904210815_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200906100025_SetDb.cs" />
+    <Compile Remove="Migrations\20200906100025_SetDb.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

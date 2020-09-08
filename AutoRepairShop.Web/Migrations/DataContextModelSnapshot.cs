@@ -344,6 +344,8 @@ namespace AutoRepairShop.Web.Migrations
 
                     b.Property<string>("Address");
 
+                    b.Property<string>("City");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 

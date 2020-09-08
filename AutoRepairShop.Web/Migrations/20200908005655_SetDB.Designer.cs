@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoRepairShop.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200906100025_SetDb")]
-    partial class SetDb
+    [Migration("20200908005655_SetDB")]
+    partial class SetDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -345,6 +345,8 @@ namespace AutoRepairShop.Web.Migrations
                     b.Property<int>("AccessFailedCount");
 
                     b.Property<string>("Address");
+
+                    b.Property<string>("City");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();

@@ -193,16 +193,10 @@ namespace AutoRepairShop.Web.Helpers.Classes
         {
             var model = new UpdateUserDataViewModel
             {
-                Id = user.Id,
-                Email = user.Email,
-                UserName = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Address = user.Address,
+                User = user,
                 ZipCode4 = zipCode.ZipCode4,
                 ZipCode3 = zipCode.ZipCode3,
-                PhoneNumber = user.PhoneNumber,
-                ImageUrl = user.ImageUrl,
+                City = user.City,
             };
 
             return model;
@@ -215,17 +209,11 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
 
             var updateUser = user;
-
-            updateUser.Id = model.Id;
-            updateUser.UserName = model.Email;
-            updateUser.Email = model.Email;
-            updateUser.FirstName = model.FirstName;
-            updateUser.LastName = model.LastName;
-            updateUser.Address = model.Address;
-            updateUser.TaxPayerNumber = model.TaxPayerNumber;
             updateUser.ZipCodeId = zipCodeId;
-            updateUser.PhoneNumber = model.PhoneNumber;
             updateUser.ImageUrl = path;
+            updateUser.City = model.City;
+            updateUser.PhoneNumber = model.User.PhoneNumber;
+            updateUser.TaxPayerNumber = model.User.TaxPayerNumber;
 
             return updateUser;
         }

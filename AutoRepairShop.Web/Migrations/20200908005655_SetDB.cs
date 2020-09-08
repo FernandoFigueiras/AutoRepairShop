@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AutoRepairShop.Web.Migrations
 {
-    public partial class SetDb : Migration
+    public partial class SetDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -279,6 +279,7 @@ namespace AutoRepairShop.Web.Migrations
                     Address = table.Column<string>(nullable: true),
                     ZipCodeId = table.Column<int>(nullable: false),
                     TaxPayerNumber = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
                     ImageUrl = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

@@ -1,4 +1,5 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
+using AutoRepairShop.Web.Models.Account;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,9 @@ namespace AutoRepairShop.Web.Models.MainWindow.MainLayout
     {
 
         public User User { get; set; }
+
+
+
 
     }
 }
