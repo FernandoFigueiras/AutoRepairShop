@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace AutoRepairShop.Web.Data.Entities
+﻿namespace AutoRepairShop.Web.Data.Entities
 {
     public class ScheduleDetail
     {
@@ -15,7 +10,11 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
-        public Schedule Schedule { get; set; }
+        public ActiveSchedule ActiveSchedule { get; set; }
+
+
+
+        public Dealership Dealership { get; set; }
 
 
     }

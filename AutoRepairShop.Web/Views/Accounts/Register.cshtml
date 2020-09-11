@@ -12,22 +12,36 @@
 
 <!-- start: page -->
 <form method="post">
+
+
+
     @if (ViewBag.Message != null)
-    {
+        {
 
-        <div class="row" style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; text-align:center">
-            <div class="col-md-6">
-                <div class="alert alert-info fade in nomargin">
-                    <h4>HI!!!</h4>
-                    <p>@ViewBag.Message</p>
-                    <p>
-                        <button class="btn btn-info mt-xs mb-xs" type="button" onclick="location.href='@Url.Action("Login", "Accounts")'">Continue</button>
-                    </p>
+            @if (ViewBag.Message != null)
+            {
+
+                <div class="row" style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; text-align:center">
+                    <div class="col-md-6">
+                        <div class="alert alert-info fade in nomargin">
+                            <h4>HI!!!</h4>
+                            <p>@ViewBag.Message</p>
+                            <p>
+                                <button class="btn btn-info mt-xs mb-xs" type="button" onclick="location.href='@Url.Action("Login", "Accounts")'">Continue</button>
+                            </p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-    }
+            }
+
+        }
+
+
+
+
+
+
 
     <section class="body-sign">
         <div class="center-sign">
@@ -103,5 +117,8 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
 }
+
 <p class="text-center text-muted mt-md mb-md">&copy; Copyright 2018. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>

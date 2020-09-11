@@ -1,14 +1,14 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
-using AutoRepairShop.Web.Data.Repositories;
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
 using AutoRepairShop.Web.Helpers.Interfaces;
 using AutoRepairShop.Web.Models.Account;
+using AutoRepairShop.Web.Models.ActiveScheduleViewModel;
 using AutoRepairShop.Web.Models.DShip;
+using AutoRepairShop.Web.Models.MainWindow;
 using AutoRepairShop.Web.Models.VehicleViewModels;
+using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 
 namespace AutoRepairShop.Web.Helpers.Classes
@@ -31,7 +31,7 @@ namespace AutoRepairShop.Web.Helpers.Classes
             IZipCodeRepository zipCodeRepository,
             ICountryRepository countryRepository)
         {
-           _vehicleRepository = vehicleRepository;
+            _vehicleRepository = vehicleRepository;
             _brandRepository = brandRepository;
             _fuelRepository = fuelRepository;
             _colorRepository = colorRepository;
@@ -43,7 +43,7 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
 
 
-        public Vehicle ToNewVehicle(AddVehicleViewModel model)
+        public Vehicle ToNewVehicle(AddVehicleViewModel model, User user)
         {
             var vehicle = new Vehicle
             {
@@ -54,6 +54,7 @@ namespace AutoRepairShop.Web.Helpers.Classes
                 FuelId = model.FuelId,
                 ColorId = model.ColorId,
                 CreationDate = DateTime.UtcNow,
+                User = user,
             };
 
             return vehicle;
@@ -73,14 +74,14 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
             var model = new DeleteVehicleViewModel
             {
-                Id=vehicle.Id,
+                Id = vehicle.Id,
                 LicencePlate = vehicle.LicencePlate,
                 Brand = brand.BrandName,
                 ModelName = modelType.ModelName,
                 EngineCapacity = vehicle.EngineCapacity,
                 FuelType = fuel.FuelType,
                 ColorName = color.ColorName,
-            }; 
+            };
 
             return model;
         }
@@ -111,7 +112,7 @@ namespace AutoRepairShop.Web.Helpers.Classes
             };
 
             return model;
-            
+
         }
 
 
@@ -165,7 +166,7 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
 
 
-        public User ToNewUserFromRegisterViewModel (RegisterViewModel model)
+        public User ToNewUserFromRegisterViewModel(RegisterViewModel model)
         {
             if (model == null)
             {
@@ -174,12 +175,12 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
             var user = new User
             {
-                UserName=model.UserName,
+                UserName = model.UserName,
                 Email = model.UserName,
-                ZipCodeId=1,
+                ZipCodeId = 1,
             };
 
-            if (user==null)
+            if (user == null)
             {
                 return null;
             }
@@ -194,9 +195,14 @@ namespace AutoRepairShop.Web.Helpers.Classes
             var model = new UpdateUserDataViewModel
             {
                 User = user,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Address = user.Address,
                 ZipCode4 = zipCode.ZipCode4,
                 ZipCode3 = zipCode.ZipCode3,
                 City = user.City,
+                TaxPayerNumber = user.TaxPayerNumber,
+                PhoneNumber = user.PhoneNumber,
             };
 
             return model;
@@ -204,16 +210,20 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
 
 
-        public User ToUserFromUpdate (UpdateUserDataViewModel model, User user, int zipCodeId, string path)
+        public User ToUserFromUpdate(UpdateUserDataViewModel model, User user, int zipCodeId, string path)
         {
 
 
             var updateUser = user;
+            updateUser.FirstName = model.FirstName;
+            updateUser.LastName = model.LastName;
+            updateUser.Address = model.Address;
             updateUser.ZipCodeId = zipCodeId;
             updateUser.ImageUrl = path;
             updateUser.City = model.City;
-            updateUser.PhoneNumber = model.User.PhoneNumber;
-            updateUser.TaxPayerNumber = model.User.TaxPayerNumber;
+            updateUser.PhoneNumber = model.PhoneNumber;
+            updateUser.TaxPayerNumber = model.TaxPayerNumber;
+            updateUser.IsActive = true;
 
             return updateUser;
         }
@@ -222,7 +232,10 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
         public ResetPasswordViewModel ToResetPasswordViewModel(User user)
         {
-            var model = new ResetPasswordViewModel { Id = user.Id, Email=user.UserName, UserName = user.UserName};
+            var model = new ResetPasswordViewModel
+            {
+                User = user,
+            };
 
             return model;
         }
@@ -232,11 +245,15 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
         public async Task<User> ToUserFromResetPasswordViewModel(ResetPasswordViewModel model)
         {
-            return await _userHelper.GetUserByEmailAsync(model.UserName);
+            return await _userHelper.GetUserByEmailAsync(model.User.UserName);
         }
 
 
-       
+        public async Task<User> ToUserFromEditUserResetPassword(UpdateUserDataViewModel model)
+        {
+            return await _userHelper.GetUserByEmailAsync(model.User.UserName);
+        }
+
 
 
         public ChangePasswordViewModel ToChangePasswordViewModel(User user)
@@ -245,7 +262,7 @@ namespace AutoRepairShop.Web.Helpers.Classes
             {
                 Id = user.Id,
                 UserName = user.UserName,
-                Email=user.Email
+                Email = user.Email
             };
         }
 
@@ -341,7 +358,7 @@ namespace AutoRepairShop.Web.Helpers.Classes
                 Service = service,
                 IsActive = isActive,
             };
-        
+
         }
 
         public ServicesSupplied ToNewServicesSupplied(Dealership dealership, Service service)
@@ -356,7 +373,7 @@ namespace AutoRepairShop.Web.Helpers.Classes
         }
 
 
-        public ZipCode ToNewZipCode (string zipcode4, string zipcode3, int cityId)
+        public ZipCode ToNewZipCode(string zipcode4, string zipcode3, int cityId)
         {
             return new ZipCode
             {
@@ -367,5 +384,16 @@ namespace AutoRepairShop.Web.Helpers.Classes
                 CityId = cityId,
             };
         }
+
+        public MainWindowViewModel ToMainWindowViewModelFromVehicles(User user)
+        {
+            return new MainWindowViewModel
+            {
+                UserImageUrl = user.ImageUrl,
+            };
+        }
+
+
+        
     }
 }

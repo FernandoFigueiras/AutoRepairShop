@@ -19,6 +19,33 @@ namespace AutoRepairShop.Web.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.ActiveSchedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreationDate");
+
+                    b.Property<DateTime?>("DeactivationDate");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("Remarks");
+
+                    b.Property<DateTime>("ScheduleDay");
+
+                    b.Property<int?>("ServicesId");
+
+                    b.Property<DateTime?>("UpdateDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ServicesId");
+
+                    b.ToTable("ActiveSchedules");
+                });
+
             modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.Brand", b =>
                 {
                     b.Property<int>("Id")
@@ -236,48 +263,23 @@ namespace AutoRepairShop.Web.Migrations
                     b.ToTable("Models");
                 });
 
-            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.Schedule", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime?>("CreationDate");
-
-                    b.Property<DateTime?>("DeactivationDate");
-
-                    b.Property<bool>("IsActive");
-
-                    b.Property<string>("Remarks");
-
-                    b.Property<DateTime>("ScheduleDay");
-
-                    b.Property<int>("ScheduleHour");
-
-                    b.Property<int?>("ServicesId");
-
-                    b.Property<DateTime?>("UpdateDate");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ServicesId");
-
-                    b.ToTable("Schedules");
-                });
-
             modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.ScheduleDetail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ScheduleId");
+                    b.Property<int?>("ActiveScheduleId");
+
+                    b.Property<int?>("DealershipId");
 
                     b.Property<int?>("VehicleId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ScheduleId");
+                    b.HasIndex("ActiveScheduleId");
+
+                    b.HasIndex("DealershipId");
 
                     b.HasIndex("VehicleId");
 
@@ -323,6 +325,8 @@ namespace AutoRepairShop.Web.Migrations
                     b.Property<bool>("IsActive");
 
                     b.Property<int?>("ServiceId");
+
+                    b.Property<int>("ServicesPerDay");
 
                     b.Property<DateTime?>("UpdateDate");
 
@@ -598,6 +602,13 @@ namespace AutoRepairShop.Web.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.ActiveSchedule", b =>
+                {
+                    b.HasOne("AutoRepairShop.Web.Data.Entities.Service", "Services")
+                        .WithMany()
+                        .HasForeignKey("ServicesId");
+                });
+
             modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.City", b =>
                 {
                     b.HasOne("AutoRepairShop.Web.Data.Entities.District", "District")
@@ -630,18 +641,15 @@ namespace AutoRepairShop.Web.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.Schedule", b =>
-                {
-                    b.HasOne("AutoRepairShop.Web.Data.Entities.Service", "Services")
-                        .WithMany()
-                        .HasForeignKey("ServicesId");
-                });
-
             modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.ScheduleDetail", b =>
                 {
-                    b.HasOne("AutoRepairShop.Web.Data.Entities.Schedule", "Schedule")
+                    b.HasOne("AutoRepairShop.Web.Data.Entities.ActiveSchedule", "ActiveSchedule")
                         .WithMany()
-                        .HasForeignKey("ScheduleId");
+                        .HasForeignKey("ActiveScheduleId");
+
+                    b.HasOne("AutoRepairShop.Web.Data.Entities.Dealership", "Dealership")
+                        .WithMany()
+                        .HasForeignKey("DealershipId");
 
                     b.HasOne("AutoRepairShop.Web.Data.Entities.Vehicle", "Vehicle")
                         .WithMany()

@@ -19,9 +19,10 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
         }
 
 
-        public IQueryable GetVehiclesWithBrandModelFuelAndColor()
+        public IEnumerable<Vehicle> GetUserVehicles(string userId)
         {
-            return _context.Vehicles.Include(b => b.Model).ThenInclude(b => b.Brand).Include(v => v.Fuel).Include(v => v.Color);
+            var result = _context.Vehicles.Include(b => b.Model).ThenInclude(b => b.Brand).Include(v => v.Fuel).Include(v => v.Color).Where(v => v.User.Id == userId);
+            return result;
 
         }
 
@@ -69,7 +70,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
 
         public IEnumerable<SelectListItem> GetComboModels(int brandId)
         {
-            
+
 
 
             var temp = _context.Models.AsEnumerable().Where(m => m.BrandId == brandId).ToList();
@@ -81,7 +82,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
 
             }).ToList();
 
-            
+
 
 
             list.Insert(0, new SelectListItem
@@ -146,6 +147,9 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
 
             return list;
         }
+
+
+
 
     }
 }

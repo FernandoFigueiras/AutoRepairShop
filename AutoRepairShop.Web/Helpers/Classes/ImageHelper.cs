@@ -31,5 +31,27 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
             return $"~/StoreImages/{folder}/{file}";
         }
+
+
+        public void RemovePictureAsync(string imagePath, string path)
+        {
+
+            var substrinf = $"~/StoreImages/{path}";
+
+            var file = imagePath.Substring(substrinf.Length+1);
+
+            var pathfinal = Path.Combine(
+                Directory.GetCurrentDirectory(),
+                $"wwwroot\\StoreImages\\{path}",
+                file);
+
+
+            var exists = File.Exists(pathfinal);
+
+            if (exists)
+            {
+                File.Delete(pathfinal);
+            }
+        }
     }
 }

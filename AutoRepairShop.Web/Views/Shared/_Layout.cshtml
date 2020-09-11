@@ -6,7 +6,6 @@
     <title>@ViewData["Title"] - ShopAmazing.Web</title>
 
     <environment include="Development">
-
         <!--INDEX-->
         <!-- Mobile Metas -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -26,6 +25,7 @@
         <link href="~/assets/vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet" />
         <link href="~/assets/vendor/bootstrap-multiselect/bootstrap-multiselect.css" rel="stylesheet" />
         <link href="~/assets/vendor/morris/morris.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/assets/vendor/pnotify/pnotify.custom.css" />
 
 
         <!-- Theme CSS -->
@@ -46,12 +46,6 @@
         <link rel="stylesheet" href="~/assets/vendor/bootstrap-fileupload/bootstrap-fileupload.min.css" />
 
         <!--INDEX-->
-
-
-
-
-
-
 
 
 
@@ -114,9 +108,6 @@
         <!-- start: header -->
         <header class="header">
             <div class="logo-container">
-                <a href="../" class="logo">
-                    <img src="assets/images/logo.png" height="35" alt="Porto Admin" />
-                </a>
                 <div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
                     <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
                 </div>
@@ -302,17 +293,10 @@
                 <div id="userbox" class="userbox">
                     <a href="#" data-toggle="dropdown">
                         <figure class="profile-picture">
-                            @if (Model.User.ImageUrl != string.Empty)
-                            {
-                                <img src="@Url.Content(Model.User.ImageUrl)" alt="Joseph Doe" class="img-circle" />
-                            }
-                            else
-                            {
-                                <img src="~/images/ico/avatar.png" class="img-circle" />
-                            }
+
                         </figure>
                         <div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@okler.com">
-                            <span class="name">@Model.User.Email</span>
+                            <span class="name">@this.User.Identity.Name</span>
                             @if (this.User.IsInRole("Admin"))
                             {
                                 <span class="role">Admin</span>
@@ -325,6 +309,7 @@
 
                         </div>
 
+
                         <i class="fa custom-caret"></i>
                     </a>
 
@@ -332,7 +317,7 @@
                         <ul class="list-unstyled">
                             <li class="divider"></li>
                             <li>
-                                <a role="menuitem" tabindex="-1" asp-action="EditUser" asp-controller="Accounts" asp-route-id="@Model.User.Id"><i class="fa fa-user"></i> My Profile</a>
+                                <a role="menuitem" tabindex="-1" asp-action="EditUser" asp-controller="Accounts"><i class="fa fa-user"></i> My Profile</a>
                             </li>
                             <li>
                                 <a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Lock Screen</a>
@@ -366,97 +351,32 @@
                         <nav id="menu" class="nav-main" role="navigation">
                             <ul class="nav nav-main">
                                 <li>
-                                    <a href="index.html">
+                                    <a asp-action="Main" asp-controller="Home">
                                         <i class="fa fa-home" aria-hidden="true"></i>
                                         <span>Dashboard</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="mailbox-folder.html">
-                                        <span class="pull-right label label-primary">182</span>
-                                        <i class="fa fa-envelope" aria-hidden="true"></i>
-                                        <span>Mailbox</span>
+                                    <a asp-action="Index" asp-controller="Vehicles">
+                                        <span class="pull-right label label-primary"></span>
+                                        <i class="fa fa-car" aria-hidden="true"></i>
+                                        <span>Vehicles</span>
                                     </a>
                                 </li>
-                                <li class="nav-parent nav-expanded nav-active">
+                                <li class="nav-parent">
                                     <a>
-                                        <i class="fa fa-copy" aria-hidden="true"></i>
-                                        <span>Pages</span>
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        <span>Schedules</span>
                                     </a>
                                     <ul class="nav nav-children">
                                         <li>
-                                            <a href="pages-signup.html">
-                                                Sign Up
+                                            <a asp-action="Index" asp-controller="ScheduleDetails">
+                                                My Schedules
                                             </a>
                                         </li>
                                         <li>
                                             <a href="pages-signin.html">
-                                                Sign In
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="pages-recover-password.html">
-                                                Recover Password
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="pages-lock-screen.html">
-                                                Locked Screen
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="pages-user-profile.html">
-                                                User Profile
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="pages-session-timeout.html">
-                                                Session Timeout
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="pages-calendar.html">
-                                                Calendar
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="pages-timeline.html">
-                                                Timeline
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="pages-media-gallery.html">
-                                                Media Gallery
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="pages-invoice.html">
-                                                Invoice
-                                            </a>
-                                        </li>
-                                        <li class="nav-active">
-                                            <a href="pages-blank.html">
-                                                Blank Page
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="pages-404.html">
-                                                404
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="pages-500.html">
-                                                500
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="pages-log-viewer.html">
-                                                Log Viewer
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="pages-search-results.html">
-                                                Search Results
+                                                Make Schedule
                                             </a>
                                         </li>
                                     </ul>
@@ -825,6 +745,7 @@
                 </header>
 
                 <!-- start: page -->
+
                 @RenderBody()
                 <!-- end: page -->
             </section>
@@ -904,18 +825,14 @@
 
 
     <environment include="Development">
+
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
 
 
 
 
-
-
-        <script src="~/assets/vendor/jquery/jquery.js"></script>
         <script src="~/assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
-        <script src="~/assets/vendor/bootstrap/js/bootstrap.js"></script>
         <script src="~/assets/vendor/nanoscroller/nanoscroller.js"></script>
         <script src="~/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
         <script src="~/assets/vendor/magnific-popup/magnific-popup.js"></script>
@@ -967,14 +884,13 @@
 
     </environment>
     <environment exclude="Development">
+
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
                 asp-fallback-test="window.jQuery"
                 crossorigin="anonymous"
                 integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
         </script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
                 crossorigin="anonymous"
                 integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
@@ -982,9 +898,9 @@
         <script src="~/js/site.min.js" asp-append-version="true"></script>
 
 
-        <script src="~/assets/vendor/jquery/jquery.js"></script>
+        @*<script src="~/assets/vendor/jquery/jquery.js"></script>*@
         <script src="~/assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
-        <script src="~/assets/vendor/bootstrap/js/bootstrap.js"></script>
+        @*<script src="~/assets/vendor/bootstrap/js/bootstrap.js"></script>*@
         <script src="~/assets/vendor/nanoscroller/nanoscroller.js"></script>
         <script src="~/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
         <script src="~/assets/vendor/magnific-popup/magnific-popup.js"></script>

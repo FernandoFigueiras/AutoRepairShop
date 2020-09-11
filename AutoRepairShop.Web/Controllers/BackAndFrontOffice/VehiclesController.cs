@@ -1,7 +1,5 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
-using AutoRepairShop.Web.Data.Repositories;
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
-using AutoRepairShop.Web.Helpers;
 using AutoRepairShop.Web.Helpers.Interfaces;
 using AutoRepairShop.Web.Models.VehicleViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -18,12 +16,15 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
         private readonly IFuelRepository _fuelRepository;
         private readonly IColorRepository _colorRepository;
         private readonly IConverterHelper _converterHelper;
+        private readonly IUserHelper _userHelper;
 
         public VehiclesController(IVehicleRepository vehicleRepository,
             IBrandRepository brandRepository,
             IFuelRepository fuelRepository,
             IColorRepository colorRepository,
-            IConverterHelper converterHelper
+            IConverterHelper converterHelper,
+            IUserHelper userHelper,
+            IMainWindowConverterHelper mainWindowConverterHelper
             )
         {
             _vehicleRepository = vehicleRepository;
@@ -31,18 +32,23 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             _fuelRepository = fuelRepository;
             _colorRepository = colorRepository;
             _converterHelper = converterHelper;
+            _userHelper = userHelper;
         }
 
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_vehicleRepository.GetVehiclesWithBrandModelFuelAndColor());
+            var user =  await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+            var vehicles = _vehicleRepository.GetUserVehicles(user.Id);
+
+            return View(vehicles);
+
         }
 
 
 
 
-        public IActionResult AddVehicle()
+        public IActionResult AddVehicle(string id)
         {
             var model = new AddVehicleViewModel
             {
@@ -62,8 +68,9 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
             if (ModelState.IsValid)
             {
-
-                var vehicle = _converterHelper.ToNewVehicle(model);
+                var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+                var vehicle = _converterHelper.ToNewVehicle(model, user);
+                
 
                 try
                 {
@@ -118,7 +125,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                             var modelId = await _brandRepository.GetModelIdAsync(model.ModelName);
                             model.ModelId = modelId;
-                            var vehicle1 = _converterHelper.ToNewVehicle(model);
+                            var vehicle1 = _converterHelper.ToNewVehicle(model, user);
 
                             try
                             {
@@ -268,7 +275,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             }
 
             var vehicle = await _vehicleRepository.GetByIdAsync(id.Value);
-            
+
 
             if (vehicle == null)
             {
@@ -289,7 +296,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             if (ModelState.IsValid)
             {
 
-                var vehicle =  _converterHelper.ToEditVehicle(model);
+                var vehicle = _converterHelper.ToEditVehicle(model);
 
 
                 try
@@ -354,7 +361,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             }
 
             var vehicle = await _vehicleRepository.GetByIdAsync(id.Value);
- 
+
             var model = await _converterHelper.ToVehicleDetailsViewModelAsync(vehicle);
 
 

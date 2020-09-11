@@ -4,10 +4,9 @@ using System.Collections.Generic;
 
 namespace AutoRepairShop.Web.Models.VehicleViewModels
 {
-    public class AddVehicleViewModel : Vehicle
+    public class AddVehicleViewModel: Vehicle
     {
 
-        
 
         public IEnumerable<SelectListItem> Brands { get; set; }
 

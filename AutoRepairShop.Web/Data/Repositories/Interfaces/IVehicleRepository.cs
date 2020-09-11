@@ -12,7 +12,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Interfaces
 
 
 
-        IQueryable GetVehiclesWithBrandModelFuelAndColor();
+        IEnumerable<Vehicle> GetUserVehicles(string userID);
 
 
 
@@ -42,6 +42,8 @@ namespace AutoRepairShop.Web.Data.Repositories.Interfaces
 
 
         Task<SelectListItem> GetComboSoloBrand(AddVehicleViewModel model);
+
+
 
     }
 

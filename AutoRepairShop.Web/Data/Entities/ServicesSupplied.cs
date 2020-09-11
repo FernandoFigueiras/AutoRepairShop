@@ -42,5 +42,10 @@ namespace AutoRepairShop.Web.Data.Entities
         public Service Service { get; set; }
 
 
+        [Display(Name ="Services Per Day")]
+        public int ServicesPerDay { get; set; }
+
+
+
     }
 }

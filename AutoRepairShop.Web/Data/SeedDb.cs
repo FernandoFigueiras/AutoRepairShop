@@ -430,10 +430,12 @@ namespace AutoRepairShop.Web.Data
 
         private void AddServicesSupllied(Dealership dealershipId, Service service)
         {
+            var randNum = new Random();
             var servicesSupplied = new ServicesSupplied
             {
                 Dealership = dealershipId,
-                Service = service
+                Service = service,
+                ServicesPerDay = randNum.Next(1, 10),
             };
 
             _context.ServicesSupplied.Add(servicesSupplied);

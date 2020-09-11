@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AutoRepairShop.Web.Data.Entities
 {
-    public class Schedule : IEntity
+    public class ActiveSchedule : IEntity
     {
 
         public int Id { get; set; }
@@ -36,10 +36,6 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
         public DateTime ScheduleDay { get; set; }
-
-
-
-        public int ScheduleHour { get; set; }
 
 
 

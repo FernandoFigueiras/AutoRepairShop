@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -119,6 +119,28 @@
     <Compile Remove="Migrations\20200904210815_SetDb.Designer.cs" />
     <Compile Remove="Migrations\20200906100025_SetDb.cs" />
     <Compile Remove="Migrations\20200906100025_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200908005655_SetDB.cs" />
+    <Compile Remove="Migrations\20200908005655_SetDB.Designer.cs" />
+    <Compile Remove="Migrations\20200908141225_SetDb.cs" />
+    <Compile Remove="Migrations\20200908141225_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200908142010_SetDb.cs" />
+    <Compile Remove="Migrations\20200908142010_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200908195633_SetDb.cs" />
+    <Compile Remove="Migrations\20200908195633_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200908201914_SetDb.cs" />
+    <Compile Remove="Migrations\20200908201914_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200911141707_SetDb.cs" />
+    <Compile Remove="Migrations\20200911141707_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200911144753_SetDB.cs" />
+    <Compile Remove="Migrations\20200911144753_SetDB.Designer.cs" />
+    <Compile Remove="Migrations\20200911150709_SetDb.cs" />
+    <Compile Remove="Migrations\20200911150709_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200911152230_SetDb.cs" />
+    <Compile Remove="Migrations\20200911152230_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200911152518_SetDb.cs" />
+    <Compile Remove="Migrations\20200911152518_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200911153937_SetDb.cs" />
+    <Compile Remove="Migrations\20200911153937_SetDb.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -918,6 +940,39 @@
     <None Include="wwwroot\js\jquery.prettyPhoto.js" />
     <None Include="wwwroot\js\plugins.js" />
     <None Include="wwwroot\js\respond.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-theme.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-theme.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\fonts\glyphicons-halflings-regular.svg" />
+    <None Include="wwwroot\lib\bootstrap\dist\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\npm.js" />
+    <None Include="wwwroot\lib\bootstrap\LICENSE" />
+    <None Include="wwwroot\lib\font-awesome\js\all.js" />
+    <None Include="wwwroot\lib\font-awesome\js\all.min.js" />
+    <None Include="wwwroot\lib\font-awesome\js\brands.js" />
+    <None Include="wwwroot\lib\font-awesome\js\brands.min.js" />
+    <None Include="wwwroot\lib\font-awesome\js\conflict-detection.js" />
+    <None Include="wwwroot\lib\font-awesome\js\conflict-detection.min.js" />
+    <None Include="wwwroot\lib\font-awesome\js\fontawesome.js" />
+    <None Include="wwwroot\lib\font-awesome\js\fontawesome.min.js" />
+    <None Include="wwwroot\lib\font-awesome\js\regular.js" />
+    <None Include="wwwroot\lib\font-awesome\js\regular.min.js" />
+    <None Include="wwwroot\lib\font-awesome\js\solid.js" />
+    <None Include="wwwroot\lib\font-awesome\js\solid.min.js" />
+    <None Include="wwwroot\lib\font-awesome\js\v4-shims.js" />
+    <None Include="wwwroot\lib\font-awesome\js\v4-shims.min.js" />
+    <None Include="wwwroot\lib\font-awesome\sprites\brands.svg" />
+    <None Include="wwwroot\lib\font-awesome\sprites\regular.svg" />
+    <None Include="wwwroot\lib\font-awesome\sprites\solid.svg" />
+    <None Include="wwwroot\lib\font-awesome\webfonts\fa-brands-400.svg" />
+    <None Include="wwwroot\lib\font-awesome\webfonts\fa-brands-400.woff2" />
+    <None Include="wwwroot\lib\font-awesome\webfonts\fa-regular-400.svg" />
+    <None Include="wwwroot\lib\font-awesome\webfonts\fa-regular-400.woff2" />
+    <None Include="wwwroot\lib\font-awesome\webfonts\fa-solid-900.svg" />
+    <None Include="wwwroot\lib\font-awesome\webfonts\fa-solid-900.woff2" />
     <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
     <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
     <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.js" />
@@ -925,6 +980,9 @@
     <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
     <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.min.js" />
     <None Include="wwwroot\lib\jquery-validation\LICENSE.md" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
   </ItemGroup>
 
 </Project>

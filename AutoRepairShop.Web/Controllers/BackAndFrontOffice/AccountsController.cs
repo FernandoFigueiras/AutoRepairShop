@@ -28,6 +28,8 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
         private readonly IZipCodeRepository _zipCodeRepository;
         private readonly IImageHelper _imageHelper;
         private readonly ICityRepository _cityRepository;
+        private readonly IMainWindowConverterHelper _mainWindowConverterHelper;
+        private readonly IVehicleRepository _vehicleRepository;
 
         public AccountsController(IUserHelper userHelper,
             IConverterHelper converterHelper,
@@ -35,7 +37,9 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             IDataInputHelper dataInputHelper,
             IZipCodeRepository zipCodeRepository,
             IImageHelper imageHelper,
-            ICityRepository cityRepository)
+            ICityRepository cityRepository,
+            IMainWindowConverterHelper mainWindowConverterHelper,
+            IVehicleRepository vehicleRepository)
         {
             _userHelper = userHelper;
             _converterHelper = converterHelper;
@@ -44,16 +48,33 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             _zipCodeRepository = zipCodeRepository;
             _imageHelper = imageHelper;
             _cityRepository = cityRepository;
+            _mainWindowConverterHelper = mainWindowConverterHelper;
+            _vehicleRepository = vehicleRepository;
         }
 
 
 
 
-        public IActionResult Login()
+        public async Task<IActionResult> Login()
         {
             if (this.User.Identity.IsAuthenticated)
             {
-                return this.RedirectToAction("Main", "Home");
+                var userName = this.User.Identity.Name;
+
+                var user = await _userHelper.GetUserByEmailAsync(userName);
+
+                if (user.IsActive == true)
+                {
+
+                    return this.RedirectToAction("Main", "Home");
+
+                }
+                else
+                {
+                    TempData["UserId"] = user.Id;
+                    return this.RedirectToAction("UpdateUser", new { id = user.Id});
+                }
+                
             }
 
             return this.View();
@@ -79,7 +100,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                     if (user.IsActive == false)
                     {
                         TempData["UserId"] = user.Id;
-                        return this.RedirectToAction("UpdateUser", "Accounts");
+                        return this.RedirectToAction("EditUser", new { id = user.Id});
                     }
                     
 
@@ -174,7 +195,8 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                       $"plase click in this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
 
 
-                    this.ViewBag.Message = "The instructions to complete the registration has been sent to your email";
+                    this.ViewBag.Message = "The instructions for completing your registration have been sent to your email";
+          
 
 
                     return View();
@@ -269,6 +291,9 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
             var model = _converterHelper.ToUpdateDataViewModel(user, zipCode);
 
+            
+
+
             return View(model);
             
         }
@@ -311,7 +336,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                     var zipCodeIdNew = await _zipCodeRepository.GetZipCodeAsync(model.ZipCode4, model.ZipCode3);
 
-                    var updateUserZipNull = _converterHelper.ToUserFromUpdate(model, user, zipCodeIdNew.Id, pathZipNull);
+                    var updateUserZipNull = _converterHelper.ToUserFromUpdate(model,user,  zipCodeIdNew.Id, pathZipNull);
 
 
                     if (updateUserZipNull == null)
@@ -320,7 +345,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                         return View(model);
                     }
 
-                    updateUserZipNull.IsActive = true;
+
                     var resultZipNull = await _userHelper.UpdateUserAsync(updateUserZipNull);
 
                     if (resultZipNull.Succeeded)
@@ -340,7 +365,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                 }
 
 
-                var updateUser = _converterHelper.ToUserFromUpdate(model, user, zipCodeId.Id, path);
+                var updateUser = _converterHelper.ToUserFromUpdate(model,user, zipCodeId.Id, path);
 
 
 
@@ -350,7 +375,6 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                     return View(model);
                 }
 
-                updateUser.IsActive = true;
                 var result = await _userHelper.UpdateUserAsync(updateUser);
 
                 if (result.Succeeded)
@@ -387,7 +411,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                 if (user == null)
                 {
 
-                    ViewBag.Message = $"There is no user registered with the email {model.Email}, register, or chose another";
+                    ViewBag.Message = $"There is no user registered with the email {model.Email}, please try again";
                     return View();
                 }
 
@@ -464,7 +488,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                 if (result.Succeeded)
                 {
-                    ModelState.AddModelError(string.Empty, "Your password has been changed, please do login");
+                    ModelState.AddModelError(string.Empty, "Your password has been changed, open app and perform login");
                     return View();
                 }
 
@@ -473,16 +497,49 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             return View(model);
         }
 
-
-        public async Task<IActionResult> EditUser(string id)
+        [HttpPost]
+        public async Task<IActionResult> ResetPasswordFromEditUser(UpdateUserDataViewModel model)
         {
-            var user = await _userHelper.GetUserByIdAsync(id);
+            if (ModelState.IsValid)
+            {
+                var user = await _converterHelper.ToUserFromEditUserResetPassword(model);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                string newPassword = model.NewPassword;
+
+                var result = await _userHelper.ChangePasswordAsync(user, model.OldPassword, newPassword);
+
+                if (result.Succeeded)
+                {
+                    //TODO return modal
+                    //ModelState.AddModelError(string.Empty, "Your password has been changed, open app and perform login");
+                    return Redirect($"EditUser/{user.Id}");
+                }
+
+            }
+            return RedirectToAction("EditUser", new { id = model.User.Id });
+
+        }
+
+
+
+        public async Task<IActionResult> EditUser()
+        {
+            
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
 
             if (user != null)
             {
+                var vehicles = _vehicleRepository.GetUserVehicles(user.Id);
                 var zipCode = await _zipCodeRepository.GetByIdAsync(user.ZipCodeId);
                 var model = _converterHelper.ToUpdateDataViewModel(user, zipCode);
-
+                var userPass = _converterHelper.ToResetPasswordViewModel(user);
+                model.User = user;
+                model.Vehicles = vehicles;
                 return View(model);
             }
             ViewData["Name"] = "Edit User";
@@ -512,8 +569,8 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                 }
 
 
-                var userUpdated = _converterHelper.ToUserFromUpdate(model, user, zipCodeId.Id, path);
-
+                var userUpdated = _converterHelper.ToUserFromUpdate(model,user, zipCodeId.Id, path);
+                
 
                 var result = await _userHelper.UpdateUserAsync(userUpdated);
 
@@ -523,7 +580,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                     return View(model);
                 }
 
-                ViewBag.Message = "Your profile has been updated";
+                ViewBag.Message = "Done";
                 return View(model);
 
             }
@@ -611,6 +668,36 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             }
 
             return null;
+        }
+
+
+        public async Task<IActionResult> ChangePicture(UpdateUserDataViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userHelper.GetUserByIdAsync(model.User.Id);
+
+                if (user != null)
+                {
+                    if (user.ImageUrl != string.Empty)
+                    {
+                        _imageHelper.RemovePictureAsync(user.ImageUrl, "users");
+                    }
+
+                    var pic = await _imageHelper.UploadImageAsync(model.ImageFile, "Users");
+
+                    user.ImageUrl = pic;
+                    await _userHelper.UpdateUserAsync(user);
+
+                    return Redirect($"EditUser/{user.Id}");
+
+                }
+               
+            }
+
+            
+
+            return Redirect($"EditUser/{model.User.Id}");
         }
     }
 }

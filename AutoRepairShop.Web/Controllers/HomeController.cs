@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using AutoRepairShop.Web.Helpers.Interfaces;
 using AutoRepairShop.Web.Models;
-using AutoRepairShop.Web.Helpers.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace AutoRepairShop.Web.Controllers
 {
@@ -27,9 +24,6 @@ namespace AutoRepairShop.Web.Controllers
             if (this.User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Main", "Home");
-                //return Redirect("~/Home/Main");
-
-
             }
             return View();
         }
@@ -41,13 +35,18 @@ namespace AutoRepairShop.Web.Controllers
 
             var user = await _userHelper.GetUserByEmailAsync(userName);
 
-            if (user == null)
+            if (user == null && !this.User.Identity.IsAuthenticated)
             {
                 return View();
             }
-            var model = _mainWindowConverterHelper.ToMainWindowViewModel(user);
+            else if (user == null && this.User.Identity.IsAuthenticated)
+            {
+                await _userHelper.LogOutAsync();
+                return RedirectToAction("Index");
+            }
 
-            return View(model);
+
+            return View();
         }
 
         public IActionResult About()
@@ -75,6 +74,6 @@ namespace AutoRepairShop.Web.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-     
+
     }
 }

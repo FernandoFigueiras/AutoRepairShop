@@ -48,7 +48,6 @@ namespace AutoRepairShop.Web
                 config.Password.RequireUppercase = false;
                 config.Password.RequireNonAlphanumeric = false;
                 config.Password.RequiredLength = 6;
-
             })
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<DataContext>();
@@ -79,7 +78,7 @@ namespace AutoRepairShop.Web
             services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddScoped<ICityRepository, CityRepository>();
             services.AddScoped<IZipCodeRepository, ZipCodeRepository>();
-            services.AddScoped<IScheduleRepository, ScheduleRepository>();
+            services.AddScoped<IActiveScheduleRepository, ActiveScheduleRepository>();
             services.AddScoped<IServiceRepository, ServiceRepository>();
             services.AddScoped<IDealershipRepository, DealershipRepository>();
             services.AddScoped<IServicesSuppliedRepository, ServicesSuppliedRepository>();

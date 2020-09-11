@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AutoRepairShop.Web.Migrations
 {
-    public partial class SetDB : Migration
+    public partial class SetDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -178,7 +178,7 @@ namespace AutoRepairShop.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Schedules",
+                name: "ActiveSchedules",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -188,15 +188,14 @@ namespace AutoRepairShop.Web.Migrations
                     DeactivationDate = table.Column<DateTime>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false),
                     ScheduleDay = table.Column<DateTime>(nullable: false),
-                    ScheduleHour = table.Column<int>(nullable: false),
                     Remarks = table.Column<string>(nullable: true),
                     ServicesId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Schedules", x => x.Id);
+                    table.PrimaryKey("PK_ActiveSchedules", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Schedules_Services_ServicesId",
+                        name: "FK_ActiveSchedules_Services_ServicesId",
                         column: x => x.ServicesId,
                         principalTable: "Services",
                         principalColumn: "Id",
@@ -465,7 +464,8 @@ namespace AutoRepairShop.Web.Migrations
                     DeactivationDate = table.Column<DateTime>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false),
                     DealershipId = table.Column<int>(nullable: true),
-                    ServiceId = table.Column<int>(nullable: true)
+                    ServiceId = table.Column<int>(nullable: true),
+                    ServicesPerDay = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -491,15 +491,22 @@ namespace AutoRepairShop.Web.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     VehicleId = table.Column<int>(nullable: true),
-                    ScheduleId = table.Column<int>(nullable: true)
+                    ActiveScheduleId = table.Column<int>(nullable: true),
+                    DealershipId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ScheduleDetails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ScheduleDetails_Schedules_ScheduleId",
-                        column: x => x.ScheduleId,
-                        principalTable: "Schedules",
+                        name: "FK_ScheduleDetails_ActiveSchedules_ActiveScheduleId",
+                        column: x => x.ActiveScheduleId,
+                        principalTable: "ActiveSchedules",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ScheduleDetails_Dealerships_DealershipId",
+                        column: x => x.DealershipId,
+                        principalTable: "Dealerships",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -509,6 +516,11 @@ namespace AutoRepairShop.Web.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ActiveSchedules_ServicesId",
+                table: "ActiveSchedules",
+                column: "ServicesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -605,19 +617,19 @@ namespace AutoRepairShop.Web.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ScheduleDetails_ScheduleId",
+                name: "IX_ScheduleDetails_ActiveScheduleId",
                 table: "ScheduleDetails",
-                column: "ScheduleId");
+                column: "ActiveScheduleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ScheduleDetails_DealershipId",
+                table: "ScheduleDetails",
+                column: "DealershipId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ScheduleDetails_VehicleId",
                 table: "ScheduleDetails",
                 column: "VehicleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Schedules_ServicesId",
-                table: "Schedules",
-                column: "ServicesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ServicesSupplied_DealershipId",
@@ -688,7 +700,7 @@ namespace AutoRepairShop.Web.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Schedules");
+                name: "ActiveSchedules");
 
             migrationBuilder.DropTable(
                 name: "Vehicles");

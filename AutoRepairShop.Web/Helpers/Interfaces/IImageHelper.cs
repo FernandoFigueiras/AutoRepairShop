@@ -11,6 +11,7 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
 
         Task<string> UploadImageAsync(IFormFile imageFile, string folder);
 
+        void RemovePictureAsync(string imagePath, string path);
 
     }
 }

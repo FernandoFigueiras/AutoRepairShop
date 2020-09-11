@@ -1,5 +1,5 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
-using AutoRepairShop.Web.Models.MainWindow.MainLayout;
+using AutoRepairShop.Web.Models.MainWindow;
 using System;
 using System.Collections.Generic;
 using System.Linq;

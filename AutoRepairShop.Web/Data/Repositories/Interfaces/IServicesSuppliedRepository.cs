@@ -12,5 +12,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Interfaces
         IEnumerable<ServicesSupplied> GetServices();
 
         Task<ServicesSupplied> GetDealership(int id);
+
+        Task<IEnumerable<ServicesSupplied>> GetDealershipsByServicesasync(int serviceId);
     }
 }

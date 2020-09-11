@@ -21,22 +21,16 @@ namespace AutoRepairShop.Web.Data.Entities
         public DateTime? UpdateDate { get; set; }
 
 
-        [Required]
-        [Display(Name = "First Name")]
-        [MaxLength(50, ErrorMessage = "The field {0} only can contain {1} characters long")]
+
         public string FirstName { get; set; }
 
 
 
-        [Required]
-        [Display(Name = "Last Name")]
-        [MaxLength(50, ErrorMessage = "The field {0} only can contain {1} characters long")]
+   
         public string LastName { get; set; }
 
 
-
-        [Required]
-        [MaxLength(150, ErrorMessage = "The field {0} only can contain {1} characters long")]
+   
         public string Address { get; set; }
 
 

@@ -4,8 +4,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AutoRepairShop.Web.Models.Account
 {
-    public class ResetPasswordViewModel : User
+    public class ResetPasswordViewModel
     {
+
+        public User User { get; set; }
+
+
+
 
         [Required]
         [PasswordPropertyText]

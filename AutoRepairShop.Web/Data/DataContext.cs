@@ -36,7 +36,8 @@ namespace AutoRepairShop.Web.Data
         public DbSet<ZipCode> ZipCodes { get; set; }
 
 
-        public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<ActiveSchedule> ActiveSchedules { get; set; }
+
 
 
         public DbSet<ScheduleDetail> ScheduleDetails { get; set; }

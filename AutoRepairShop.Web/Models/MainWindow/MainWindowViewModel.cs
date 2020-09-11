@@ -5,14 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AutoRepairShop.Web.Models.MainWindow.MainLayout
+namespace AutoRepairShop.Web.Models.MainWindow
 {
     public class MainWindowViewModel
     {
 
-        public User User { get; set; }
-
-
+        public string UserImageUrl { get; set; }
 
 
     }

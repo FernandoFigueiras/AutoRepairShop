@@ -1,6 +1,8 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Models.Account;
+using AutoRepairShop.Web.Models.ActiveScheduleViewModel;
 using AutoRepairShop.Web.Models.DShip;
+using AutoRepairShop.Web.Models.MainWindow;
 using AutoRepairShop.Web.Models.VehicleViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,7 +13,7 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
     {
 
 
-        Vehicle ToNewVehicle(AddVehicleViewModel model);
+        Vehicle ToNewVehicle(AddVehicleViewModel model, User user);
 
 
         Vehicle ToEditVehicle(EditVehicleViewModel model);
@@ -33,7 +35,7 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
         UpdateUserDataViewModel ToUpdateDataViewModel(User user, ZipCode zipCode);
 
 
-        User ToUserFromUpdate(UpdateUserDataViewModel model, User user, int zipCodeId, string path);
+        User ToUserFromUpdate(UpdateUserDataViewModel model,User user, int zipCodeId, string path);
 
 
 
@@ -43,6 +45,8 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
 
 
         Task<User> ToUserFromResetPasswordViewModel(ResetPasswordViewModel model);
+
+        Task<User> ToUserFromEditUserResetPassword(UpdateUserDataViewModel model);
 
 
 
@@ -66,8 +70,16 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
 
         ServicesSupplied ToServicesSupplied(Dealership dealership, Service service, int? serviceSuppliedId, bool isActive);
 
+
         ServicesSupplied ToNewServicesSupplied(Dealership dealership, Service service);
 
+
         ZipCode ToNewZipCode(string zipcode4, string zipcode3, int cityId);
+
+
+        MainWindowViewModel ToMainWindowViewModelFromVehicles(User user);
+
+
+  
     }
 }
