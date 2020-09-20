@@ -83,7 +83,8 @@ namespace AutoRepairShop.Web
             services.AddScoped<IDealershipRepository, DealershipRepository>();
             services.AddScoped<IServicesSuppliedRepository, ServicesSuppliedRepository>();
             services.AddScoped<IImageHelper, ImageHelper>();
-
+            services.AddScoped<IComboHelpers, ComboHelpers>();
+            services.AddScoped<IScheduleDetailRepository, ScheduleDetailRepository>();
 
 
 
@@ -132,6 +133,7 @@ namespace AutoRepairShop.Web
             app.UseAuthentication();
             app.UseCookiePolicy();
 
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MzE2NjU5QDMxMzgyZTMyMmUzMGNTM0tiVzhha2hYR3NoL3I5UW1qelNoVWtubUo3T0wrbklkd2QxS29rNTQ9");
 
             
 

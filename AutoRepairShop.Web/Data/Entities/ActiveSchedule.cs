@@ -34,7 +34,6 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
-
         public DateTime ScheduleDay { get; set; }
 
 
@@ -44,6 +43,9 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
         public Service Services { get; set; }
+
+
+        public string Mileage { get; set; }
 
 
 

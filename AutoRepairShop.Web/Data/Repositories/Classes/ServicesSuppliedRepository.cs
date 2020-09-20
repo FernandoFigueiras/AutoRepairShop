@@ -18,7 +18,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
             _context = context;
         }
 
-        public IEnumerable<ServicesSupplied> GetWithServices(int id)
+        public IEnumerable<ServicesSupplied> GetWithServicesByDealershipId(int id)
         {
             return _context.ServicesSupplied.Include(s => s.Dealership).Include(s => s.Service).Where(d => d.Dealership.Id == id).ToList();
         }
@@ -30,6 +30,12 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
         } 
 
 
+        public async Task<ServicesSupplied> GetService(int serviceSuppliedId)
+        {
+            return await _context.ServicesSupplied.Include(s => s.Service).Where(s => s.Id == serviceSuppliedId).FirstOrDefaultAsync();
+        }
+
+
         public async Task<ServicesSupplied> GetDealership(int id)
         {
             return await _context.ServicesSupplied.FirstOrDefaultAsync(s => s.Dealership.Id==id);
@@ -39,11 +45,17 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
 
         public async Task<IEnumerable<ServicesSupplied>> GetDealershipsByServicesasync(int serviceId)
         {
+
             return await _context.ServicesSupplied
                 .Include(s => s.Dealership)
                 .Where(s => s.Service.Id == serviceId).ToListAsync();
         }
 
 
+        public async Task<ServicesSupplied> GetDealershipServicesPerDayAsync(int servicesSuppliedId, int dealershipId)
+        {
+            return await _context.ServicesSupplied
+                .FirstOrDefaultAsync(s => s.Id == servicesSuppliedId && s.Dealership.Id == dealershipId);
+        }
     }
 }

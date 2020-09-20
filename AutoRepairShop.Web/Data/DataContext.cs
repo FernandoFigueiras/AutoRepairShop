@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using Org.BouncyCastle.Math.EC.Rfc7748;
 using System.Linq;
 
 namespace AutoRepairShop.Web.Data
@@ -61,6 +62,8 @@ namespace AutoRepairShop.Web.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+
             var cascadeFKs = modelBuilder.Model
              .GetEntityTypes()
              .SelectMany(t => t.GetForeignKeys())
@@ -70,10 +73,6 @@ namespace AutoRepairShop.Web.Data
             foreach (var fk in cascadeFKs)
             {
                 fk.DeleteBehavior = DeleteBehavior.Restrict;
-                //if (fk.DependentToPrincipal.DeclaringEntityType.GetType().FullName == "Vehicle")
-                //{
-                //    fk.DeleteBehavior = DeleteBehavior.Cascade;
-                //}
 
             }
 
@@ -104,6 +103,8 @@ namespace AutoRepairShop.Web.Data
             modelBuilder.Entity<Country>()
               .HasIndex(c => c.CountryName)
               .IsUnique();
+
+
 
 
             //modelBuilder.Entity<District>()

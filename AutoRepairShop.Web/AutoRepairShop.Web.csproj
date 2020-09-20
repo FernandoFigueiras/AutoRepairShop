@@ -141,6 +141,14 @@
     <Compile Remove="Migrations\20200911152518_SetDb.Designer.cs" />
     <Compile Remove="Migrations\20200911153937_SetDb.cs" />
     <Compile Remove="Migrations\20200911153937_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200911170737_SetDb.cs" />
+    <Compile Remove="Migrations\20200911170737_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200916163507_SetDb.cs" />
+    <Compile Remove="Migrations\20200916163507_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200916181505_SetDb.cs" />
+    <Compile Remove="Migrations\20200916181505_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200918102847_SetDb.cs" />
+    <Compile Remove="Migrations\20200918102847_SetDb.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -159,9 +167,11 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.10" />
+    <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="18.2.0.57" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\StoreImages\Users\" />
   </ItemGroup>
 

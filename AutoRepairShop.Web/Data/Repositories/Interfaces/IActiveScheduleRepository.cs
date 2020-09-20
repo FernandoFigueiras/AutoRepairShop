@@ -8,6 +8,9 @@ namespace AutoRepairShop.Web.Data.Repositories.Interfaces
     public interface IActiveScheduleRepository : IGenericRepository<ActiveSchedule>
     {
 
-        IQueryable<ScheduleDetail> GetScheduleDetail(string userId);
+
+        Task<IEnumerable<ServicesSupplied>> GetDealershipsWithServicesAsync(int serviceId);
+
+        Task<List<ActiveSchedule>> GetDaysByServiceId(int serviceId);
     }
 }

@@ -48,7 +48,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
 
 
-        public IActionResult AddVehicle(string id)
+        public IActionResult AddVehicle()
         {
             var model = new AddVehicleViewModel
             {
@@ -250,7 +250,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                     if (ModelState.IsValid)
                     {
-                        ViewBag.Error = $"Could not delete the vehicle with the licence plate {vehicle.LicencePlate}, please try again later";
+                        ViewBag.Error = $"Unable to delete the vehicle with the licence plate {vehicle.LicencePlate}, first cancel all  associated schedulles";
                     }
 
                 }

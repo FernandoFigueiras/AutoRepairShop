@@ -30,6 +30,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
         private readonly ICityRepository _cityRepository;
         private readonly IMainWindowConverterHelper _mainWindowConverterHelper;
         private readonly IVehicleRepository _vehicleRepository;
+        private readonly IComboHelpers _comboHelpers;
 
         public AccountsController(IUserHelper userHelper,
             IConverterHelper converterHelper,
@@ -39,7 +40,8 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             IImageHelper imageHelper,
             ICityRepository cityRepository,
             IMainWindowConverterHelper mainWindowConverterHelper,
-            IVehicleRepository vehicleRepository)
+            IVehicleRepository vehicleRepository,
+            IComboHelpers comboHelpers)
         {
             _userHelper = userHelper;
             _converterHelper = converterHelper;
@@ -50,6 +52,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             _cityRepository = cityRepository;
             _mainWindowConverterHelper = mainWindowConverterHelper;
             _vehicleRepository = vehicleRepository;
+            _comboHelpers = comboHelpers;
         }
 
 
@@ -539,7 +542,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                 var model = _converterHelper.ToUpdateDataViewModel(user, zipCode);
                 var userPass = _converterHelper.ToResetPasswordViewModel(user);
                 model.User = user;
-                model.Vehicles = vehicles;
+                model.Vehicles = vehicles.ToList();
                 return View(model);
             }
             ViewData["Name"] = "Edit User";

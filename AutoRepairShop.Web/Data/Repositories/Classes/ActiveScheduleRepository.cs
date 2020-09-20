@@ -19,20 +19,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
 
 
 
-        public IQueryable<ScheduleDetail> GetScheduleDetail (string userId)
-        {
-            var detail = _context.ScheduleDetails
-                .Include(d => d.ActiveSchedule)
-                .Include(d => d.Dealership)
-                .Include(d => d.Vehicle)
-                .Where(d => d.Vehicle.User.Id == userId);
-
-
-            return detail;
-        }
-
-
-
+       
         public async Task<IEnumerable<ServicesSupplied>> GetDealershipsWithServicesAsync(int serviceId)
         {
             var services = await _context.ServicesSupplied
@@ -42,6 +29,16 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
 
             return services;
         }
+
+
+        public async Task<List<ActiveSchedule>> GetDaysByServiceId(int serviceId)
+        {
+            var list = await _context.ActiveSchedules.Include(s => s.Services).Where(s => s.Services.Id == serviceId).OrderBy(s => s.ScheduleDay).ToListAsync();
+
+            return list;
+        }
+
+
 
     }
 }

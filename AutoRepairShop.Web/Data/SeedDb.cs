@@ -423,10 +423,28 @@ namespace AutoRepairShop.Web.Data
 
                     await _context.SaveChangesAsync();
                 }
+
+                //if (!_context.ActiveSchedules.Any())
+                //{
+                //    AddActiveSchedule();
+                //}
             }
 
 
         }
+
+        //private void AddActiveSchedule()
+        //{
+            
+
+        //    var activeSchedule = new ActiveSchedule
+        //    {
+        //        IsActive = true,
+        //        ScheduleDay = DateTime.Now,
+        //        Remarks = "Teste",
+        //        Services = _context.Services.FirstOrDefault(),
+        //    };
+        //}
 
         private void AddServicesSupllied(Dealership dealershipId, Service service)
         {

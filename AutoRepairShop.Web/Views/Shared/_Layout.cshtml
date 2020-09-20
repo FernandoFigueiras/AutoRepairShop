@@ -6,6 +6,12 @@
     <title>@ViewData["Title"] - ShopAmazing.Web</title>
 
     <environment include="Development">
+        <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/material.css" />
+
+        <!-- Syncfusion Essential JS 2 Scripts -->
+        <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js"></script>
+
+
         <!--INDEX-->
         <!-- Mobile Metas -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -26,7 +32,7 @@
         <link href="~/assets/vendor/bootstrap-multiselect/bootstrap-multiselect.css" rel="stylesheet" />
         <link href="~/assets/vendor/morris/morris.css" rel="stylesheet" />
         <link rel="stylesheet" href="~/assets/vendor/pnotify/pnotify.custom.css" />
-
+        <<link rel="stylesheet" href="~/assets/vendor/pnotify/pnotify.custom.css" />
 
         <!-- Theme CSS -->
         <link href="~/assets/stylesheets/theme.css" rel="stylesheet" />
@@ -47,12 +53,18 @@
 
         <!--INDEX-->
 
+        <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/material.css" />
 
+        <!-- Syncfusion Essential JS 2 Scripts -->
+        <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js"></script>
 
     </environment>
     <environment exclude="Development">
 
+        <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/material.css" />
 
+        <!-- Syncfusion Essential JS 2 Scripts -->
+        <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js"></script>
 
 
 
@@ -375,7 +387,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="pages-signin.html">
+                                            <a asp-action="BeginNew" asp-controller="ScheduleDetails">
                                                 Make Schedule
                                             </a>
                                         </li>
@@ -826,7 +838,10 @@
 
     <environment include="Development">
 
-        <script src="~/lib/jquery/dist/jquery.js"></script>
+
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
 
 
@@ -855,15 +870,7 @@
         <script src="~/assets/vendor/gauge/gauge.js"></script>
         <script src="~/assets/vendor/snap-svg/snap.svg.js"></script>
         <script src="~/assets/vendor/liquid-meter/liquid.meter.js"></script>
-        <script src="~/assets/vendor/jqvmap/jquery.vmap.js"></script>
-        <script src="~/assets/vendor/jqvmap/data/jquery.vmap.sampledata.js"></script>
-        <script src="~/assets/vendor/jqvmap/maps/jquery.vmap.world.js"></script>
-        <script src="~/assets/vendor/jqvmap/maps/continents/jquery.vmap.africa.js"></script>
-        <script src="~/assets/vendor/jqvmap/maps/continents/jquery.vmap.asia.js"></script>
-        <script src="~/assets/vendor/jqvmap/maps/continents/jquery.vmap.australia.js"></script>
-        <script src="~/assets/vendor/jqvmap/maps/continents/jquery.vmap.europe.js"></script>
-        <script src="~/assets/vendor/jqvmap/maps/continents/jquery.vmap.north-america.js"></script>
-        <script src="~/assets/vendor/jqvmap/maps/continents/jquery.vmap.south-america.js"></script>
+
 
         <!-- Theme Base, Components and Settings -->
         <script src="~/assets/javascripts/theme.js"></script>
@@ -885,6 +892,12 @@
     </environment>
     <environment exclude="Development">
 
+
+
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+
+
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
                 asp-fallback-test="window.jQuery"
                 crossorigin="anonymous"
@@ -897,10 +910,7 @@
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
 
-
-        @*<script src="~/assets/vendor/jquery/jquery.js"></script>*@
         <script src="~/assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
-        @*<script src="~/assets/vendor/bootstrap/js/bootstrap.js"></script>*@
         <script src="~/assets/vendor/nanoscroller/nanoscroller.js"></script>
         <script src="~/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
         <script src="~/assets/vendor/magnific-popup/magnific-popup.js"></script>
@@ -923,15 +933,7 @@
         <script src="~/assets/vendor/gauge/gauge.js"></script>
         <script src="~/assets/vendor/snap-svg/snap.svg.js"></script>
         <script src="~/assets/vendor/liquid-meter/liquid.meter.js"></script>
-        <script src="~/assets/vendor/jqvmap/jquery.vmap.js"></script>
-        <script src="~/assets/vendor/jqvmap/data/jquery.vmap.sampledata.js"></script>
-        <script src="~/assets/vendor/jqvmap/maps/jquery.vmap.world.js"></script>
-        <script src="~/assets/vendor/jqvmap/maps/continents/jquery.vmap.africa.js"></script>
-        <script src="~/assets/vendor/jqvmap/maps/continents/jquery.vmap.asia.js"></script>
-        <script src="~/assets/vendor/jqvmap/maps/continents/jquery.vmap.australia.js"></script>
-        <script src="~/assets/vendor/jqvmap/maps/continents/jquery.vmap.europe.js"></script>
-        <script src="~/assets/vendor/jqvmap/maps/continents/jquery.vmap.north-america.js"></script>
-        <script src="~/assets/vendor/jqvmap/maps/continents/jquery.vmap.south-america.js"></script>
+
 
         <!-- Theme Base, Components and Settings -->
         <script src="~/assets/javascripts/theme.js"></script>
@@ -950,5 +952,9 @@
     </environment>
 
     @RenderSection("Scripts", required: false)
+
+
+
+    
 </body>
 </html>

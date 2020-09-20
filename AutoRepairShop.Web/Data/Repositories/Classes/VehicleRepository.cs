@@ -149,7 +149,10 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
         }
 
 
-
+        public async Task<Vehicle> GetVehicleByUserIdAsync(string userId)
+        {
+            return await _context.Vehicles.FirstOrDefaultAsync(v => v.User.Id == userId);
+        }
 
     }
 }

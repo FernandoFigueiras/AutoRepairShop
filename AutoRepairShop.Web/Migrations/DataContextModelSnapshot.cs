@@ -31,6 +31,8 @@ namespace AutoRepairShop.Web.Migrations
 
                     b.Property<bool>("IsActive");
 
+                    b.Property<string>("Mileage");
+
                     b.Property<string>("Remarks");
 
                     b.Property<DateTime>("ScheduleDay");
@@ -271,7 +273,15 @@ namespace AutoRepairShop.Web.Migrations
 
                     b.Property<int?>("ActiveScheduleId");
 
+                    b.Property<DateTime?>("CreationDate");
+
+                    b.Property<DateTime?>("DeactivationDate");
+
                     b.Property<int?>("DealershipId");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<DateTime?>("UpdateDate");
 
                     b.Property<int?>("VehicleId");
 

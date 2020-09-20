@@ -189,7 +189,8 @@ namespace AutoRepairShop.Web.Migrations
                     IsActive = table.Column<bool>(nullable: false),
                     ScheduleDay = table.Column<DateTime>(nullable: false),
                     Remarks = table.Column<string>(nullable: true),
-                    ServicesId = table.Column<int>(nullable: true)
+                    ServicesId = table.Column<int>(nullable: true),
+                    Mileage = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -488,6 +489,10 @@ namespace AutoRepairShop.Web.Migrations
                 name: "ScheduleDetails",
                 columns: table => new
                 {
+                    CreationDate = table.Column<DateTime>(nullable: true),
+                    UpdateDate = table.Column<DateTime>(nullable: true),
+                    DeactivationDate = table.Column<DateTime>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     VehicleId = table.Column<int>(nullable: true),

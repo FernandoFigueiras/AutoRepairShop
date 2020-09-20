@@ -7,12 +7,19 @@ namespace AutoRepairShop.Web.Data.Repositories.Interfaces
     public interface IServicesSuppliedRepository : IGenericRepository<ServicesSupplied>
     {
 
-        IEnumerable<ServicesSupplied> GetWithServices(int id);
+        IEnumerable<ServicesSupplied> GetWithServicesByDealershipId(int id);
 
         IEnumerable<ServicesSupplied> GetServices();
+
+        Task<ServicesSupplied> GetService(int serviceSuppliedId);
 
         Task<ServicesSupplied> GetDealership(int id);
 
         Task<IEnumerable<ServicesSupplied>> GetDealershipsByServicesasync(int serviceId);
+
+
+        Task<ServicesSupplied> GetDealershipServicesPerDayAsync(int servicesSuppliedId, int dealershipId);
+
+       
     }
 }

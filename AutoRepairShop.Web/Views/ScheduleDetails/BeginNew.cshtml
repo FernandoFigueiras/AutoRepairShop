@@ -1,0 +1,145 @@
+﻿@model AutoRepairShop.Web.Models.ActiveScheduleViewModel.BeginScheduleViewModel
+@{
+    ViewData["Title"] = "Create Schedule";
+}
+
+
+@if (ViewBag.ServiceDuplicated != null)
+{
+    <div style="text-align: center">
+        <span class="text-danger">@ViewBag.ServiceDuplicated</span>
+    </div>
+}
+
+
+@if (ViewBag.NoVehicles != null)
+{
+
+    <div style="text-align: center">
+        <h1 style="font-size: 90px">You have no cars on yout list</h1>
+        <span style="font-size: 20px">Add one now</span>
+        <div>
+            <input type="button" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" value="Go" onclick="location.href='@Url.Action("AddVehicle", "Vehicles")'" />
+        </div>
+    </div>
+
+}
+else
+{
+
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel">
+                <div class="panel-body">
+                    <form method="post">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" asp-for="VehicleId"></label>
+                            <div class="col-md-6">
+                                <select class="form-control" id="vehicles" asp-items="Model.Vehicles" asp-for="VehicleId">
+                                </select>
+                                <span asp-validation-for="VehicleId" class="text-danger"></span>
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" asp-for="ServicesSuppliedId"></label>
+                            <div class="col-md-6">
+                                <select class="form-control" id="services" asp-items="Model.ServicesSupplied" asp-for="ServicesSuppliedId">
+                                </select>
+                                <span asp-validation-for="ServicesSuppliedId" class="text-danger"></span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" asp-for="DealershipId"></label>
+                            <div class="col-md-6">
+                                <div class="selectChange">
+                                    <select class="form-control" id="dealerships" asp-for="DealershipId">
+                                    </select>
+                                </div>
+                                <span asp-validation-for="DealershipId" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+                        <div style="text-align: center">
+                            <div class="form-group">
+                                <button type="submit" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary">Continue</button>
+                            </div>
+                        </div>
+
+                    </form>
+
+
+                </div>
+            </section>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("services").addEventListener("change", addActivityItem, false);
+
+        });
+
+
+    </script>
+
+
+    <script type="text/javascript">
+        function addActivityItem() {
+            $("#dealerships").empty();
+                 $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetDealershipByService")',
+                    dataType: 'json',
+                    data: { serviceId: $("#services").val() },
+
+                     success: function (dealerships) {
+                         $("#dealerships").append('<option value="'
+                             + 0 + '">'
+                             + "Select a Dealership" + '</option>');
+                         $.each(dealerships, function (i, dealership) {
+
+                             $("#dealerships").append('<option value="'
+                                 + dealership.dealership.id + '">'
+                                 + dealership.dealership.dealerShipName + '</option>');
+                         });
+
+                    },
+                    error: function (ex) {
+
+                        alert('failed to retrieve information try again latter');
+                     },
+
+
+                 })
+        }
+
+    </script>
+ 
+
+
+
+}

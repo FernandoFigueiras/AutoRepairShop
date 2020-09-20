@@ -10,9 +10,11 @@ namespace AutoRepairShop.Web.Models.Account
 
         public User User { get; set; }
 
-        public IEnumerable<Vehicle> Vehicles { get; set; }
 
-        public Vehicle vehicle { get; set; }
+        public List<Vehicle> Vehicles { get; set; }
+
+
+        public Vehicle Vehicle { get; set; }
 
 
         [Required]

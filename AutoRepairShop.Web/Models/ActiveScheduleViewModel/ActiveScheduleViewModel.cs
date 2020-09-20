@@ -19,6 +19,7 @@ namespace AutoRepairShop.Web.Models.ActiveScheduleViewModel
         public DateTime Date { get; set; }
 
 
+       
 
 
         public string Dealership { get; set; }

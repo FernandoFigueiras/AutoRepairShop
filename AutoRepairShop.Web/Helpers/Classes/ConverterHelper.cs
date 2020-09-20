@@ -6,7 +6,10 @@ using AutoRepairShop.Web.Models.ActiveScheduleViewModel;
 using AutoRepairShop.Web.Models.DShip;
 using AutoRepairShop.Web.Models.MainWindow;
 using AutoRepairShop.Web.Models.VehicleViewModels;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
+using Syncfusion.EJ2.Charts;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -22,6 +25,8 @@ namespace AutoRepairShop.Web.Helpers.Classes
         private readonly IUserHelper _userHelper;
         private readonly IZipCodeRepository _zipCodeRepository;
         private readonly ICountryRepository _countryRepository;
+        private readonly IComboHelpers _comboHelpers;
+        private readonly IServiceRepository _serviceRepository;
 
         public ConverterHelper(IVehicleRepository vehicleRepository,
             IBrandRepository brandRepository,
@@ -29,7 +34,9 @@ namespace AutoRepairShop.Web.Helpers.Classes
             IColorRepository colorRepository,
             IUserHelper userHelper,
             IZipCodeRepository zipCodeRepository,
-            ICountryRepository countryRepository)
+            ICountryRepository countryRepository,
+            IComboHelpers comboHelpers,
+            IServiceRepository serviceRepository)
         {
             _vehicleRepository = vehicleRepository;
             _brandRepository = brandRepository;
@@ -38,6 +45,8 @@ namespace AutoRepairShop.Web.Helpers.Classes
             _userHelper = userHelper;
             _zipCodeRepository = zipCodeRepository;
             _countryRepository = countryRepository;
+            _comboHelpers = comboHelpers;
+            _serviceRepository = serviceRepository;
         }
 
 
@@ -394,6 +403,132 @@ namespace AutoRepairShop.Web.Helpers.Classes
         }
 
 
-        
+        public BeginScheduleViewModel ToNewScheduleViewModel(IEnumerable<Vehicle> vehicles, IEnumerable<ServicesSupplied> services)
+        {
+            return new BeginScheduleViewModel
+            {
+                Vehicles = _comboHelpers.GetVehicles(vehicles),
+                ServicesSupplied = _comboHelpers.GetServices(services),
+               
+            };
+        }
+
+
+
+        public async Task<ActiveSchedule> ToActiveSchedule(BeginScheduleViewModel model)
+        {
+            return new ActiveSchedule
+            {
+                IsActive = true,
+                CreationDate = DateTime.Now,
+                Services = await _serviceRepository.GetByIdAsync(model.ServicesSuppliedId)
+            };
+        }
+
+
+        public ScheduleDetail ToScheduleDetail(Vehicle vehicle, ActiveSchedule activeSchedule, Dealership dealership)
+        {
+            return new ScheduleDetail
+            {
+                IsActive = true,
+                CreationDate = DateTime.Now,
+                Vehicle = vehicle,
+                ActiveSchedule = activeSchedule,
+                Dealership = dealership,
+                
+                
+            };
+        }
+
+
+
+
+        public CompleteScheduleViewModel ToCompleteScheduleViewModel(BeginScheduleViewModel model, Service service)
+        {
+            return new CompleteScheduleViewModel
+            {
+                VehicleId = model.VehicleId,
+                ServicesSuppliedId = model.ServicesSuppliedId,
+                DealershipId = model.DealershipId,
+                ServiceId = service.Id
+               
+            };
+
+        }
+
+
+        public ActiveSchedule ToActiveSchedule(CompleteScheduleViewModel model, Service service)
+        {
+            return new ActiveSchedule
+            {
+                IsActive = true,
+                CreationDate = DateTime.Now,
+                ScheduleDay = model.Day,
+                Remarks = model.Remarks,
+                Services = service,
+                Mileage = model.Mileage
+            };
+        }
+
+
+        public EditScheduleViewModel ToEditScheduleViewModel(ScheduleDetail scheduleDetail, IEnumerable<ServicesSupplied> services)
+        {
+            return new EditScheduleViewModel
+            {
+                LicencePlate = scheduleDetail.Vehicle.LicencePlate,
+                Dealership = scheduleDetail.Dealership.DealerShipName,
+                ServicesSupliedId = scheduleDetail.ActiveSchedule.Services.Id,
+                Services = _comboHelpers.GetServices(services),
+                Day = scheduleDetail.ActiveSchedule.ScheduleDay,
+                Remarks = scheduleDetail.ActiveSchedule.Remarks,
+            };
+        }
+
+
+        public async Task<ActiveSchedule> ToActiveScheduleFromEditAsync(EditScheduleViewModel model)
+        {
+            return new ActiveSchedule
+            {
+                Id = model.ActiveScheduleId,
+                IsActive = true,
+                UpdateDate = DateTime.Now,
+                ScheduleDay = model.Day,
+                Services = await _serviceRepository.GetByIdAsync(model.ServicesSupliedId),
+                Remarks = model.Remarks,
+            };
+        }
+
+
+        public async Task<ScheduleDetailsViewModel> ToScheduleDetailsViewModelAsync(ScheduleDetail scheduleDetail)
+        {
+            return new ScheduleDetailsViewModel
+            {
+                ActiveScheduleId = scheduleDetail.ActiveSchedule.Id,
+                LicencePLate = scheduleDetail.Vehicle.LicencePlate,
+                Brand = await _brandRepository.GetBrandNameByIdAsync(scheduleDetail.Vehicle.BrandId),
+                Model = await _brandRepository.GetModelNameByIdAsync(scheduleDetail.Vehicle.ModelId),
+                Dealership = scheduleDetail.Dealership.DealerShipName,
+                Service = scheduleDetail.ActiveSchedule.Services.ServiceType,
+                Date = scheduleDetail.ActiveSchedule.ScheduleDay,
+                Remarks = scheduleDetail.ActiveSchedule.Remarks,
+
+            };
+        }
+
+
+
+        public DeleteScheduleViewModel ToDeleteScheduleViewModel(ScheduleDetail scheduleDetail)
+        {
+            return new DeleteScheduleViewModel
+            {
+                ActiveScheduleId = scheduleDetail.ActiveSchedule.Id,
+                LicencePLate = scheduleDetail.Vehicle.LicencePlate,
+                Dealership = scheduleDetail.Dealership.DealerShipName,
+                Service = scheduleDetail.ActiveSchedule.Services.ServiceType,
+                ScheduleDay = scheduleDetail.ActiveSchedule.ScheduleDay,
+            };
+        }
+
+
     }
 }
