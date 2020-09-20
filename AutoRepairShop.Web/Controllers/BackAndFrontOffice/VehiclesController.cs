@@ -39,6 +39,12 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
         public async Task<IActionResult> Index()
         {
             var user =  await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+
+           
+            if (user.IsActive == false)
+            {
+                return RedirectToAction("EditUser", "Accounts");
+            }
             var vehicles = _vehicleRepository.GetUserVehicles(user.Id);
 
             return View(vehicles);
@@ -48,8 +54,17 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
 
 
-        public IActionResult AddVehicle()
+        public async Task<IActionResult> AddVehicle()
         {
+
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+
+
+            if (user.IsActive == false)
+            {
+                return RedirectToAction("EditUser", "Accounts");
+            }
+
             var model = new AddVehicleViewModel
             {
                 Brands = _vehicleRepository.GetComboBrands(),
@@ -205,6 +220,15 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
         public async Task<IActionResult> DeleteVehicle(int? id)
         {
+
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+
+
+            if (user.IsActive == false)
+            {
+                return RedirectToAction("EditUser", "Accounts");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -228,7 +252,6 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
 
 
-        //TODO CHECK IF ANY schedule is set for this car
         [HttpPost]
         public async Task<IActionResult> DeleteVehicle(int id)
         {
@@ -269,6 +292,15 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
         public async Task<IActionResult> EditVehicle(int? id)
         {
+
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+
+
+            if (user.IsActive == false)
+            {
+                return RedirectToAction("EditUser", "Accounts");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -355,6 +387,15 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
         public async Task<IActionResult> DetailsVehicle(int? id)
         {
+
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+
+
+            if (user.IsActive == false)
+            {
+                return RedirectToAction("EditUser", "Accounts");
+            }
+
             if (id == null)
             {
                 return NotFound();

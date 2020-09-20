@@ -518,8 +518,6 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                 if (result.Succeeded)
                 {
-                    //TODO return modal
-                    //ModelState.AddModelError(string.Empty, "Your password has been changed, open app and perform login");
                     return Redirect($"EditUser/{user.Id}");
                 }
 
@@ -540,7 +538,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                 var vehicles = _vehicleRepository.GetUserVehicles(user.Id);
                 var zipCode = await _zipCodeRepository.GetByIdAsync(user.ZipCodeId);
                 var model = _converterHelper.ToUpdateDataViewModel(user, zipCode);
-                var userPass = _converterHelper.ToResetPasswordViewModel(user);
+                //var userPass = _converterHelper.ToResetPasswordViewModel(user);
                 model.User = user;
                 model.Vehicles = vehicles.ToList();
                 return View(model);

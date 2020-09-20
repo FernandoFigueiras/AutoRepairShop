@@ -60,7 +60,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
                 }
             }
 
-            if (count > 1)
+            if (count > 0)
             {
                 return true;
             }

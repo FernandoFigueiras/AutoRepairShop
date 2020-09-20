@@ -55,6 +55,11 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             var user = await _userHelper.GetUserByEmailAsync(userName);
 
 
+            if (user.IsActive == false)
+            {
+                return RedirectToAction("EditUser", "Accounts");
+            }
+
             var ScheduleDetail = _scheduleDetailRepository.GetSchedulesDetail(user.Id);
 
 
@@ -65,16 +70,23 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
         public async Task<IActionResult> BeginNew()
         {
-            var services = _servicesSuppliedRepository.GetServices();
+
 
             var userName = this.User.Identity.Name;
 
             var user = await _userHelper.GetUserByEmailAsync(userName);
 
+
+            if (user.IsActive == false)
+            {
+                return RedirectToAction("EditUser", "Accounts");
+            }
+
+            var services = _servicesSuppliedRepository.GetServices();
+
+
             var vehicles = _vehicleRepository.GetUserVehicles(user.Id);
            
-
-            
 
 
             var model = _converterHelper.ToNewScheduleViewModel(vehicles, services);
@@ -222,6 +234,18 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
         public async Task<IActionResult> EditSchedule(int? id)
         {
+
+
+            var userName = this.User.Identity.Name;
+
+            var user = await _userHelper.GetUserByEmailAsync(userName);
+
+
+            if (user.IsActive == false)
+            {
+                return RedirectToAction("EditUser", "Accounts");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -297,6 +321,17 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
         public async Task<IActionResult> DeleteSchedule(int? Id)
         {
+
+            var userName = this.User.Identity.Name;
+
+            var user = await _userHelper.GetUserByEmailAsync(userName);
+
+
+            if (user.IsActive == false)
+            {
+                return RedirectToAction("EditUser", "Accounts");
+            }
+
             if (Id == null)
             {
                 return NotFound();
