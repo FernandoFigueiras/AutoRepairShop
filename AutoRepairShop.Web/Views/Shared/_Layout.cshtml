@@ -417,6 +417,24 @@
                                 {
                                     <li class="nav-parent">
                                         <a>
+                                            <i class="fa fa-globe" aria-hidden="true"></i>
+                                            <span>Countries</span>
+                                        </a>
+                                        <ul class="nav nav-children">
+                                            <li>
+                                                <a asp-action="Index" asp-controller="Countries">
+                                                    Countries
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a asp-action="CreateCountry" asp-controller="Countries">
+                                                    Add Country
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-parent">
+                                        <a>
                                             <i class="fa fa-building" aria-hidden="true"></i>
                                             <span>Dealerships</span>
                                         </a>

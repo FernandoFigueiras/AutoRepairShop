@@ -1,66 +1,63 @@
 ﻿@model IEnumerable<AutoRepairShop.Web.Data.Entities.Country>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Countries";
 }
 
-<h2>Index</h2>
 
-<p>
-    <a asp-action="CreateCountry">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CountryName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DistrictsCount)
-            </th>
-            @*<th>
-            @Html.DisplayNameFor(model => model.CountryName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UpdateDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DeactivationDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </th>*@
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CountryName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DistrictsCount)
-            </td>
-            @*<td>
-            @Html.DisplayFor(modelItem => item.CreationDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UpdateDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DeactivationDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsActive)
-        </td>*@
-            <td>
-                <a asp-action="EditCountry" asp-route-id="@item.Id">Edit</a>
-                <a asp-action="DetailsCountry" asp-route-id="@item.Id">Details</a>
-                <a asp-action="DeleteCountry" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+
+
+<section class="panel">
+    <div class="panel-body">
+        <div class="inner-toolbar clearfix">
+            <ul>
+                <li class="right">
+                    <ul class="nav nav-pills nav-pills-primary">
+                        <li>
+                            <label>Go to</label>
+                        </li>
+                        <li class="active">
+                            <a asp-action="CreateCountry" style="font-size: 15px">Add New Country</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <table class="table table-bordered table-striped mb-none" id="datatable-editable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CountryName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DistrictsCount)
+                    </th>
+                    <th>
+                        Options
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CountryName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DistrictsCount)
+                    </td>
+
+                    <td class="actions">
+                        <a asp-action="DetailsCountry" asp-route-id="@item.Id">  Details</a>
+                        <a asp-action="EditCountry" asp-route-id="@item.Id">  Edit</a>
+                        <a asp-action="DeleteCountry" asp-route-id="@item.Id">  Delete</a>
+                    </td>
+                </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</section>

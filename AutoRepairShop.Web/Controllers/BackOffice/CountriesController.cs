@@ -237,7 +237,6 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
             var model = _converterHelper.ToNewDistrictModel(country.Id);
 
-            ViewBag.CountryId = country.Id;
             return View(model);
             
         }
@@ -370,7 +369,6 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                 }
 
             }
-            ViewBag.CountryId = district.CountryId;
             return View(district);
         }
 

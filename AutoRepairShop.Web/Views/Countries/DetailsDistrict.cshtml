@@ -1,60 +1,104 @@
 ﻿@model AutoRepairShop.Web.Data.Entities.District
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "District Details";
 }
 
-<h2>Details</h2>
 
 
-<div>
-    <h4>District</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.DistrictName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DistrictName)
-        </dd>
 
-    </dl>
+
+<div class="timeline">
+    <div class="tm-body">
+        <div class="inner-toolbar clearfix">
+            <ul>
+                <li class="right">
+                    <ul class="nav nav-pills nav-pills-primary">
+                        <li>
+                            <label>Go to</label>
+                        </li>
+                        <li class="active">
+                            <a asp-action="EditDistrict" asp-route-id="@Model.Id" style="font-size: 15px">Edit District</a>
+                        </li>
+                        <li class="active">
+                            <a asp-action="AddCity" asp-route-id="@Model.Id" style="font-size: 15px">Add City</a>
+                        </li>
+
+                        <li>
+                            <a asp-action="Index" style="font-size: 15px">Back to List</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="tm-title">
+            <h3 class="h5 text-uppercase">District info</h3>
+        </div>
+        <div style="text-align: center">
+
+        </div>
+        <ol class="tm-items">
+            <li>
+                <div class="tm-info">
+                    <div class="tm-icon"><i class="fa fa-arrow-right"></i></div>
+                    <time class="tm-datetime">
+                        <div class="tm-datetime-time" style="font-size: 13px">@Html.DisplayNameFor(model => model.DistrictName)</div>
+                    </time>
+                </div>
+                <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="100">
+                    <p style="font-size: 20px">
+                        @Html.DisplayFor(model => model.DistrictName)
+                    </p>
+
+                </div>
+            </li>
+            <li>
+                <div class="tm-info">
+                    <div class="tm-icon"><i class="fa fa-arrow-right"></i></div>
+                    <time class="tm-datetime">
+                        <div class="tm-datetime-time" style="font-size: 13px">Cities</div>
+                    </time>
+                </div>
+                <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="100">
+                    <p style="font-size: 20px">
+                        @if (Model.Cities == null || Model.Cities.Count == 0)
+                        {
+                            <h5>No Cities added yet</h5>
+                        }
+                        else
+                        {
+                            <table class="table table-bordered table-striped mb-none" id="datatable-editable">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Cities.FirstOrDefault().CityName)
+                                        </th>
+                                        <th>
+                                            Options
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Cities.OrderBy(c => c.CityName))
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CityName)
+                                            </td>
+                                            <td class="actions">
+                                                <a asp-action="EditCity" asp-route-id="@item.Id">  Edit</a>
+                                                <a asp-action="DeleteCity" asp-route-id="@item.Id">  Delete</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                    </p>
+
+                </div>
+            </li>
+
+        </ol>
+    </div>
 </div>
-<div>
-    <a asp-action="EditDistrict" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
-    <a asp-action="AddCity" asp-route-id="@Model.Id" class="btn btn-info">Add City</a>
-    <a asp-action="DetailsCountry" asp-route-id="@Model.CountryId" class="btn btn-success">Back to List</a>
-</div>
-
-<h4>Cities</h4>
-@if (Model.Cities == null || Model.Cities.Count == 0)
-{
-    <h5>No Cities added yet</h5>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Cities.FirstOrDefault().CityName)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Cities.OrderBy(c => c.CityName))
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CityName)
-                    </td>
-                    <td id="@item.Id">
-                        <a asp-action="EditCity" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
-                        <a asp-action="DeleteCity" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
