@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoRepairShop.Web.Data.Entities;
+﻿using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace AutoRepairShop.Web.Controllers.BackOffice
 {
@@ -60,7 +58,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                         ModelState.AddModelError(string.Empty, ex.InnerException.Message);
                         return View(department);
                     }
-                 
+
                 }
             }
 
@@ -118,7 +116,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             }
             return View(department);
 
-           
+
 
         }
 
@@ -163,31 +161,33 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         public async Task<IActionResult> DeleteDepartment(int Id)
         {
 
-                var department = await _departmentRepository.GetByIdAsync(Id);
+            var department = await _departmentRepository.GetByIdAsync(Id);
 
-                if (department == null)
-                {
-                    return NotFound();
-                }
-                try
-                {
-                    await _departmentRepository.DeleteAsync(department);
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (Exception ex)
-                {
-                    if (ex.InnerException.Message.Contains("REFERENCE constraint"))
-                    {
-                         ViewBag.Error = $"There are dealerships that suport this {department.DepartmentName}, deactivate the department";
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, ex.InnerException.Message);
-                    }
-                }
-           
+            if (department == null)
+            {
+                return NotFound();
+            }
+            try
+            {
+                await _departmentRepository.DeleteAsync(department);
 
-            return View(department);
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException.Message.Contains("REFERENCE constraint"))
+                {
+                    ViewBag.Error = $"There are dealerships that suport this {department.DepartmentName}, deactivate the department";
+                    return View(department);
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                    return View(department);
+                }
+            }
+
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

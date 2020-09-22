@@ -3,9 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AutoRepairShop.Web.Data.Entities
 {
-    public class Department : IEntity
+    public class EmployeePosition : IEntity
     {
         public int Id { get; set; }
+
 
 
 
@@ -13,7 +14,9 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
+
         public DateTime? UpdateDate { get; set; }
+
 
 
 
@@ -21,13 +24,14 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
+
         public bool IsActive { get; set; }
 
 
-        [Required]
-        [Display(Name = "Department")]
-        public string DepartmentName { get; set; }
 
+
+        [Display(Name = "Position Name")]
+        public string PositionName { get; set; }
 
     }
 }

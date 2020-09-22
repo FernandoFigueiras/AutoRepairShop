@@ -113,6 +113,12 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
                 try
                 {
+
+                    country.UpdateDate = DateTime.Now;
+                    if (country.IsActive == false)
+                    {
+                        country.DeactivationDate = DateTime.Now;
+                    }
                     await _countryRepository.UpdateAsync(country);
                 }
                 catch (Exception ex)
@@ -126,6 +132,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                     else
                     {
                         ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                        return View(country);
                     }
 
                 }
@@ -191,28 +198,28 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             try
             {
                 await _countryRepository.DeleteAsync(country);
-                return RedirectToAction(nameof(Index));
+                
             }
             catch (Exception ex)
             {
                 if (ex.InnerException.Message.Contains("REFERENCE constraint"))
                 {
 
-                    if (ModelState.IsValid)
-                    {
-                        //TODO make buttons to get to the respective views
-                        ViewBag.Error = $"There are districts associated with the country brand named {country.CountryName}, either delete them or deactivate country";
-                    }
+
+                    ViewBag.Error = $"There are districts associated with the country brand named {country.CountryName}, either delete them or deactivate country";
+                    return View(country);
+              
 
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                    return View(country);
                 }
             }
 
 
-            return View(country);
+            return RedirectToAction(nameof(Index));
         }
 
 
@@ -344,6 +351,12 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
                 try
                 {
+                    newDistrict.UpdateDate = DateTime.Now;
+                    if (newDistrict.IsActive == false)
+                    {
+                        newDistrict.DeactivationDate = DateTime.Now;
+                    }
+
                     await _districtRepository.UpdateAsync(newDistrict);
 
                     return RedirectToAction($"DetailsCountry/{district.CountryId}");
@@ -423,14 +436,14 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                         {
                             //TODO make buttons to get to the respective views
                             ViewBag.Error = $"There are counties associated with the District named {district.DistrictName}, either delete them or deactivate country";
-                            return View();
+                            return View(district);
                         }
 
                     }
                     else
                     {
                         ViewBag.Error = ex.InnerException.Message;
-                        return View();
+                        return View(district);
                     }
                 }
 
@@ -495,7 +508,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                 if (district == null)
                 {
                     ModelState.AddModelError(string.Empty, $"The District {district.DistrictName} is not available to add Counties");
-                    return View();
+                    return View(city);
                 }
 
                 var newCity = _converterHelper.ToCity(city, true);
@@ -510,6 +523,8 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
                 try
                 {
+                    newCity.IsActive = true;
+                    newCity.CreationDate = DateTime.Now;
                     await _cityRepository.CreateAsync(newCity);
                     return RedirectToAction($"DetailsDistrict/{district.Id}", "Countries");
                 }
@@ -590,6 +605,12 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
                 try
                 {
+                    editCity.UpdateDate = DateTime.Now;
+
+                    if (editCity.IsActive == false)
+                    {
+                        editCity.DeactivationDate = DateTime.Now;
+                    }
                     await _cityRepository.UpdateAsync(editCity);
                     return RedirectToAction($"DetailsDistrict/{district.Id}");
                 }

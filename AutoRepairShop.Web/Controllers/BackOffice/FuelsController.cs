@@ -71,15 +71,15 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                     if (ex.InnerException.Message.Contains("duplicate"))
                     {
 
-                        if (ModelState.IsValid)
-                        {
-                            ModelState.AddModelError(string.Empty, $"There is allready a Fuel registered with the name {fuel.FuelType} please insert another");
-                        }
+
+                        ModelState.AddModelError(string.Empty, $"There is allready a Fuel registered with the name {fuel.FuelType} please insert another");
+                        return View(fuel);
 
                     }
                     else
                     {
                         ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                        return View(fuel);
                     }
                 }
 
@@ -134,10 +134,9 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                         if (ex.InnerException.Message.Contains("duplicate"))
                         {
 
-                            if (ModelState.IsValid)
-                            {
-                                ModelState.AddModelError(string.Empty, $"There is allready a Fuel registered with the name {fuel.FuelType} please insert another");
-                            }
+
+                            ModelState.AddModelError(string.Empty, $"There is allready a Fuel registered with the name {fuel.FuelType} please insert another");
+
                             return View(fuel);
                         }
                         else
@@ -206,12 +205,14 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                     {
                         //TODO make buttons to get to the respective views
                         ViewBag.Error = $"There are Vehicles associated with {fuel.FuelType}, so it can not be deleted, please deactivate";
+                        return View(fuel);
                     }
 
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                    return View(fuel);
                 }
             }
 

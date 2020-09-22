@@ -1,6 +1,7 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Caching.Memory;
 using Org.BouncyCastle.Math.EC.Rfc7748;
 using System.Linq;
@@ -70,6 +71,15 @@ namespace AutoRepairShop.Web.Data
 
 
 
+        public DbSet<DealershipDepartment> DealershipDepartments { get; set; }
+
+
+
+        public DbSet<EmployeePosition> EmployeePositions { get; set; }
+
+
+
+
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
@@ -124,6 +134,11 @@ namespace AutoRepairShop.Web.Data
                 .HasIndex(d => d.DepartmentName)
                 .IsUnique();
 
+
+            modelBuilder.Entity<EmployeePosition>()
+                .HasIndex(e => e.PositionName)
+                .IsUnique();
+
             //modelBuilder.Entity<District>()
             // .HasIndex(d => d.DistrictName)
             // .IsUnique();
@@ -132,12 +147,6 @@ namespace AutoRepairShop.Web.Data
             //modelBuilder.Entity<City>()
             //  .HasIndex(c => c.CityName)
             //  .IsUnique();
-
-
-           
-
-           
-         
 
 
 

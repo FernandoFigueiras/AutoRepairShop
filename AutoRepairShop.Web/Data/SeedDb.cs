@@ -411,6 +411,18 @@ namespace AutoRepairShop.Web.Data
                     await _context.SaveChangesAsync();
                 }
 
+                if (!_context.Departments.Any())
+                {
+                    AddDepartment("Mechanics");
+                    AddDepartment("Reception");
+                    AddDepartment("Electronic");
+                    AddDepartment("Paint");
+
+
+                    await _context.SaveChangesAsync();
+                }
+
+
                 if (!_context.ServicesSupplied.Any())
                 {
                     var dealership = _context.Dealerships.FirstOrDefault();
@@ -424,27 +436,25 @@ namespace AutoRepairShop.Web.Data
                     await _context.SaveChangesAsync();
                 }
 
-                //if (!_context.ActiveSchedules.Any())
-                //{
-                //    AddActiveSchedule();
-                //}
+
             }
 
 
         }
 
-        //private void AddActiveSchedule()
-        //{
-            
+        private void AddDepartment(string departmentName)
+        {
+            var department = new Department
+            {
+                DepartmentName = departmentName,
+                IsActive = true,
+                CreationDate = DateTime.Now,
+            };
 
-        //    var activeSchedule = new ActiveSchedule
-        //    {
-        //        IsActive = true,
-        //        ScheduleDay = DateTime.Now,
-        //        Remarks = "Teste",
-        //        Services = _context.Services.FirstOrDefault(),
-        //    };
-        //}
+            _context.Departments.Add(department);
+        }
+
+
 
         private void AddServicesSupllied(Dealership dealershipId, Service service)
         {

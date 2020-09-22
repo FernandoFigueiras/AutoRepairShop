@@ -74,6 +74,23 @@ namespace AutoRepairShop.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Departments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreationDate = table.Column<DateTime>(nullable: true),
+                    UpdateDate = table.Column<DateTime>(nullable: true),
+                    DeactivationDate = table.Column<DateTime>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
+                    DepartmentName = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Departments", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Fuels",
                 columns: table => new
                 {
@@ -455,7 +472,7 @@ namespace AutoRepairShop.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Departments",
+                name: "DealershipDepartments",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -464,16 +481,22 @@ namespace AutoRepairShop.Web.Migrations
                     UpdateDate = table.Column<DateTime>(nullable: true),
                     DeactivationDate = table.Column<DateTime>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false),
-                    DepartmentName = table.Column<string>(nullable: false),
-                    DealershipId = table.Column<int>(nullable: true)
+                    DealershipId = table.Column<int>(nullable: true),
+                    DepartmentId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Departments", x => x.Id);
+                    table.PrimaryKey("PK_DealershipDepartments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Departments_Dealerships_DealershipId",
+                        name: "FK_DealershipDepartments_Dealerships_DealershipId",
                         column: x => x.DealershipId,
                         principalTable: "Dealerships",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_DealershipDepartments_Departments_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Departments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -619,14 +642,25 @@ namespace AutoRepairShop.Web.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_DealershipDepartments_DealershipId",
+                table: "DealershipDepartments",
+                column: "DealershipId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DealershipDepartments_DepartmentId",
+                table: "DealershipDepartments",
+                column: "DepartmentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Dealerships_ZipCodeId",
                 table: "Dealerships",
                 column: "ZipCodeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Departments_DealershipId",
+                name: "IX_Departments_DepartmentName",
                 table: "Departments",
-                column: "DealershipId");
+                column: "DepartmentName",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Districts_CountryId",
@@ -725,7 +759,7 @@ namespace AutoRepairShop.Web.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Departments");
+                name: "DealershipDepartments");
 
             migrationBuilder.DropTable(
                 name: "ScheduleDetails");
@@ -735,6 +769,9 @@ namespace AutoRepairShop.Web.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Departments");
 
             migrationBuilder.DropTable(
                 name: "ActiveSchedules");

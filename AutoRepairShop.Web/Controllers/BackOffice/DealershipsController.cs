@@ -76,6 +76,9 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             {
                 try
                 {
+
+                    dealership.CreationDate = DateTime.Now;
+                    dealership.IsActive = true;
                     await _dealershipRepository.CreateAsync(dealership);
 
 
@@ -86,15 +89,15 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                     if (ex.InnerException.Message.Contains("duplicate"))
                     {
 
-                        if (ModelState.IsValid)
-                        {
-                            ModelState.AddModelError(string.Empty, $"There is allready a Dealership registered with the name {dealership.DealerShipName} please insert another");
-                        }
+                        ModelState.AddModelError(string.Empty, $"There is allready a Dealership registered with the name {dealership.DealerShipName} please insert another");
+                        return View(dealership);
+                      
 
                     }
                     else
                     {
                         ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                        return View(dealership);
                     }
                 }
 
@@ -152,6 +155,12 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             {
                 try
                 {
+                    dealership.UpdateDate = DateTime.Now;
+
+                    if (dealership.IsActive == false)
+                    {
+                        dealership.DeactivationDate = DateTime.Now;
+                    }
                     await _dealershipRepository.UpdateAsync(dealership);
                 }
                 catch (DbUpdateConcurrencyException)

@@ -2,9 +2,7 @@
 
 namespace AutoRepairShop.Web.Data.Repositories.Interfaces
 {
-    public interface IDepartmentRepository : IGenericRepository<Department>
+    public interface IEmployeePositionRepository : IGenericRepository<EmployeePosition>
     {
-
-
     }
 }

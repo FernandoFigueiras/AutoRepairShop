@@ -121,8 +121,13 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
                     try
                     {
-                        color.IsActive = true;
+                       
                         color.UpdateDate = DateTime.Now;
+
+                        if (color.IsActive==false)
+                        {
+                            color.DeactivationDate = DateTime.Now;
+                        }
                         await _colorRepository
                       .UpdateAsync(color);
                         return RedirectToAction(nameof(Index));

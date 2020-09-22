@@ -199,10 +199,9 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                 if (ex.InnerException.Message.Contains("REFERENCE constraint"))
                 {
 
-                    if (ModelState.IsValid)
-                    {
-                          ViewBag.Error = $"There are models associated with brand named {brand.BrandName}, either delete them or deactivate brand";
-                    }
+               
+                    ViewBag.Error = $"There are models associated with brand named {brand.BrandName}, either delete them or deactivate brand";
+                    return View(brand);
 
                 }
                 else
