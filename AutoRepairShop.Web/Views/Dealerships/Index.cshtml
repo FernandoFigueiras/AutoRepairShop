@@ -28,18 +28,6 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.CreationDate)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.UpdateDate)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.DeactivationDate)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.IsActive)
-                    </th>
-                    <th>
                         @Html.DisplayNameFor(model => model.DealerShipName)
                     </th>
                     <th>
@@ -47,6 +35,18 @@
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.ZipCode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsActive)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CreationDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UpdateDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DeactivationDate)
                     </th>
                     <th>
                         Options
@@ -58,18 +58,6 @@
                 {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.CreationDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UpdateDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DeactivationDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IsActive)
-                    </td>
-                    <td>
                         @Html.DisplayFor(modelItem => item.DealerShipName)
                     </td>
                     <td>
@@ -77,6 +65,18 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.ZipCode.FullZipCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsActive)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreationDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UpdateDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DeactivationDate)
                     </td>
                     <td class="actions">
                         <a asp-action="Details" asp-route-id="@item.Id">  Details</a>

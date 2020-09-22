@@ -30,13 +30,13 @@
                         @Html.DisplayNameFor(model => model.ColorName)
                     </th>
                     <th>
+                        @Html.DisplayNameFor(model => model.IsActive)
+                    </th>
+                    <th>
                         @Html.DisplayNameFor(model => model.CreationDate)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.UpdateDate)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.IsActive)
                     </th>
                     <th>
                         Options
@@ -51,13 +51,13 @@
                         @Html.DisplayFor(modelItem => item.ColorName)
                     </td>
                     <td>
+                        @Html.DisplayFor(modelItem => item.IsActive)
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.CreationDate)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.UpdateDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IsActive)
                     </td>
                     <td class="actions">
                         <a asp-action="Details" asp-route-id="@item.Id">  Details</a>
