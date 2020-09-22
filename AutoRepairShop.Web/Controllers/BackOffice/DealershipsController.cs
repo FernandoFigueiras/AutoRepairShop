@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AutoRepairShop.Web.Data.Entities;
+using AutoRepairShop.Web.Data.Repositories.Interfaces;
+using AutoRepairShop.Web.Helpers.Interfaces;
+using AutoRepairShop.Web.Models.DShip;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using AutoRepairShop.Web.Data;
-using AutoRepairShop.Web.Data.Entities;
-using AutoRepairShop.Web.Data.Repositories.Interfaces;
-using Microsoft.AspNetCore.Internal;
-using AutoRepairShop.Web.Models.DShip;
-using AutoRepairShop.Web.Helpers.Interfaces;
 
 namespace AutoRepairShop.Web.Controllers.BackOffice
 {
@@ -102,7 +98,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                     }
                 }
 
-               
+
 
             }
             return View(dealership);
@@ -183,6 +179,10 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             }
 
             var dealership = await _dealershipRepository.GetByIdAsync(id.Value);
+            var zipcode = await _zipCodeRepository.GetByIdAsync(dealership.ZipCodeId);
+            dealership.ZipCode = zipcode;
+
+
             if (dealership == null)
             {
                 return NotFound();
@@ -207,7 +207,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         {
             var dealership = await _dealershipRepository.GetByIdAsync(id.Value);
 
-            
+
 
             if (dealership == null)
             {
@@ -219,7 +219,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
 
             var model = _converterHelper.ToDealershipViewModel(dealership.Id, dealership.DealerShipName, services);
-            
+
             return View(model);
         }
 
@@ -235,14 +235,14 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
 
 
-                    foreach (var item in model.Services)
-                    {
-                        var service = await _serviceRepository.GetByIdAsync(item.Id);
+                foreach (var item in model.Services)
+                {
+                    var service = await _serviceRepository.GetByIdAsync(item.Id);
 
-                        var ServicesSupplied = _converterHelper.ToServicesSupplied(dealeship, service, item.Id, item.IsActive);
+                    var ServicesSupplied = _converterHelper.ToServicesSupplied(dealeship, service, item.Id, item.IsActive);
 
-                        await _servicesSuppliedRepository.UpdateAsync(ServicesSupplied);
-                    }
+                    await _servicesSuppliedRepository.UpdateAsync(ServicesSupplied);
+                }
 
 
                 return RedirectToAction(nameof(Index));
@@ -257,12 +257,24 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
 
 
-
-        public async Task<int> GetCityIdAsync(string zipCode4, string zipCode3)
+        public async Task<JsonResult> GetZipCodeAndCityId(string zip4, string zip3)
         {
-            var cityid = await _cityRepository.GetCityIdByZipCodeAsync(zipCode4, zipCode3);
+            var exists = await _zipCodeRepository.ZipCodeExistsAsync(zip4, zip3);
 
-            return cityid;
+            if (exists)
+            {
+                var zipcode = await _zipCodeRepository.GetZipCodeAsync(zip4, zip3);
+
+                var cityName = await _cityRepository.GetByIdAsync(zipcode.CityId);
+
+                string data = zipcode.Id + "," + cityName.CityName;
+
+                var r = this.Json(data);
+
+                return r;
+            }
+
+            return null;
         }
     }
 }

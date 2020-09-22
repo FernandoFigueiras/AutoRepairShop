@@ -1,8 +1,6 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
-using AutoRepairShop.Web.Data.Repositories;
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
@@ -85,7 +83,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                     }
                 }
 
-                
+
             }
             return View(color);
         }
@@ -145,7 +143,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                             return View(color);
                         }
                     }
-                   
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {

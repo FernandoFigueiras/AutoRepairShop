@@ -1,10 +1,9 @@
 ﻿@model AutoRepairShop.Web.Data.Entities.Brand
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Delete Brand";
 }
 
-<h2>Delete</h2>
 
 <h3>Are you sure you want to delete this?</h3>
 
@@ -12,30 +11,45 @@
 <h2>@ViewBag.Error </h2>
 
 
-<div>
-    <h4>Brand</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IsActive)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.BrandName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.BrandName)
-        </dd>
-    </dl>
+<section class="panel">
+    <div class="panel-body tab-content">
+        <div id="access-log" class="tab-pane active">
+            <table class="table table-striped table-no-more table-bordered  mb-none">
+                <thead>
+                    <tr>
+                        <th style="width: 25%; margin: auto"><span class="text-normal text-sm">Data</span></th>
+                        <th style="width: 55%"><span class="text-normal text-sm">Brand Information</span></th>
+                    </tr>
+                </thead>
+                <tbody class="log-viewer">
+                    <tr>
+                        <td data-title="Type" class="pt-md pb-md">
+                            @Html.DisplayNameFor(model => model.IsActive)
+                        </td>
+                        <td data-title="Date" class="pt-md pb-md">
+                            @Html.DisplayFor(model => model.IsActive)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-title="Type" class="pt-md pb-md">
+                            @Html.DisplayNameFor(model => model.BrandName)
+                        </td>
+                        <td data-title="Date" class="pt-md pb-md">
+                            @Html.DisplayFor(model => model.BrandName)
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
-</div>
+        <form asp-action="Delete" style="text-align: center">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Delete</button>
+            <button asp-action="Index" formnovalidate class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Exit</button>
+        </form>
+
+    </div>
+</section>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

@@ -34,7 +34,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
             }
 
 
-            brand.Models.Add(new Model { ModelName = model.Name });
+            brand.Models.Add(new BrandModel { ModelName = model.Name });
             _context.Brands.Update(brand);
             await _context.SaveChangesAsync();
         }
@@ -59,7 +59,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
         /// </summary>
         /// <param name="model"></param>
         /// <returns>brand ID</returns>
-        public async Task<int> UpdateModelAsync(Model model)
+        public async Task<int> UpdateModelAsync(BrandModel model)
         {
 
             
@@ -83,7 +83,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
 
 
 
-        public async Task<Model> GetModelByIdAsync(int id)
+        public async Task<BrandModel> GetModelByIdAsync(int id)
         {
             return await _context.Models.FindAsync(id);
         }
@@ -97,7 +97,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
         /// </summary>
         /// <param name="model"></param>
         /// <returns>brand ID</returns>
-        public async Task<int> DeleteModelAsync(Model model)
+        public async Task<int> DeleteModelAsync(BrandModel model)
         {
             if (model==null)
             {
@@ -162,7 +162,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
 
 
 
-        public async Task AddModelFromNewVehicleAsync(Model newModel)
+        public async Task AddModelFromNewVehicleAsync(BrandModel newModel)
         {
             await _context.AddAsync(newModel);
             await _context.SaveChangesAsync();
@@ -190,7 +190,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
         }
 
 
-        public IEnumerable<Model> GetModelsFromBrand(int brandId)
+        public IEnumerable<BrandModel> GetModelsFromBrand(int brandId)
         {
             var test = _context.Models.AsEnumerable().Where(m => m.BrandId == brandId);
             return test;

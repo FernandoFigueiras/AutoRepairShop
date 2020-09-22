@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using AutoRepairShop.Web.Data;
-using AutoRepairShop.Web.Data.Entities;
-using AutoRepairShop.Web.Data.Repositories;
-using AutoRepairShop.Web.Models;
-using System.Runtime.InteropServices;
-using Microsoft.AspNetCore.Identity.UI.Pages.Internal.Account;
+﻿using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
 using AutoRepairShop.Web.Models.ModelBrand;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AutoRepairShop.Web.Controllers.BackOffice
 {
@@ -32,14 +25,14 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
         // GET: Brands/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? Id)
         {
-            if (id == null)
+            if (Id == null)
             {
                 return NotFound();
             }
 
-            var brand = await _brandRepository.GetBrandWithModelsAsycn(id.Value);
+            var brand = await _brandRepository.GetBrandWithModelsAsycn(Id.Value);
 
             if (brand == null)
             {
@@ -88,7 +81,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                         ModelState.AddModelError(string.Empty, ex.InnerException.Message);
                         return View(brand);
                     }
-                    
+
                 }
             }
             return View(brand);
@@ -196,14 +189,14 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                 .GetByIdAsync(id);
             try
             {
-                
+
                 await _brandRepository.DeleteAsync(brand);
                 return RedirectToAction(nameof(Index));
 
             }
             catch (Exception ex)
             {
-                
+
                 if (ex.InnerException.Message.Contains("REFERENCE constraint"))
                 {
 
@@ -288,7 +281,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                         ModelState.AddModelError(string.Empty, ex.InnerException.Message);
                     }
                 }
-                
+
             }
 
             ViewBag.Id = model.BrandId;
@@ -306,17 +299,17 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                 return NotFound();
             }
 
-            var model = await _brandRepository.GetModelByIdAsync(id.Value);
+            var brandModel = await _brandRepository.GetModelByIdAsync(id.Value);
 
             var brandId = await _brandRepository.GetBrandIdFromModelAsync(id.Value);
 
-            if (model == null)
+            if (brandModel == null)
             {
                 return NotFound();
             }
 
             ViewBag.Id = brandId;
-            return View(model);
+            return View(brandModel);
 
         }
 
@@ -325,11 +318,11 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
 
         [HttpPost]
-        public async Task<IActionResult> EditModel(Model model)
+        public async Task<IActionResult> EditModel(BrandModel model)
         {
             if (ModelState.IsValid)
             {
-               
+
                 try
                 {
                     var modelId = await _brandRepository.UpdateModelAsync(model);
@@ -348,13 +341,13 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                         {
                             ModelState.AddModelError(String.Empty, $"There is allready a Model registered with the name {model.ModelName} please insert another");
                         }
-                       
+
                     }
                     else
                     {
                         ModelState.AddModelError(string.Empty, ex.InnerException.Message);
                     }
-                    
+
                 }
 
             }
@@ -363,7 +356,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
             ViewBag.Id = brandIdvb;
             return this.View(model);
-            
+
         }
 
 
@@ -380,7 +373,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
             var model = await _brandRepository.GetModelByIdAsync(id.Value);
 
-            if (model==null)
+            if (model == null)
             {
                 return NotFound();
             }
@@ -400,7 +393,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteModel(int id)
         {
-           
+
             var model = await _brandRepository.GetModelByIdAsync(id);
 
             if (model == null)

@@ -13,7 +13,7 @@ namespace AutoRepairShop.Web.Data
         public DbSet<Brand> Brands { get; set; }
 
 
-        public DbSet<Model> Models { get; set; }
+        public DbSet<BrandModel> Models { get; set; }
 
 
         public DbSet<Vehicle> Vehicles { get; set; }
@@ -81,7 +81,7 @@ namespace AutoRepairShop.Web.Data
                 .IsUnique();
 
 
-            modelBuilder.Entity<Model>()
+            modelBuilder.Entity<BrandModel>()
                 .HasIndex(m => m.ModelName)
                 .IsUnique();
 

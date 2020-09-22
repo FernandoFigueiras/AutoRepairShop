@@ -235,31 +235,31 @@ namespace AutoRepairShop.Web.Data
                 {
                     Brand mercedes = await _context.Brands.FirstOrDefaultAsync(b => b.BrandName == "Mercedes-Benz");
 
-                    _context.Models.Add(new Model
+                    _context.Models.Add(new BrandModel
                     {
                         IsActive = true,
                         ModelName = "CL65 AMG",
                         BrandId = mercedes.Id,
                     });
-                    _context.Models.Add(new Model
+                    _context.Models.Add(new BrandModel
                     {
                         IsActive = true,
                         ModelName = "AMG-GT Roadster",
                         BrandId = mercedes.Id,
                     });
-                    _context.Models.Add(new Model
+                    _context.Models.Add(new BrandModel
                     {
                         IsActive = true,
                         ModelName = "SL65 AMG Black Series",
                         BrandId = mercedes.Id,
                     });
-                    _context.Models.Add(new Model
+                    _context.Models.Add(new BrandModel
                     {
                         IsActive = true,
                         ModelName = "CLA45 AMG",
                         BrandId = mercedes.Id,
                     });
-                    _context.Models.Add(new Model
+                    _context.Models.Add(new BrandModel
                     {
                         IsActive = true,
                         ModelName = "A35 AMG",
@@ -269,25 +269,25 @@ namespace AutoRepairShop.Web.Data
 
                     Brand BMW = await _context.Brands.FirstOrDefaultAsync(b => b.BrandName == "BMW");
 
-                    _context.Models.Add(new Model
+                    _context.Models.Add(new BrandModel
                     {
                         IsActive = true,
                         ModelName = "M3",
                         BrandId = BMW.Id,
                     });
-                    _context.Models.Add(new Model
+                    _context.Models.Add(new BrandModel
                     {
                         IsActive = true,
                         ModelName = "M4",
                         BrandId = BMW.Id,
                     });
-                    _context.Models.Add(new Model
+                    _context.Models.Add(new BrandModel
                     {
                         IsActive = true,
                         ModelName = "M5",
                         BrandId = BMW.Id,
                     });
-                    _context.Models.Add(new Model
+                    _context.Models.Add(new BrandModel
                     {
                         IsActive = true,
                         ModelName = "M 850i",
@@ -297,31 +297,31 @@ namespace AutoRepairShop.Web.Data
 
                     Brand porsche = await _context.Brands.FirstOrDefaultAsync(b => b.BrandName == "Porsche");
 
-                    _context.Models.Add(new Model
+                    _context.Models.Add(new BrandModel
                     {
                         IsActive = true,
                         ModelName = "Carrera GT3",
                         BrandId = porsche.Id,
                     });
-                    _context.Models.Add(new Model
+                    _context.Models.Add(new BrandModel
                     {
                         IsActive = true,
                         ModelName = "911 Turbo",
                         BrandId = porsche.Id,
                     });
-                    _context.Models.Add(new Model
+                    _context.Models.Add(new BrandModel
                     {
                         IsActive = true,
                         ModelName = "718 Cayman GT4",
                         BrandId = porsche.Id,
                     });
-                    _context.Models.Add(new Model
+                    _context.Models.Add(new BrandModel
                     {
                         IsActive = true,
                         ModelName = "Taycan Turbo S",
                         BrandId = porsche.Id,
                     });
-                    _context.Models.Add(new Model
+                    _context.Models.Add(new BrandModel
                     {
                         IsActive = true,
                         ModelName = "Panamera Turbo",
@@ -331,25 +331,25 @@ namespace AutoRepairShop.Web.Data
 
                     Brand astonMartin = await _context.Brands.FirstOrDefaultAsync(b => b.BrandName == "Aston-Martin");
 
-                    _context.Models.Add(new Model
+                    _context.Models.Add(new BrandModel
                     {
                         IsActive = true,
                         ModelName = "Vantage",
                         BrandId = astonMartin.Id,
                     });
-                    _context.Models.Add(new Model
+                    _context.Models.Add(new BrandModel
                     {
                         IsActive = true,
                         ModelName = "DB 11",
                         BrandId = astonMartin.Id,
                     });
-                    _context.Models.Add(new Model
+                    _context.Models.Add(new BrandModel
                     {
                         IsActive = true,
                         ModelName = "DBS SUPERLEGGERA",
                         BrandId = astonMartin.Id,
                     });
-                    _context.Models.Add(new Model
+                    _context.Models.Add(new BrandModel
                     {
                         IsActive = true,
                         ModelName = "Vanquish Zagato",

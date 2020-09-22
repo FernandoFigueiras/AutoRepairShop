@@ -14,7 +14,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Interfaces
 
 
 
-        Task AddModelFromNewVehicleAsync(Model newModel);
+        Task AddModelFromNewVehicleAsync(BrandModel newModel);
 
 
 
@@ -24,7 +24,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Interfaces
 
 
 
-        Task<Model> GetModelByIdAsync(int id);
+        Task<BrandModel> GetModelByIdAsync(int id);
 
 
 
@@ -34,12 +34,12 @@ namespace AutoRepairShop.Web.Data.Repositories.Interfaces
 
 
 
-        Task<int> UpdateModelAsync(Model model);
+        Task<int> UpdateModelAsync(BrandModel model);
 
 
 
 
-        Task<int> DeleteModelAsync(Model model);
+        Task<int> DeleteModelAsync(BrandModel model);
 
 
 
@@ -63,6 +63,6 @@ namespace AutoRepairShop.Web.Data.Repositories.Interfaces
 
 
 
-        IEnumerable<Model> GetModelsFromBrand(int brandId);
+        IEnumerable<BrandModel> GetModelsFromBrand(int brandId);
     }
 }

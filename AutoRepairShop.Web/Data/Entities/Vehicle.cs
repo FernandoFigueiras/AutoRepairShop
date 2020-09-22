@@ -110,7 +110,7 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
-        public Model Model { get; set; }
+        public BrandModel Model { get; set; }
 
 
 

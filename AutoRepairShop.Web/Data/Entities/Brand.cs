@@ -45,7 +45,7 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
-        public ICollection<Model> Models { get; set; }
+        public ICollection<BrandModel> Models { get; set; }
 
 
 

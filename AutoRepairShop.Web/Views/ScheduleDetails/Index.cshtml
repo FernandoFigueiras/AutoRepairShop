@@ -4,96 +4,73 @@
     ViewData["Title"] = "My Schedules";
 }
 
-<div id="modalForm" class="modal-block modal-block-primary mfp-hide" style="display: none">
-    <section class="panel">
-        <header class="panel-heading">
-            <h2 class="panel-title">Registration Form</h2>
-        </header>
-        <div class="panel-body">
-            <form id="demo-form" class="form-horizontal mb-lg" novalidate="novalidate">
-                <div class="form-group mt-lg">
-                    <label class="col-sm-3 control-label">Name</label>
-                    <div class="col-sm-9">
-                        <input type="text" name="name" class="form-control" placeholder="Type your name..." required />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">Email</label>
-                    <div class="col-sm-9">
-                        <input type="email" name="email" class="form-control" placeholder="Type your email..." required />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">URL</label>
-                    <div class="col-sm-9">
-                        <input type="url" name="url" class="form-control" placeholder="Type an URL..." />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">Comment</label>
-                    <div class="col-sm-9">
-                        <textarea rows="5" class="form-control" placeholder="Type your comment..." required></textarea>
-                    </div>
-                </div>
-            </form>
+
+<section class="panel">
+    <div class="panel-body">
+        <div class="inner-toolbar clearfix">
+            <ul>
+                <li class="right">
+                    <ul class="nav nav-pills nav-pills-primary">
+                        <li>
+                            <label>Go to</label>
+                        </li>
+                        <li class="active">
+                            <a asp-action="BeginNew" style="font-size: 15px">Add New Schedule</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </div>
-        <footer class="panel-footer">
-            <div class="row">
-                <div class="col-md-12 text-right">
-                    <button class="btn btn-primary modal-confirm">Submit</button>
-                    <button class="btn btn-default modal-dismiss">Cancel</button>
-                </div>
-            </div>
-        </footer>
-    </section>
-</div>
 
 
+        <table class="table table-bordered table-striped mb-none" id="datatable-editable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Vehicle.LicencePlate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Dealership.DealerShipName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ActiveSchedule.Services.ServiceType)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ActiveSchedule.ScheduleDay)
+                    </th>
+                    <th>
+                        Options
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Vehicle.LicencePlate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Dealership.DealerShipName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ActiveSchedule.Services.ServiceType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ActiveSchedule.ScheduleDay)
+                        </td>
 
 
-<p>
-    <a asp-action="BeginNew">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Vehicle.LicencePlate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Dealership.DealerShipName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ActiveSchedule.Services.ServiceType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ActiveSchedule.ScheduleDay)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Vehicle.LicencePlate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Dealership.DealerShipName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ActiveSchedule.Services.ServiceType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ActiveSchedule.ScheduleDay)
-            </td>
-            <td>
-                <a asp-action="EditSchedule" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="DetailsSchedule" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="DeleteSchedule" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+                        <td class="actions">
+                            <a asp-action="EditSchedule" asp-route-id="@item.Id">Edit</a>
+                            <a asp-action="DetailsSchedule" asp-route-id="@item.Id">Details</a>
+                            <a asp-action="DeleteSchedule" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+    </div>
+</section>

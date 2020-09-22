@@ -51,21 +51,13 @@
                         <input type="hidden" asp-for="@Model.ZipCode3" />
                         <input type="hidden" asp-for="@Model.TaxPayerNumber" />
                         <input type="hidden" asp-for="@Model.PhoneNumber" />
-                        <div>
 
-                            <label class="col-md-3 control-label">Change Picture</label>
-                        </div>
-                        
-                        <div class="col-md-6" style="margin-bottom: 5px">
-                            <div class="fileupload fileupload-new" data-provides="fileupload" >
+                                <div class="col-md-6" style="margin-bottom: 5px; text-align: center" >
+                            <div class="fileupload fileupload-new" data-provides="fileupload">
                                 <div class="input-append">
-                                    @*<div class="uneditable-input">
-                                        <i class="fa fa-file fileupload-exists"></i>
-                                        <span class="fileupload-preview"></span>
-                                    </div>*@
                                     <span class="btn btn-default btn-file">
                                         <span class="fileupload-exists">Change</span>
-                                        <span class="fileupload-new">Select file</span>
+                                        <span class="fileupload-new">Change Picture</span>
                                         <input type="file"  asp-for="ImageFile"/>
                                     </span>
                                     <a href="#" class="btn btn-default fileupload-exists" data-dismiss="fileupload">Remove</a>

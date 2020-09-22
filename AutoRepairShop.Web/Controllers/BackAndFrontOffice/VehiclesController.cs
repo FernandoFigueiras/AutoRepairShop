@@ -104,7 +104,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                         if (await _brandRepository.ExistsAsync(model.BrandId))
                         {
-                            var newModel = new Model
+                            var newModel = new BrandModel
                             {
                                 ModelName = model.ModelName,
                                 BrandId = model.BrandId,

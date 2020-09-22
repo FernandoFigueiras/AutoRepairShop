@@ -4,54 +4,133 @@
     ViewData["Title"] = "Details";
 }
 
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.LicencePLate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.LicencePLate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Brand)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Brand)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Model)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Model)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Dealership)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Dealership)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Service)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Service)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Remarks)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Remarks)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="EditSchedule" asp-route-id="@Model.ActiveScheduleId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+
+<div class="timeline">
+    <div class="tm-body">
+        <div class="inner-toolbar clearfix">
+            <ul>
+                <li class="right">
+                    <ul class="nav nav-pills nav-pills-primary">
+                        <li>
+                            <label>Go to</label>
+                        </li>
+                        <li class="active">
+                            <a asp-action="EditSchedule" asp-route-id="@Model.ActiveScheduleId" style="font-size: 15px">Edit</a>
+                        </li>
+                        <li>
+                            <a asp-action="Index" style="font-size: 15px">Back to List</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="tm-title">
+            <h3 class="h5 text-uppercase">Your shcedule's info</h3>
+        </div>
+        <div style="text-align: center">
+
+        </div>
+        <ol class="tm-items">
+            <li>
+                <div class="tm-info">
+                    <div class="tm-icon"><i class="fa fa-arrow-right"></i></div>
+                    <time class="tm-datetime">
+                        <div class="tm-datetime-time" style="font-size: 13px">@Html.DisplayNameFor(model => model.LicencePLate)</div>
+                    </time>
+                </div>
+                <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="100">
+                    <p style="font-size: 20px">
+                        @Html.DisplayFor(model => model.LicencePLate)
+                    </p>
+
+                </div>
+            </li>
+            <li>
+                <div class="tm-info">
+                    <div class="tm-icon"><i class="fa fa-arrow-right"></i></div>
+                    <time class="tm-datetime">
+                        <div class="tm-datetime-time" style="font-size: 13px"> @Html.DisplayNameFor(model => model.Brand)</div>
+                    </time>
+                </div>
+                <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="100">
+                    <p style="font-size: 20px">
+                        @Html.DisplayFor(model => model.Brand)
+                    </p>
+
+                </div>
+            </li>
+            <li>
+                <div class="tm-info">
+                    <div class="tm-icon"><i class="fa fa-arrow-right"></i></div>
+                    <time class="tm-datetime">
+                        <div class="tm-datetime-time" style="font-size: 13px">@Html.DisplayNameFor(model => model.Model)</div>
+                    </time>
+                </div>
+                <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="100">
+                    <p style="font-size: 20px">
+                        @Html.DisplayFor(model => model.Model)
+                    </p>
+
+                </div>
+            </li>
+            <li>
+                <div class="tm-info">
+                    <div class="tm-icon"><i class="fa fa-arrow-right"></i></div>
+                    <time class="tm-datetime">
+                        <div class="tm-datetime-time" style="font-size: 13px">@Html.DisplayNameFor(model => model.Dealership)</div>
+                    </time>
+                </div>
+                <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="100">
+                    <p style="font-size: 20px">
+                        @Html.DisplayFor(model => model.Dealership)
+                    </p>
+
+                </div>
+            </li>
+            <li>
+                <div class="tm-info">
+                    <div class="tm-icon"><i class="fa fa-arrow-right"></i></div>
+                    <time class="tm-datetime">
+                        <div class="tm-datetime-time" style="font-size: 13px">@Html.DisplayNameFor(model => model.Service)</div>
+                    </time>
+                </div>
+                <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="100">
+                    <p style="font-size: 20px">
+                        @Html.DisplayFor(model => model.Service)
+                    </p>
+
+                </div>
+            </li>
+            <li>
+                <div class="tm-info">
+                    <div class="tm-icon"><i class="fa fa-arrow-right"></i></div>
+                    <time class="tm-datetime">
+                        <div class="tm-datetime-time" style="font-size: 13px"> @Html.DisplayNameFor(model => model.Date)</div>
+                    </time>
+                </div>
+                <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="100">
+                    <p style="font-size: 20px">
+                        @Html.DisplayFor(model => model.Date)
+                    </p>
+
+                </div>
+            </li>
+            <li>
+                <div class="tm-info">
+                    <div class="tm-icon"><i class="fa fa-arrow-right"></i></div>
+                    <time class="tm-datetime">
+                        <div class="tm-datetime-time" style="font-size: 13px"> @Html.DisplayNameFor(model => model.Remarks)</div>
+                    </time>
+                </div>
+                <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="100">
+                    <p style="font-size: 20px">
+                        @Html.DisplayFor(model => model.Remarks)
+                    </p>
+
+                </div>
+            </li>
+
+        </ol>
+    </div>
 </div>
