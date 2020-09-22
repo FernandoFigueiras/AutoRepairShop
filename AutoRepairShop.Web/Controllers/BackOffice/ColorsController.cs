@@ -121,6 +121,8 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
                     try
                     {
+                        color.IsActive = true;
+                        color.UpdateDate = DateTime.Now;
                         await _colorRepository
                       .UpdateAsync(color);
                         return RedirectToAction(nameof(Index));
