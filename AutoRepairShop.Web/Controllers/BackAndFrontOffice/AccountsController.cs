@@ -1,20 +1,11 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
-using AutoRepairShop.Web.Data.Repositories;
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
-using AutoRepairShop.Web.Helpers;
 using AutoRepairShop.Web.Helpers.Interfaces;
 using AutoRepairShop.Web.Models.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Session;
-using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
-using Org.BouncyCastle.Crypto.Tls;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.Xml;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
@@ -75,9 +66,9 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                 else
                 {
                     TempData["UserId"] = user.Id;
-                    return this.RedirectToAction("UpdateUser", new { id = user.Id});
+                    return this.RedirectToAction("UpdateUser", new { id = user.Id });
                 }
-                
+
             }
 
             return this.View();
@@ -103,9 +94,9 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                     if (user.IsActive == false)
                     {
                         TempData["UserId"] = user.Id;
-                        return this.RedirectToAction("EditUser", new { id = user.Id});
+                        return this.RedirectToAction("EditUser", new { id = user.Id });
                     }
-                    
+
 
                     if (this.Request.Query.Keys.Contains("ReturnUrl"))
                     {
@@ -165,7 +156,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                     user.IsActive = false;
                     user.CreationDate = DateTime.UtcNow;
-                    
+
 
                     var result = await _userHelper.AddUserAsync(user, model.Password);
 
@@ -199,7 +190,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
 
                     this.ViewBag.Message = "The instructions for completing your registration have been sent to your email";
-          
+
 
 
                     return View();
@@ -238,7 +229,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                 return NotFound();
             }
 
-           
+
             ViewBag.User = user.UserName;
 
 
@@ -294,11 +285,11 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
             var model = _converterHelper.ToUpdateDataViewModel(user, zipCode);
 
-            
+
 
 
             return View(model);
-            
+
         }
 
 
@@ -339,7 +330,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                     var zipCodeIdNew = await _zipCodeRepository.GetZipCodeAsync(model.ZipCode4, model.ZipCode3);
 
-                    var updateUserZipNull = _converterHelper.ToUserFromUpdate(model,user,  zipCodeIdNew.Id, pathZipNull);
+                    var updateUserZipNull = _converterHelper.ToUserFromUpdate(model, user, zipCodeIdNew.Id, pathZipNull);
 
 
                     if (updateUserZipNull == null)
@@ -362,17 +353,17 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                 var path = string.Empty;
 
-                if (model.ImageFile!=null)
+                if (model.ImageFile != null)
                 {
                     path = await _imageHelper.UploadImageAsync(model.ImageFile, "Users");
                 }
 
 
-                var updateUser = _converterHelper.ToUserFromUpdate(model,user, zipCodeId.Id, path);
+                var updateUser = _converterHelper.ToUserFromUpdate(model, user, zipCodeId.Id, path);
 
 
 
-                if (updateUser==null)
+                if (updateUser == null)
                 {
                     ModelState.AddModelError(string.Empty, "User not found, please try again");
                     return View(model);
@@ -446,7 +437,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
 
 
-        public async Task<IActionResult> ResetPassword (string userId, string token, string tokenPass)
+        public async Task<IActionResult> ResetPassword(string userId, string token, string tokenPass)
         {
             if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
             {
@@ -479,7 +470,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             {
                 var user = await _converterHelper.ToUserFromResetPasswordViewModel(model);
 
-                if (user==null)
+                if (user == null)
                 {
                     return NotFound();
                 }
@@ -530,7 +521,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
         public async Task<IActionResult> EditUser()
         {
-            
+
             var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
 
             if (user != null)
@@ -555,7 +546,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             {
                 var user = await _userHelper.GetUserByIdAsync(model.User.Id);
 
-                if (user==null)
+                if (user == null)
                 {
                     return NotFound();
                 }
@@ -570,8 +561,8 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                 }
 
 
-                var userUpdated = _converterHelper.ToUserFromUpdate(model,user, zipCodeId.Id, path);
-                
+                var userUpdated = _converterHelper.ToUserFromUpdate(model, user, zipCodeId.Id, path);
+
 
                 var result = await _userHelper.UpdateUserAsync(userUpdated);
 
@@ -624,7 +615,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                 string oldPassword = model.OldPassword;
                 string newPassword = model.NewPassword;
-                   
+
 
                 var checkPassword = await _userHelper.CheckPasswordAsync(user, oldPassword);
 
@@ -661,7 +652,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                 var cityName = await _cityRepository.GetByIdAsync(zipcode.CityId);
 
-                string data = zipcode.Id +"," + cityName.CityName;
+                string data = zipcode.Id + "," + cityName.CityName;
 
                 var r = this.Json(data);
 
@@ -693,10 +684,10 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                     return Redirect($"EditUser/{user.Id}");
 
                 }
-               
+
             }
 
-            
+
 
             return Redirect($"EditUser/{model.User.Id}");
         }

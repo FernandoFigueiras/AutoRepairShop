@@ -455,6 +455,30 @@ namespace AutoRepairShop.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Departments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreationDate = table.Column<DateTime>(nullable: true),
+                    UpdateDate = table.Column<DateTime>(nullable: true),
+                    DeactivationDate = table.Column<DateTime>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
+                    DepartmentName = table.Column<string>(nullable: false),
+                    DealershipId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Departments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Departments_Dealerships_DealershipId",
+                        column: x => x.DealershipId,
+                        principalTable: "Dealerships",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ServicesSupplied",
                 columns: table => new
                 {
@@ -600,6 +624,11 @@ namespace AutoRepairShop.Web.Migrations
                 column: "ZipCodeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Departments_DealershipId",
+                table: "Departments",
+                column: "DealershipId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Districts_CountryId",
                 table: "Districts",
                 column: "CountryId");
@@ -694,6 +723,9 @@ namespace AutoRepairShop.Web.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Departments");
 
             migrationBuilder.DropTable(
                 name: "ScheduleDetails");

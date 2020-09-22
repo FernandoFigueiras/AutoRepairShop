@@ -1,0 +1,104 @@
+﻿@model AutoRepairShop.Web.Data.Entities.Department
+
+@{
+    ViewData["Title"] = "Department Details";
+}
+
+
+
+<div class="timeline">
+    <div class="tm-body">
+        <div class="inner-toolbar clearfix">
+            <ul>
+                <li class="right">
+                    <ul class="nav nav-pills nav-pills-primary">
+                        <li>
+                            <label>Go to</label>
+                        </li>
+                        <li class="active">
+                            <a asp-action="EditDepartment" asp-route-id="@Model.Id" style="font-size: 15px">Edit Department</a>
+                        </li>
+                        <li>
+                            <a asp-action="Index" style="font-size: 15px">Back to List</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="tm-title">
+            <h3 class="h5 text-uppercase">Department info</h3>
+        </div>
+        <div style="text-align: center">
+
+        </div>
+        <ol class="tm-items">
+            <li>
+                <div class="tm-info">
+                    <div class="tm-icon"><i class="fa fa-arrow-right"></i></div>
+                    <time class="tm-datetime">
+                        <div class="tm-datetime-time" style="font-size: 13px">@Html.DisplayNameFor(model => model.DepartmentName)</div>
+                    </time>
+                </div>
+                <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="100">
+                    <p style="font-size: 20px">
+                        @Html.DisplayFor(model => model.DepartmentName)
+                    </p>
+
+                </div>
+            </li>
+            <li>
+                <div class="tm-info">
+                    <div class="tm-icon"><i class="fa fa-arrow-right"></i></div>
+                    <time class="tm-datetime">
+                        <div class="tm-datetime-time" style="font-size: 13px">@Html.DisplayNameFor(model => model.IsActive)</div>
+                    </time>
+                </div>
+                <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="100">
+                    <p style="font-size: 20px">
+                        @Html.DisplayFor(model => model.IsActive)
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="tm-info">
+                    <div class="tm-icon"><i class="fa fa-arrow-right"></i></div>
+                    <time class="tm-datetime">
+                        <div class="tm-datetime-time" style="font-size: 13px">@Html.DisplayNameFor(model => model.CreationDate)</div>
+                    </time>
+                </div>
+                <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="100">
+                    <p style="font-size: 20px">
+                        @Html.DisplayFor(model => model.CreationDate)
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="tm-info">
+                    <div class="tm-icon"><i class="fa fa-arrow-right"></i></div>
+                    <time class="tm-datetime">
+                        <div class="tm-datetime-time" style="font-size: 13px">@Html.DisplayNameFor(model => model.UpdateDate)</div>
+                    </time>
+                </div>
+                <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="100">
+                    <p style="font-size: 20px">
+                        @Html.DisplayFor(model => model.UpdateDate)
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="tm-info">
+                    <div class="tm-icon"><i class="fa fa-arrow-right"></i></div>
+                    <time class="tm-datetime">
+                        <div class="tm-datetime-time" style="font-size: 13px">@Html.DisplayNameFor(model => model.DeactivationDate)</div>
+                    </time>
+                </div>
+                <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="100">
+                    <p style="font-size: 20px">
+                        @Html.DisplayFor(model => model.DeactivationDate)
+                    </p>
+                </div>
+            </li>
+
+        </ol>
+    </div>
+</div>

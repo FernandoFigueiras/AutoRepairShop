@@ -85,6 +85,7 @@ namespace AutoRepairShop.Web
             services.AddScoped<IImageHelper, ImageHelper>();
             services.AddScoped<IComboHelpers, ComboHelpers>();
             services.AddScoped<IScheduleDetailRepository, ScheduleDetailRepository>();
+            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 
 
 

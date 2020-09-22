@@ -149,6 +149,8 @@
     <Compile Remove="Migrations\20200916181505_SetDb.Designer.cs" />
     <Compile Remove="Migrations\20200918102847_SetDb.cs" />
     <Compile Remove="Migrations\20200918102847_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200918235509_SetDb.cs" />
+    <Compile Remove="Migrations\20200918235509_SetDb.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -171,7 +173,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\StoreImages\Users\" />
   </ItemGroup>
 

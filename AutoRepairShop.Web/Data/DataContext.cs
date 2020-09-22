@@ -13,28 +13,37 @@ namespace AutoRepairShop.Web.Data
         public DbSet<Brand> Brands { get; set; }
 
 
+
         public DbSet<BrandModel> Models { get; set; }
+
 
 
         public DbSet<Vehicle> Vehicles { get; set; }
 
 
+
         public DbSet<Fuel> Fuels { get; set; }
+
 
 
         public DbSet<Color> Colors { get; set; }
 
 
+
         public DbSet<Country> Countries { get; set; }
+
 
 
         public DbSet<District> Districts { get; set; }
 
 
+
         public DbSet<City> Cities { get; set; }
 
 
+
         public DbSet<ZipCode> ZipCodes { get; set; }
+
 
 
         public DbSet<ActiveSchedule> ActiveSchedules { get; set; }
@@ -44,14 +53,20 @@ namespace AutoRepairShop.Web.Data
         public DbSet<ScheduleDetail> ScheduleDetails { get; set; }
 
 
+
         public DbSet<Dealership> Dealerships { get; set; }
+
 
 
         public DbSet<Service> Services { get; set; }
 
 
+
         public DbSet<ServicesSupplied> ServicesSupplied { get; set; }
 
+
+
+        public DbSet<Department> Departments { get; set; }
 
 
 
@@ -105,7 +120,9 @@ namespace AutoRepairShop.Web.Data
               .IsUnique();
 
 
-
+            modelBuilder.Entity<Department>()
+                .HasIndex(d => d.DepartmentName)
+                .IsUnique();
 
             //modelBuilder.Entity<District>()
             // .HasIndex(d => d.DistrictName)
@@ -119,7 +136,7 @@ namespace AutoRepairShop.Web.Data
 
            
 
-            //Cascade Deleting Rule
+           
          
 
 

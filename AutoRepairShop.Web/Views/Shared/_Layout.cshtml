@@ -455,6 +455,25 @@
 
                                     <li class="nav-parent">
                                         <a>
+                                            <i class="fa fa-puzzle-piece" aria-hidden="true"></i>
+                                            <span>Departments</span>
+                                        </a>
+                                        <ul class="nav nav-children">
+                                            <li>
+                                                <a asp-action="Index" asp-controller="Departments">
+                                                    Departments
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a asp-action="CreateDepartment" asp-controller="Departments">
+                                                    Add Department
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="nav-parent">
+                                        <a>
                                             <i class="fa fa-wrench" aria-hidden="true"></i>
                                             <span>Services</span>
                                         </a>

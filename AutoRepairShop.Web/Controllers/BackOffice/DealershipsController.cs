@@ -88,7 +88,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
                         if (ModelState.IsValid)
                         {
-                            ModelState.AddModelError(String.Empty, $"There is allready a Dealership registered with the name {dealership.DealerShipName} please insert another");
+                            ModelState.AddModelError(string.Empty, $"There is allready a Dealership registered with the name {dealership.DealerShipName} please insert another");
                         }
 
                     }

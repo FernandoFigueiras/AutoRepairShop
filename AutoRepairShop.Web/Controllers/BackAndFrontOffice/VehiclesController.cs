@@ -38,9 +38,9 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
         public async Task<IActionResult> Index()
         {
-            var user =  await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
 
-           
+
             if (user.IsActive == false)
             {
                 return RedirectToAction("EditUser", "Accounts");
@@ -85,7 +85,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             {
                 var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                 var vehicle = _converterHelper.ToNewVehicle(model, user);
-                
+
 
                 try
                 {
@@ -119,7 +119,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                                 if (ex.InnerException.Message.Contains("duplicate"))
                                 {
 
-                                    ModelState.AddModelError(String.Empty, $"There is already a model registered with the name {newModel.ModelName}, please chose another from the list");
+                                    ModelState.AddModelError(string.Empty, $"There is already a model registered with the name {newModel.ModelName}, please chose another from the list");
                                     model.Brands = await _vehicleRepository.GetComboSoloBrand(model).ToAsyncEnumerable().ToList();
                                     model.Models = _vehicleRepository.GetComboModels(model.BrandId);
                                     model.Fuels = _vehicleRepository.GetComboFuels();
@@ -153,7 +153,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                                 {
 
 
-                                    ModelState.AddModelError(String.Empty, $"There is already a Car registered with the Licence PLate number {vehicle.LicencePlate}");
+                                    ModelState.AddModelError(string.Empty, $"There is already a Car registered with the Licence PLate number {vehicle.LicencePlate}");
                                     model.Brands = _vehicleRepository.GetComboBrands();
                                     model.Models = _vehicleRepository.GetComboModels(model.BrandId);
                                     model.Fuels = _vehicleRepository.GetComboFuels();
@@ -193,7 +193,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                         if (ModelState.IsValid)
                         {
-                            ModelState.AddModelError(String.Empty, $"There is already a Car registered with the licence Plate {vehicle}, please insert another");
+                            ModelState.AddModelError(string.Empty, $"There is already a Car registered with the licence Plate {vehicle}, please insert another");
                             model.Brands = _vehicleRepository.GetComboBrands();
                             model.Models = _vehicleRepository.GetComboModels(model.BrandId);
                             model.Fuels = _vehicleRepository.GetComboFuels();
@@ -368,7 +368,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                         if (ModelState.IsValid)
                         {
-                            ModelState.AddModelError(String.Empty, $"There is already a vehicle registered with the licence plate {vehicle.LicencePlate}, the change can not me made");
+                            ModelState.AddModelError(string.Empty, $"There is already a vehicle registered with the licence plate {vehicle.LicencePlate}, the change can not me made");
                         }
                         return View(model);
                     }

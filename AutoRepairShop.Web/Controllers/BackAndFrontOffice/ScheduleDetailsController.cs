@@ -1,16 +1,11 @@
-﻿using AutoRepairShop.Web.Data.Entities;
-using AutoRepairShop.Web.Data.Repositories.Classes;
-using AutoRepairShop.Web.Data.Repositories.Interfaces;
+﻿using AutoRepairShop.Web.Data.Repositories.Interfaces;
 using AutoRepairShop.Web.Helpers.Interfaces;
 using AutoRepairShop.Web.Models.ActiveScheduleViewModel;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Org.BouncyCastle.Crypto.Tls;
 using Syncfusion.EJ2.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 
 namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
@@ -86,7 +81,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
 
             var vehicles = _vehicleRepository.GetUserVehicles(user.Id);
-           
+
 
 
             var model = _converterHelper.ToNewScheduleViewModel(vehicles, services);
@@ -97,7 +92,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                 return View(model);
             }
 
-                 return View(model);
+            return View(model);
 
         }
 
@@ -129,13 +124,13 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                     ViewBag.ServiceDuplicated = $"There is already a schedule registered for {service.Service.ServiceType}, please chose another or change the current schedule";
                     return View(returnModel);
                 }
-               
+
             }
 
             return View(model);
         }
 
-       
+
         public async Task<IActionResult> CompleteSchedule(BeginScheduleViewModel model)
         {
 
@@ -149,7 +144,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
         }
 
         [HttpPost]
-        public async  Task<ActionResult> CompleteSchedule(CompleteScheduleViewModel model)
+        public async Task<ActionResult> CompleteSchedule(CompleteScheduleViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -162,20 +157,20 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                 var scheduleDetail = _converterHelper.ToScheduleDetail(vehicle, activeSchedule, dealership);
 
 
-                    try
+                try
+                {
+                    await _scheduleDetailRepository.CreateAsync(scheduleDetail);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException.Message.Contains("duplicate"))
                     {
-                        await _scheduleDetailRepository.CreateAsync(scheduleDetail);
-                        return RedirectToAction(nameof(Index));
+                        ModelState.AddModelError(string.Empty, "There is already a schedule for that service");
+                        return View(model);
                     }
-                    catch (Exception ex)
-                    {
-                        if (ex.InnerException.Message.Contains("duplicate"))
-                        {
-                            ModelState.AddModelError(string.Empty, "There is already a schedule for that service");
-                            return View(model);
-                        }
 
-                    }
+                }
 
 
 
@@ -213,7 +208,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                 int count = 1;
                 for (int i = 1; i < list.Count; i++)
                 {
-                    if (list[i].ScheduleDay == list[i-1].ScheduleDay)
+                    if (list[i].ScheduleDay == list[i - 1].ScheduleDay)
                     {
                         count += 1;
                         if (count == services.ServicesPerDay)
@@ -263,14 +258,14 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             var scheduleDetail = await _scheduleDetailRepository.GetScheduleDetailAsync(activeScheduleId);
 
 
-            
+
 
             var list = await GetDisabledDays(scheduleDetail.ActiveSchedule.Services.Id, scheduleDetail.Dealership.Id);
 
             var services = _servicesSuppliedRepository.GetWithServicesByDealershipId(scheduleDetail.Dealership.Id);
 
             var model = _converterHelper.ToEditScheduleViewModel(scheduleDetail, services);
-            
+
             var days = Newtonsoft.Json.JsonConvert.SerializeObject(list);
             model.DaysToDisable = days;
             model.ActiveScheduleId = activeScheduleId;
@@ -292,7 +287,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                     await _activeScheduleRepository.UpdateAsync(activeSchedule);
                     return RedirectToAction("Index");
                 }
-                catch 
+                catch
                 {
                     return View(model);
                 }

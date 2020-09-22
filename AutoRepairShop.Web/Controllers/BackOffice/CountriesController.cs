@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using AutoRepairShop.Web.Data.Entities;
+﻿using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
 using AutoRepairShop.Web.Helpers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 
 namespace AutoRepairShop.Web.Controllers.BackOffice
 {
@@ -63,7 +58,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                 {
                     if (ex.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(String.Empty, $"There is allready a country registered with the name {country.CountryName} please insert another");
+                        ModelState.AddModelError(string.Empty, $"There is allready a country registered with the name {country.CountryName} please insert another");
                         return View(country);
 
                     }
@@ -125,7 +120,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                     if (ex.InnerException.Message.Contains("duplicate"))
                     {
 
-                        ModelState.AddModelError(String.Empty, $"There is allready a country registered with the name {country.CountryName}, please insert another");
+                        ModelState.AddModelError(string.Empty, $"There is allready a country registered with the name {country.CountryName}, please insert another");
                         return View(country);
                     }
                     else
@@ -230,7 +225,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         {
             var country = await _countryRepository.GetByIdAsync(id.Value);
 
-            if (country==null)
+            if (country == null)
             {
                 return NotFound();
             }
@@ -238,7 +233,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             var model = _converterHelper.ToNewDistrictModel(country.Id);
 
             return View(model);
-            
+
         }
 
 
@@ -251,13 +246,13 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
                 var country = await _countryRepository.GetByIdAsync(district.CountryId);
 
-                if (country==null)
+                if (country == null)
                 {
                     ModelState.AddModelError(string.Empty, $"The Country {country.CountryName}, is no longer available for ading new districts");
                     return View(district);
                 }
 
-                
+
 
                 var newDistrict = _converterHelper.ToDistrict(district, true);
 
@@ -282,7 +277,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                     if (ex.InnerException.Message.Contains("duplicate"))
                     {
 
-                        ModelState.AddModelError(String.Empty, $"There is allready a District registered with the name {newDistrict.DistrictName}, please insert another");
+                        ModelState.AddModelError(string.Empty, $"There is allready a District registered with the name {newDistrict.DistrictName}, please insert another");
                         ViewBag.CountryId = district.CountryId;
                         return View(district);
                     }
@@ -293,7 +288,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                         return View(district);
                     }
                 }
-                
+
             }
             ViewBag.CountryId = district.CountryId;
             return View(district);
@@ -302,7 +297,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
         public async Task<IActionResult> EditDistrict(int? id)
         {
-            if (id==null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -310,7 +305,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
             var district = await _districtRepository.GetByIdAsync(id.Value);
 
-            if (district==null)
+            if (district == null)
             {
                 return NotFound();
             }
@@ -330,7 +325,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
                 var country = await _countryRepository.GetByIdAsync(district.CountryId);
                 ViewBag.CountryId = district.CountryId;
-                if (country==null)
+                if (country == null)
                 {
                     ModelState.AddModelError(string.Empty, $"The country {country.CountryName} is no longer available");
                     return RedirectToAction(nameof(Index));
@@ -358,7 +353,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                     if (ex.InnerException.Message.Contains("duplicate"))
                     {
 
-                        ModelState.AddModelError(String.Empty, $"There is allready a district registered with the name {district.DistrictName}, please insert another");
+                        ModelState.AddModelError(string.Empty, $"There is allready a district registered with the name {district.DistrictName}, please insert another");
                         return View(district);
                     }
                     else
@@ -376,14 +371,14 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
         public async Task<IActionResult> DeleteDistrict(int? id)
         {
-            if (id==null)
+            if (id == null)
             {
                 return NotFound();
             }
 
             var district = await _districtRepository.GetByIdAsync(id.Value);
 
-            if (district==null)
+            if (district == null)
             {
                 return NotFound();
             }
@@ -408,7 +403,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
                     var country = await _countryRepository.GetByIdAsync(district.CountryId);
 
-                    if (country!=null)
+                    if (country != null)
                     {
                         return RedirectToAction($"DetailsCountry/{country.Id}");
                     }
@@ -417,7 +412,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                         return RedirectToAction(nameof(Index));
                     }
 
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -434,7 +429,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                     }
                     else
                     {
-                        ViewBag.Error= ex.InnerException.Message;
+                        ViewBag.Error = ex.InnerException.Message;
                         return View();
                     }
                 }
@@ -448,7 +443,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
         public async Task<IActionResult> DetailsDistrict(int? id)
         {
-            if (id==null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -462,21 +457,21 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
             return View(district);
         }
-        
+
 
 
         /*##############################################    Cities  ############################################################*/
 
         public async Task<IActionResult> AddCity(int? id)
         {
-            if (id==null)
+            if (id == null)
             {
                 return NotFound();
             }
 
             var district = await _districtRepository.GetByIdAsync(id.Value);
 
-            if (district==null)
+            if (district == null)
             {
                 return NotFound();
             }
@@ -497,7 +492,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
                 var district = await _districtRepository.GetByIdAsync(city.DistrictId);
 
-                if (district==null)
+                if (district == null)
                 {
                     ModelState.AddModelError(string.Empty, $"The District {district.DistrictName} is not available to add Counties");
                     return View();
@@ -523,7 +518,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                     if (ex.InnerException.Message.Contains("duplicate"))
                     {
 
-                        ModelState.AddModelError(String.Empty, $"There is allready a city registered with the name {city.CityName}, please insert another");
+                        ModelState.AddModelError(string.Empty, $"There is allready a city registered with the name {city.CityName}, please insert another");
                         return View(city);
                     }
                     else
@@ -532,7 +527,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                         return View(city);
                     }
                 }
-                
+
 
             }
 
@@ -551,7 +546,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
             var city = await _cityRepository.GetByIdAsync(id.Value);
 
-            if (city==null)
+            if (city == null)
             {
                 return NotFound();
             }
@@ -568,14 +563,14 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             if (ModelState.IsValid)
             {
 
-                if (city==null)
+                if (city == null)
                 {
                     return NotFound();
                 }
 
                 var district = await _districtRepository.GetByIdAsync(city.DistrictId);
 
-                if (district==null)
+                if (district == null)
                 {
                     ModelState.AddModelError(string.Empty, $"The district {district.DistrictName} is no longer available");
                     return View();
@@ -603,7 +598,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                     if (ex.InnerException.Message.Contains("duplicate"))
                     {
 
-                        ModelState.AddModelError(String.Empty, $"There is allready a city registered with the name {city.CityName}, please insert another");
+                        ModelState.AddModelError(string.Empty, $"There is allready a city registered with the name {city.CityName}, please insert another");
                         return View(city);
                     }
                     else
@@ -621,14 +616,14 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
         public async Task<IActionResult> DeleteCity(int? id)
         {
-            if (id==null)
+            if (id == null)
             {
                 return NotFound();
             }
 
             var city = await _cityRepository.GetByIdAsync(id.Value);
 
-            if (city==null)
+            if (city == null)
             {
                 return NotFound();
             }
@@ -640,14 +635,14 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
 
         [HttpPost]
-        public async Task<IActionResult> DeleteCity(int id )
+        public async Task<IActionResult> DeleteCity(int id)
         {
             var city = await _cityRepository.GetByIdAsync(id);
             if (ModelState.IsValid)
             {
-                
 
-                if (city==null)
+
+                if (city == null)
                 {
                     return RedirectToAction(nameof(Index));
                 }

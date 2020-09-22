@@ -1,27 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AutoRepairShop.Web.Data.Entities;
+using AutoRepairShop.Web.Data.Repositories.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using AutoRepairShop.Web.Data;
-using AutoRepairShop.Web.Data.Entities;
-using AutoRepairShop.Web.Data.Repositories;
-using System.Threading;
-using System.Linq.Expressions;
-using AutoRepairShop.Web.Data.Repositories.Interfaces;
 
 namespace AutoRepairShop.Web.Controllers.BackOffice
 {
     public class FuelsController : Controller
     {
-        
+
         private readonly IFuelRepository _fuelRepository;
 
         public FuelsController(IFuelRepository fuelRepository)
         {
-            
+
             _fuelRepository = fuelRepository;
         }
 
@@ -79,7 +73,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
                         if (ModelState.IsValid)
                         {
-                            ModelState.AddModelError(String.Empty, $"There is allready a Fuel registered with the name {fuel.FuelType} please insert another");
+                            ModelState.AddModelError(string.Empty, $"There is allready a Fuel registered with the name {fuel.FuelType} please insert another");
                         }
 
                     }
@@ -88,7 +82,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                         ModelState.AddModelError(string.Empty, ex.InnerException.Message);
                     }
                 }
-                
+
             }
             return View(fuel);
         }
@@ -117,7 +111,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Fuel fuel)
         {
-          
+
 
             if (ModelState.IsValid)
             {
@@ -142,7 +136,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
                             if (ModelState.IsValid)
                             {
-                                ModelState.AddModelError(String.Empty, $"There is allready a Fuel registered with the name {fuel.FuelType} please insert another");
+                                ModelState.AddModelError(string.Empty, $"There is allready a Fuel registered with the name {fuel.FuelType} please insert another");
                             }
                             return View(fuel);
                         }
@@ -152,11 +146,11 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                             return View(fuel);
                         }
                     }
-                    
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (! await _fuelRepository.ExistsAsync(fuel.Id))
+                    if (!await _fuelRepository.ExistsAsync(fuel.Id))
                     {
                         return NotFound();
                     }
@@ -197,7 +191,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                 .GetByIdAsync(id);
             try
             {
-                
+
                 await _fuelRepository
                     .DeleteAsync(fuel);
                 return RedirectToAction(nameof(Index));

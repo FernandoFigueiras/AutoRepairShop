@@ -67,7 +67,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
                         if (ModelState.IsValid)
                         {
-                            ModelState.AddModelError(String.Empty, $"There is allready a Service registered with the name {service.ServiceType} please insert another");
+                            ModelState.AddModelError(string.Empty, $"There is allready a Service registered with the name {service.ServiceType} please insert another");
                         }
 
                     }

@@ -69,11 +69,10 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                     if (ex.InnerException.Message.Contains("duplicate"))
                     {
 
-                        if (ModelState.IsValid)
-                        {
-                            ModelState.AddModelError(String.Empty, $"There is allready a brand registered with the name {brand.BrandName}, please insert another");
-                            return View(brand);
-                        }
+
+                        ModelState.AddModelError(string.Empty, $"There is allready a brand registered with the name {brand.BrandName}, please insert another");
+                        return View(brand);
+
 
                     }
                     else
@@ -133,7 +132,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
                             if (ModelState.IsValid)
                             {
-                                ModelState.AddModelError(String.Empty, $"There is allready a brand registered with the name {brand.BrandName}, please insert another");
+                                ModelState.AddModelError(string.Empty, $"There is allready a brand registered with the name {brand.BrandName}, please insert another");
                             }
                             return View(brand);
                         }
@@ -202,8 +201,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
                     if (ModelState.IsValid)
                     {
-                        //TODO make buttons to get to the respective views
-                        ViewBag.Error = $"There are models associated with brand named {brand.BrandName}, either delete them or deactivate brand";
+                          ViewBag.Error = $"There are models associated with brand named {brand.BrandName}, either delete them or deactivate brand";
                     }
 
                 }
@@ -272,7 +270,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
                         if (ModelState.IsValid)
                         {
-                            ModelState.AddModelError(String.Empty, $"There is allready a Model registered with the name {model.Name} please insert another");
+                            ModelState.AddModelError(string.Empty, $"There is allready a Model registered with the name {model.Name} please insert another");
                         }
 
                     }
@@ -339,7 +337,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
                         if (ModelState.IsValid)
                         {
-                            ModelState.AddModelError(String.Empty, $"There is allready a Model registered with the name {model.ModelName} please insert another");
+                            ModelState.AddModelError(string.Empty, $"There is allready a Model registered with the name {model.ModelName} please insert another");
                         }
 
                     }

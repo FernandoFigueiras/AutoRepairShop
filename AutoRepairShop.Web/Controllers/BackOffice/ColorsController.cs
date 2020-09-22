@@ -71,7 +71,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
                         if (ModelState.IsValid)
                         {
-                            ModelState.AddModelError(String.Empty, $"There is allready a color {color.ColorName} registered, please insert another");
+                            ModelState.AddModelError(string.Empty, $"There is allready a color {color.ColorName} registered, please insert another");
                             return View(color);
                         }
 
@@ -134,7 +134,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
                             if (ModelState.IsValid)
                             {
-                                ModelState.AddModelError(String.Empty, $"There is already a color {color.ColorName} registered, please insert another");
+                                ModelState.AddModelError(string.Empty, $"There is already a color {color.ColorName} registered, please insert another");
                                 return View(color);
                             }
 
