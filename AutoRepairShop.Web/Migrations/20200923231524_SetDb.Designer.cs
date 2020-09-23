@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoRepairShop.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200922230212_SetDb")]
+    [Migration("20200923231524_SetDb")]
     partial class SetDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -310,8 +310,6 @@ namespace AutoRepairShop.Web.Migrations
 
                     b.Property<bool>("IsActive");
 
-                    b.Property<int?>("PositionId");
-
                     b.Property<DateTime?>("UpdateDate");
 
                     b.Property<string>("UserId");
@@ -322,36 +320,9 @@ namespace AutoRepairShop.Web.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.HasIndex("PositionId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("Employees");
-                });
-
-            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.EmployeePosition", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime?>("CreationDate");
-
-                    b.Property<DateTime?>("DeactivationDate");
-
-                    b.Property<bool>("IsActive");
-
-                    b.Property<string>("PositionName");
-
-                    b.Property<DateTime?>("UpdateDate");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PositionName")
-                        .IsUnique()
-                        .HasFilter("[PositionName] IS NOT NULL");
-
-                    b.ToTable("EmployeePositions");
                 });
 
             modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.Fuel", b =>
@@ -471,6 +442,8 @@ namespace AutoRepairShop.Web.Migrations
                     b.Property<int>("AccessFailedCount");
 
                     b.Property<string>("Address");
+
+                    b.Property<bool>("CanLogin");
 
                     b.Property<string>("City");
 
@@ -785,10 +758,6 @@ namespace AutoRepairShop.Web.Migrations
                     b.HasOne("AutoRepairShop.Web.Data.Entities.Department", "Department")
                         .WithMany()
                         .HasForeignKey("DepartmentId");
-
-                    b.HasOne("AutoRepairShop.Web.Data.Entities.EmployeePosition", "Position")
-                        .WithMany()
-                        .HasForeignKey("PositionId");
 
                     b.HasOne("AutoRepairShop.Web.Data.Entities.User", "User")
                         .WithMany()

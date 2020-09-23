@@ -57,17 +57,22 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                 var user = await _userHelper.GetUserByEmailAsync(userName);
 
-                if (user.IsActive == true)
-                {
 
-                    return this.RedirectToAction("Main", "Home");
 
-                }
-                else
-                {
-                    TempData["UserId"] = user.Id;
-                    return this.RedirectToAction("UpdateUser", new { id = user.Id });
-                }
+
+                    if (user.IsActive == true)
+                    {
+
+                        return this.RedirectToAction("Main", "Home");
+
+                    }
+                    else
+                    {
+                        TempData["UserId"] = user.Id;
+                        return this.RedirectToAction("UpdateUser", new { id = user.Id });
+                    }
+ 
+               
 
             }
 
@@ -83,29 +88,36 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
         {
             if (ModelState.IsValid)
             {
+                var user = await _userHelper.GetUserByEmailAsync(model.UserName);
 
-
-                var result = await _userHelper.LoginAsync(model);
-
-                if (result.Succeeded)
+                if (user.CanLogin)
                 {
+                    var result = await _userHelper.LoginAsync(model);
 
-                    var user = await _userHelper.GetUserByEmailAsync(model.UserName);
-                    if (user.IsActive == false)
+                    if (result.Succeeded)
                     {
-                        TempData["UserId"] = user.Id;
-                        return this.RedirectToAction("EditUser", new { id = user.Id });
+
+
+                        if (user.IsActive == false)
+                        {
+                            TempData["UserId"] = user.Id;
+                            return this.RedirectToAction("EditUser", new { id = user.Id });
+                        }
+
+
+                        if (this.Request.Query.Keys.Contains("ReturnUrl"))
+                        {
+                            return this.Redirect(this.Request.Query["ReturnUrl"].First());
+                        }
+
+
+                        return this.RedirectToAction("Main", "Home");
                     }
-
-
-                    if (this.Request.Query.Keys.Contains("ReturnUrl"))
-                    {
-                        return this.Redirect(this.Request.Query["ReturnUrl"].First());
-                    }
-
-
-                    return this.RedirectToAction("Main", "Home");
                 }
+
+                this.ModelState.AddModelError(string.Empty, "Failed to login");
+                //ViewData["Partial"] = "None";
+                return this.View(model);
             }
 
             this.ModelState.AddModelError(string.Empty, "Failed to login");

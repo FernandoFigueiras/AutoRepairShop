@@ -83,7 +83,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                 {
 
                     user.IsActive = true;
-                    
+                    user.CanLogin = true;
 
                    var result = await _userHelper.AddUserAsync(user, model.Password);
 
@@ -287,20 +287,32 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                     if (model.IsActive ==false)
                     {
                         employee.IsActive = false;
+                        user.CanLogin = false;
+                    }
+                    else
+                    {
+                        employee.IsActive = true;
+                        user.CanLogin = true;
                     }
 
+ 
+                    
                     await _employeeRepository.UpdateAsync(employee);
+                    await _userHelper.UpdateUserAsync(user);
                     await _userHelper.RemoveFromRoleAsync(user, model.OldRole);
                     var response = await _userHelper.IsUSerInRoleAsync(user, employee.Role);
 
                     if (!response)
                     {
-                       await _userHelper.CheckRoleAsync(employee.Role);
+                        await _userHelper.CheckRoleAsync(employee.Role);
 
                         await _userHelper.AddUserToRoleAsync(user, employee.Role);
+
                     }
 
                     return RedirectToAction(nameof(Index));
+
+
                 }
                 catch (Exception ex)
                 {

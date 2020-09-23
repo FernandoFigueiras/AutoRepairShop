@@ -171,6 +171,8 @@ namespace AutoRepairShop.Web.Data
                         UserName = "fjfigdev@gmail.com",
                         Email = "fjfigdev@gmail.com",
                         ZipCodeId = 1,
+                        IsActive = true,
+                        CanLogin = true,
                     };
 
                     var result = await _userHelper.AddUserAsync(user, "123456");

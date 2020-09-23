@@ -661,7 +661,9 @@ namespace AutoRepairShop.Web.Helpers.Classes
             {
                 EmployeeId = employee.Id,
                 Dealerships = _comboHelpers.GetDealerships(dealerships),
+                DealershipId = employee.Dealership.Id,
                 Departments = _comboHelpers.GetDepartments(departments),
+                DepartmentId = employee.Department.Id,
                 UserId = user.Id,
                 OldRole = employee.Role,
                 IsActive = employee.IsActive,

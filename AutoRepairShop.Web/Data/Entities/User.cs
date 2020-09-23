@@ -9,10 +9,11 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
         public bool? IsActive { get; set; }
-        
-        
 
-        
+
+        public bool CanLogin { get; set; }
+
+
         public DateTime? CreationDate { get; set; }
         
         

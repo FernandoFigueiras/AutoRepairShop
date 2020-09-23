@@ -30,7 +30,7 @@ namespace AutoRepairShop.Web.Models.EmployeeViewModel
 
 
 
-        [Required]
+        
         [Display(Name = "Dealership")]
         [Range(1, int.MaxValue, ErrorMessage = "You must select a {0}")]
         public int DealershipId { get; set; }
@@ -38,7 +38,7 @@ namespace AutoRepairShop.Web.Models.EmployeeViewModel
 
 
 
-        [Required]
+        
         [Display(Name = "Department")]
         [Range(1, int.MaxValue, ErrorMessage = "You must select a {0}")]
         public int DepartmentId { get; set; }

@@ -90,5 +90,9 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
 
 
         Task<IdentityResult> DeleteUserAsync(User user);
+
+
+
+
     }
 }

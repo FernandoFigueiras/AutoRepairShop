@@ -193,6 +193,8 @@ namespace AutoRepairShop.Web.Helpers.Classes
             return await _userManager.DeleteAsync(user);
         }
 
+       
+
 
     }
 }
