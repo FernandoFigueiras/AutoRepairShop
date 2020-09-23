@@ -1,0 +1,144 @@
+﻿@model AutoRepairShop.Web.Models.EmployeeViewModel.EditEmployeeViewModel
+@{
+    ViewData["Title"] = "Edit Employee";
+}
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <div class="panel-body">
+                <form method="post">
+                    <div class="form-group">
+                        <input type="hidden" asp-for="EmployeeId" />
+                        <input type="hidden" asp-for="UserId" />
+                        <input type="hidden" asp-for="OldRole" />
+
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label>
+                                    <input asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                                </label>
+                            </div>
+                        </div>
+
+
+
+                        <label class="col-md-3 control-label" asp-for="DealershipId"></label>
+                        <div class="col-md-6">
+                            <select class="form-control" asp-items="Model.Dealerships" asp-for="DealershipId">
+                            </select>
+                            <span asp-validation-for="DealershipId" class="text-danger"></span>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" asp-for="DepartmentId"></label>
+                        <div class="col-md-6">
+                            <select class="form-control" id="services" asp-items="Model.Departments" asp-for="DepartmentId">
+                            </select>
+                            <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                        </div>
+
+                    </div>
+
+
+
+                    <div style="text-align: center">
+                        <div class="form-group">
+                            <button type="submit" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Change</button>
+                            <a asp-action="Index" formnovalidate class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Exit</a>
+                            <button asp-action="DeleteEmployee" asp-controller="Employees" asp-route-id="Id" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Delete Employee</button>
+                        </div>
+                    </div>
+
+                </form>
+
+
+            </div>
+        </section>
+    </div>
+</div>
+
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+    <!-- Specific Page Vendor -->
+    <script src="~/assets/vendor/jquery-autosize/jquery.autosize.js"></script>
+    <script src="~/assets/vendor/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#zipcode4input").change(function () {
+                let zip4 = $("#zipcode4input").val();
+
+
+                let zip4n = parseInt($("#zipcode4input").val());
+
+                if (zip4.length != 4 || isNaN(zip4n)) {
+                    $("#validationZip").show().html("The correct zip code format must be 0000-000");
+                    return;
+                }
+                $("#validationZip").hide();
+            });
+
+
+            $("#zipcode3input").change(function () {
+                let zip3 = $("#zipcode3input").val();
+
+
+                let zip3n = parseInt($("#zipcode4input").val());
+
+                if (zip3.length != 3 || isNaN(zip3n)) {
+                    $("#validationZip").show().html("The correct zip code format must be 0000-000");
+                    return;
+                }
+
+                $("#validationZip").hide();
+
+            });
+        });
+
+    </script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#zipcode3input").blur(function () {
+                if ($("#zipcode3input").val().length != 3) {
+                    return;
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetZipCodeAndCityId")',
+                    dataType: 'json',
+                    data: {zip4: $("#zipcode4input").val(), zip3: $("#zipcode3input").val()},
+                    success: function (data) {
+                        $("#cityText").val(data.split(',')[1]);
+                        $("#zipId").val(data.split(',')[0]);
+
+                },
+                error: function () {
+                    alert("The zip code entered does not exists in our database, do you confirm it is correct?");
+                }
+
+            });
+        });
+        })
+
+
+    </script>
+
+}

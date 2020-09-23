@@ -159,10 +159,20 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
         CreateEmployeeViewModel ToCreateEmployeeVieModel(IEnumerable<Dealership> dealerships, IEnumerable<Department> departments);
 
 
+
         User ToEmployeeUser(string userName,  User user);
 
 
+
         Employee ToNewEmplyee(Dealership dealership, Department department, User user);
+
+
+
+        EditEmployeeViewModel ToEditEmployeeViewModel(IEnumerable<Dealership> dealerships, IEnumerable<Department> departments, Employee employee, User user);
+
+
+
+        Task<Employee> ToEmplyoyeeFromEditViewModelAsync(EditEmployeeViewModel model, User user);
 
     }
 }

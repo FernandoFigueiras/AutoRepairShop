@@ -42,6 +42,10 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
 
 
 
+        Task RemoveFromRoleAsync(User user, string role);
+
+
+
 
         Task<User> GetUserByIdAsync(string userName);
 
@@ -83,5 +87,8 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
 
         Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string nwePassword);
 
+
+
+        Task<IdentityResult> DeleteUserAsync(User user);
     }
 }

@@ -1,0 +1,64 @@
+﻿@model AutoRepairShop.Web.Data.Entities.Employee
+
+@{
+    ViewData["Title"] = "Delete Employee";
+}
+
+
+<h3>Are you sure you want to delete this?</h3>
+
+
+<h2>@ViewBag.Error </h2>
+
+
+
+
+<section class="panel">
+    <div class="panel-body tab-content">
+        <div id="access-log" class="tab-pane active">
+            <input type="hidden" asp-for="Id" />
+            <table class="table table-striped table-no-more table-bordered  mb-none">
+                <thead>
+                    <tr>
+                        <th style="width: 25%; margin: auto"><span class="text-normal text-sm">Data</span></th>
+                        <th style="width: 55%"><span class="text-normal text-sm">Employee Information</span></th>
+                    </tr>
+                </thead>
+                <tbody class="log-viewer">
+                    <tr>
+                        <td data-title="Type" class="pt-md pb-md">
+                            @Html.DisplayNameFor(model => model.User.FullName)
+                        </td>
+                        <td data-title="Date" class="pt-md pb-md">
+                            @Html.DisplayFor(model => model.User.FullName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-title="Type" class="pt-md pb-md">
+                            @Html.DisplayNameFor(model => model.Dealership.DealerShipName)
+                        </td>
+                        <td data-title="Date" class="pt-md pb-md">
+                            @Html.DisplayFor(model => model.Dealership.DealerShipName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-title="Type" class="pt-md pb-md">
+                            @Html.DisplayNameFor(model => model.Department.DepartmentName)
+                        </td>
+                        <td data-title="Date" class="pt-md pb-md">
+                            @Html.DisplayFor(model => model.Department.DepartmentName)
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <form asp-action="DeleteEmployee" style="text-align: center">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Delete</button>
+            <button asp-action="Index" formnovalidate class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Exit</button>
+        </form>
+
+    </div>
+
+</section>

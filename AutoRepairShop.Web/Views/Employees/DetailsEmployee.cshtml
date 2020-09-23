@@ -1,7 +1,7 @@
-﻿@model AutoRepairShop.Web.Data.Entities.Dealership
+﻿@model AutoRepairShop.Web.Data.Entities.Employee
 
 @{
-    ViewData["Title"] = "Dealership Details";
+    ViewData["Title"] = "Employee Details";
 }
 
 
@@ -16,7 +16,7 @@
                             <label>Go to</label>
                         </li>
                         <li class="active">
-                            <a asp-action="Edit" asp-route-id="@Model.Id" style="font-size: 15px">Edit</a>
+                            <a asp-action="EditEmployee" asp-route-id="@Model.Id" style="font-size: 15px">Edit</a>
                         </li>
                         <li>
                             <a asp-action="Index" style="font-size: 15px">Back to List</a>
@@ -26,23 +26,22 @@
             </ul>
         </div>
         <div class="tm-title">
-            <h3 class="h5 text-uppercase">Your car's info</h3>
+            <h3 class="h5 text-uppercase">Employee's info</h3>
         </div>
         <div style="text-align: center">
 
         </div>
         <ol class="tm-items">
-
             <li>
                 <div class="tm-info">
                     <div class="tm-icon"><i class="fa fa-arrow-right"></i></div>
                     <time class="tm-datetime">
-                        <div class="tm-datetime-time" style="font-size: 13px">@Html.DisplayNameFor(model => model.DealerShipName)</div>
+                        <div class="tm-datetime-time" style="font-size: 13px">@Html.DisplayNameFor(model => model.User.FullName)</div>
                     </time>
                 </div>
                 <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="100">
                     <p style="font-size: 20px">
-                        @Html.DisplayFor(model => model.DealerShipName)
+                        @Html.DisplayFor(model => model.User.FullName)
                     </p>
 
                 </div>
@@ -51,12 +50,12 @@
                 <div class="tm-info">
                     <div class="tm-icon"><i class="fa fa-arrow-right"></i></div>
                     <time class="tm-datetime">
-                        <div class="tm-datetime-time" style="font-size: 13px">@Html.DisplayNameFor(model => model.Address)</div>
+                        <div class="tm-datetime-time" style="font-size: 13px">@Html.DisplayNameFor(model => model.User.PhoneNumber)</div>
                     </time>
                 </div>
                 <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="100">
                     <p style="font-size: 20px">
-                        @Html.DisplayFor(model => model.Address)
+                        @Html.DisplayFor(model => model.User.PhoneNumber)
                     </p>
 
                 </div>
@@ -65,12 +64,40 @@
                 <div class="tm-info">
                     <div class="tm-icon"><i class="fa fa-arrow-right"></i></div>
                     <time class="tm-datetime">
-                        <div class="tm-datetime-time" style="font-size: 13px">@Html.DisplayNameFor(model => model.ZipCode)</div>
+                        <div class="tm-datetime-time" style="font-size: 13px">@Html.DisplayNameFor(model => model.User.UserName)</div>
                     </time>
                 </div>
                 <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="100">
                     <p style="font-size: 20px">
-                        @Html.DisplayFor(model => model.ZipCode.FullZipCode)
+                        @Html.DisplayFor(model => model.User.UserName)
+                    </p>
+
+                </div>
+            </li>
+            <li>
+                <div class="tm-info">
+                    <div class="tm-icon"><i class="fa fa-arrow-right"></i></div>
+                    <time class="tm-datetime">
+                        <div class="tm-datetime-time" style="font-size: 13px">@Html.DisplayNameFor(model => model.Dealership.DealerShipName)</div>
+                    </time>
+                </div>
+                <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="100">
+                    <p style="font-size: 20px">
+                        @Html.DisplayFor(model => model.Dealership.DealerShipName)
+                    </p>
+
+                </div>
+            </li>
+            <li>
+                <div class="tm-info">
+                    <div class="tm-icon"><i class="fa fa-arrow-right"></i></div>
+                    <time class="tm-datetime">
+                        <div class="tm-datetime-time" style="font-size: 13px">@Html.DisplayNameFor(model => model.Department.DepartmentName)</div>
+                    </time>
+                </div>
+                <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="100">
+                    <p style="font-size: 20px">
+                        @Html.DisplayFor(model => model.Department.DepartmentName)
                     </p>
 
                 </div>
@@ -131,6 +158,7 @@
 
                 </div>
             </li>
+
         </ol>
     </div>
 </div>

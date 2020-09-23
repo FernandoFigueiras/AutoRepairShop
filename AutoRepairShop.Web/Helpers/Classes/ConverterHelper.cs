@@ -29,6 +29,8 @@ namespace AutoRepairShop.Web.Helpers.Classes
         private readonly ICountryRepository _countryRepository;
         private readonly IComboHelpers _comboHelpers;
         private readonly IServiceRepository _serviceRepository;
+        private readonly IDealershipRepository _dealershipRepository;
+        private readonly IDepartmentRepository _departmentRepository;
 
         public ConverterHelper(IVehicleRepository vehicleRepository,
             IBrandRepository brandRepository,
@@ -38,7 +40,9 @@ namespace AutoRepairShop.Web.Helpers.Classes
             IZipCodeRepository zipCodeRepository,
             ICountryRepository countryRepository,
             IComboHelpers comboHelpers,
-            IServiceRepository serviceRepository)
+            IServiceRepository serviceRepository,
+            IDealershipRepository dealershipRepository,
+            IDepartmentRepository departmentRepository)
         {
             _vehicleRepository = vehicleRepository;
             _brandRepository = brandRepository;
@@ -49,6 +53,8 @@ namespace AutoRepairShop.Web.Helpers.Classes
             _countryRepository = countryRepository;
             _comboHelpers = comboHelpers;
             _serviceRepository = serviceRepository;
+            _dealershipRepository = dealershipRepository;
+            _departmentRepository = departmentRepository;
         }
 
 
@@ -202,6 +208,9 @@ namespace AutoRepairShop.Web.Helpers.Classes
         }
 
 
+
+
+
         public UpdateUserDataViewModel ToUpdateDataViewModel(User user, ZipCode zipCode)
         {
             var model = new UpdateUserDataViewModel
@@ -219,6 +228,8 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
             return model;
         }
+
+
 
 
 
@@ -242,6 +253,8 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
 
 
+
+
         public ResetPasswordViewModel ToResetPasswordViewModel(User user)
         {
             var model = new ResetPasswordViewModel
@@ -255,16 +268,23 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
 
 
+
+
         public async Task<User> ToUserFromResetPasswordViewModel(ResetPasswordViewModel model)
         {
             return await _userHelper.GetUserByEmailAsync(model.User.UserName);
         }
 
 
+
+
+
         public async Task<User> ToUserFromEditUserResetPassword(UpdateUserDataViewModel model)
         {
             return await _userHelper.GetUserByEmailAsync(model.User.UserName);
         }
+
+
 
 
 
@@ -279,6 +299,9 @@ namespace AutoRepairShop.Web.Helpers.Classes
         }
 
 
+
+
+
         public District ToNewDistrictModel(int Id)
         {
             return new District
@@ -287,6 +310,9 @@ namespace AutoRepairShop.Web.Helpers.Classes
                 Id = 0,
             };
         }
+
+
+
 
 
 
@@ -315,6 +341,9 @@ namespace AutoRepairShop.Web.Helpers.Classes
         }
 
 
+
+
+
         public City ToNewCityModel(int id)
         {
             return new City
@@ -323,6 +352,9 @@ namespace AutoRepairShop.Web.Helpers.Classes
                 Id = 0,
             };
         }
+
+
+
 
 
         public City ToCity(City city, bool isNew)
@@ -350,6 +382,9 @@ namespace AutoRepairShop.Web.Helpers.Classes
         }
 
 
+
+
+
         public DealershipServicesViewModel ToDealershipViewModel(int dealershipId, string dealershipName, List<ServicesSupplied> services)
         {
             return new DealershipServicesViewModel
@@ -359,6 +394,9 @@ namespace AutoRepairShop.Web.Helpers.Classes
                 DealershipName = dealershipName,
             };
         }
+
+
+
 
 
         public ServicesSupplied ToServicesSupplied(Dealership dealership, Service service, int? serviceSuppliedId, bool isActive)
@@ -373,6 +411,10 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
         }
 
+
+
+
+
         public ServicesSupplied ToNewServicesSupplied(Dealership dealership, Service service)
         {
             return new ServicesSupplied
@@ -383,6 +425,9 @@ namespace AutoRepairShop.Web.Helpers.Classes
             };
 
         }
+
+
+
 
 
         public ZipCode ToNewZipCode(string zipcode4, string zipcode3, int cityId)
@@ -397,6 +442,10 @@ namespace AutoRepairShop.Web.Helpers.Classes
             };
         }
 
+
+
+
+
         public MainWindowViewModel ToMainWindowViewModelFromVehicles(User user)
         {
             return new MainWindowViewModel
@@ -404,6 +453,8 @@ namespace AutoRepairShop.Web.Helpers.Classes
                 UserImageUrl = user.ImageUrl,
             };
         }
+
+
 
 
         public BeginScheduleViewModel ToNewScheduleViewModel(IEnumerable<Vehicle> vehicles, IEnumerable<ServicesSupplied> services)
@@ -418,6 +469,8 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
 
 
+
+
         public async Task<ActiveSchedule> ToActiveSchedule(BeginScheduleViewModel model)
         {
             return new ActiveSchedule
@@ -427,6 +480,10 @@ namespace AutoRepairShop.Web.Helpers.Classes
                 Services = await _serviceRepository.GetByIdAsync(model.ServicesSuppliedId)
             };
         }
+
+
+
+
 
 
         public ScheduleDetail ToScheduleDetail(Vehicle vehicle, ActiveSchedule activeSchedule, Dealership dealership)
@@ -446,6 +503,7 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
 
 
+
         public CompleteScheduleViewModel ToCompleteScheduleViewModel(BeginScheduleViewModel model, Service service)
         {
             return new CompleteScheduleViewModel
@@ -458,6 +516,9 @@ namespace AutoRepairShop.Web.Helpers.Classes
             };
 
         }
+
+
+
 
 
         public ActiveSchedule ToActiveSchedule(CompleteScheduleViewModel model, Service service)
@@ -474,6 +535,9 @@ namespace AutoRepairShop.Web.Helpers.Classes
         }
 
 
+
+
+
         public EditScheduleViewModel ToEditScheduleViewModel(ScheduleDetail scheduleDetail, IEnumerable<ServicesSupplied> services)
         {
             return new EditScheduleViewModel
@@ -488,6 +552,8 @@ namespace AutoRepairShop.Web.Helpers.Classes
         }
 
 
+
+
         public async Task<ActiveSchedule> ToActiveScheduleFromEditAsync(EditScheduleViewModel model)
         {
             return new ActiveSchedule
@@ -500,6 +566,9 @@ namespace AutoRepairShop.Web.Helpers.Classes
                 Remarks = model.Remarks,
             };
         }
+
+
+
 
 
         public async Task<ScheduleDetailsViewModel> ToScheduleDetailsViewModelAsync(ScheduleDetail scheduleDetail)
@@ -520,6 +589,7 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
 
 
+
         public DeleteScheduleViewModel ToDeleteScheduleViewModel(ScheduleDetail scheduleDetail)
         {
             return new DeleteScheduleViewModel
@@ -534,6 +604,8 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
 
 
+
+
         public CreateEmployeeViewModel ToCreateEmployeeVieModel(IEnumerable<Dealership> dealerships, IEnumerable<Department> departments)
         {
             return new CreateEmployeeViewModel
@@ -543,6 +615,7 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
             };
         }
+
 
 
 
@@ -565,6 +638,8 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
 
 
+
+
         public Employee ToNewEmplyee(Dealership dealership, Department department, User user)
         {
             return new Employee
@@ -576,5 +651,37 @@ namespace AutoRepairShop.Web.Helpers.Classes
                 Department = department,
             };
         }
+
+
+
+
+        public EditEmployeeViewModel ToEditEmployeeViewModel(IEnumerable<Dealership> dealerships, IEnumerable<Department> departments, Employee employee, User user)
+        {
+            return new EditEmployeeViewModel
+            {
+                EmployeeId = employee.Id,
+                Dealerships = _comboHelpers.GetDealerships(dealerships),
+                Departments = _comboHelpers.GetDepartments(departments),
+                UserId = user.Id,
+                OldRole = employee.Role,
+                IsActive = employee.IsActive,
+            };
+        }
+
+
+
+
+        public async Task<Employee> ToEmplyoyeeFromEditViewModelAsync(EditEmployeeViewModel model, User user)
+        {
+            return new Employee
+            {
+                Id = model.EmployeeId,
+                IsActive = model.IsActive,
+                Dealership = await _dealershipRepository.GetByIdAsync(model.DealershipId),
+                Department = await _departmentRepository.GetByIdAsync(model.DepartmentId),
+                User = user,
+            };
+        }
+
     }
 }

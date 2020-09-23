@@ -60,10 +60,9 @@
                             @Html.DisplayFor(modelItem => item.UpdateDate)
                         </td>
                         <td class="actions">
-                            <a asp-action="Details" asp-route-id="@item.Id">  Details</a>
-                            <a asp-action="Edit" asp-route-id="@item.Id">  Edit</a>
-                            <a asp-action="AddModel" asp-route-id="@item.Id">  Add Model</a>
-                            <a asp-action="Delete" asp-route-id="@item.Id">  Delete</a>
+                            <a asp-action="DetailsEmployee" asp-route-id="@item.Id">  Details</a>
+                            <a asp-action="EditEmployee" asp-route-id="@item.Id">  Edit</a>
+                            <a asp-action="DeleteEmployee" asp-route-id="@item.Id">  Delete</a>
                         </td>
                     </tr>
                 }

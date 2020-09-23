@@ -2,7 +2,6 @@
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace AutoRepairShop.Web.Data.Repositories.Classes
@@ -17,13 +16,24 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
         }
 
 
-        public IQueryable<Employee> GetEmployeeFullInfoAsync()
+        public IQueryable<Employee> GetEmployeesFullInfoAsync()
         {
             return _context.Employees
                 .Include(e => e.Dealership)
                 .Include(e => e.Department)
                 .Include(e => e.User);
-                
+
+        }
+
+
+        public async Task<Employee> GetEmployeeFullInfoAsync(int Id)
+        {
+            return await _context.Employees
+                .Include(e => e.Dealership)
+                .Include(e => e.Department)
+                .Include(e => e.User)
+                .Where(e => e.Id == Id)
+                .FirstOrDefaultAsync();
         }
     }
 }

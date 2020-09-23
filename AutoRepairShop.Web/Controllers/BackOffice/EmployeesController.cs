@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoRepairShop.Web.Data;
+using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
 using AutoRepairShop.Web.Helpers.Interfaces;
 using AutoRepairShop.Web.Models.EmployeeViewModel;
@@ -41,11 +42,20 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             _mailHelper = mailHelper;
         }
 
+
+
+
+
+
         public IActionResult Index()
         {
-            var employees = _employeeRepository.GetEmployeeFullInfoAsync();
+            var employees = _employeeRepository.GetEmployeesFullInfoAsync();
             return View(employees);
         }
+
+
+
+
 
 
         public IActionResult CreateEmployee()
@@ -57,6 +67,10 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
             return View(model);
         }
+
+
+
+
 
         [HttpPost]
         public async Task<IActionResult> CreateEmployee(CreateEmployeeViewModel model)
@@ -86,11 +100,13 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
 
                     var employee = _converterHelper.ToNewEmplyee(dealership, department, user);
+                    
+                    employee.CreationDate = DateTime.Now;
 
                     try
                     {
+                        employee.IsActive = true;
                         await _employeeRepository.CreateAsync(employee);
-                        
 
                     }
                     catch (Exception ex)
@@ -98,10 +114,8 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                         if (ex.InnerException.Message.Contains("duplicate"))
                         {
 
-
                             ModelState.AddModelError(string.Empty, $"There is allready a Employee registered with the name {user.FullName} please insert another");
                             return View(model);
-
                         }
                         else
                         {
@@ -140,8 +154,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
                 }
 
-                this.ModelState.AddModelError(string.Empty, "The user already exists");
-                return View(model);
+                this.ModelState.AddModelError(string.Empty, $"the user {user.UserName} allready exists");
             }
 
 
@@ -152,6 +165,181 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
 
 
+
+        public async Task<IActionResult> DeleteEmployee(int? Id)
+        {
+            if (Id == null)
+            {
+                return NotFound();
+            }
+
+            var employee = await _employeeRepository.GetEmployeeFullInfoAsync(Id.Value);
+
+            if (employee == null)
+            {
+                return NotFound();
+            }
+
+            return View(employee);
+        }
+
+
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteEmployee(int Id)
+        {
+
+            var employee = await _employeeRepository.GetEmployeeFullInfoAsync(Id);
+
+
+            if (employee == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                await _employeeRepository.DeleteAsync(employee);
+                var user = await _userHelper.GetUserByEmailAsync(employee.User.UserName);
+                var response = await _userHelper.DeleteUserAsync(user);
+
+                if (response.Succeeded)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Unable to delete user");
+                    await _userHelper.RemoveFromRoleAsync(user, employee.Role);
+                }
+                
+
+                
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException.Message.Contains("REFERENCE constraint"))
+                {
+
+                    if (ModelState.IsValid)
+                    {
+                        ViewBag.Error = $"Unable to delete the employee named {employee.User.FullName}, contact system Admin";
+                        return View(employee);
+                    }
+
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                    return View(employee);
+                }
+            }
+
+            return View(employee);
+        }
+
+
+
+
+
+
+        public async Task<IActionResult> EditEmployee(int? Id)
+        {
+            if (Id == null)
+            {
+                return NotFound();
+            }
+
+            var employee = await _employeeRepository.GetEmployeeFullInfoAsync(Id.Value);
+
+            if (employee == null)
+            {
+                return NotFound();
+            }
+
+            var dealerships = _dealershipRepository.GetAll();
+            var departments = _departmentRepository.GetAll();
+
+            var user = await _userHelper.GetUserByIdAsync(employee.User.Id);
+
+
+            var model = _converterHelper.ToEditEmployeeViewModel(dealerships, departments, employee, user);
+
+            return View(model);
+        }
+
+
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditEmployee(EditEmployeeViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userHelper.GetUserByIdAsync(model.UserId);
+                var employee = await _converterHelper.ToEmplyoyeeFromEditViewModelAsync(model, user);
+                
+                try
+                {
+                    if (model.IsActive ==false)
+                    {
+                        employee.IsActive = false;
+                    }
+
+                    await _employeeRepository.UpdateAsync(employee);
+                    await _userHelper.RemoveFromRoleAsync(user, model.OldRole);
+                    var response = await _userHelper.IsUSerInRoleAsync(user, employee.Role);
+
+                    if (!response)
+                    {
+                       await _userHelper.CheckRoleAsync(employee.Role);
+
+                        await _userHelper.AddUserToRoleAsync(user, employee.Role);
+                    }
+
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException.Message.Contains("duplicate"))
+                    {
+
+                        ModelState.AddModelError(string.Empty, $"There is allready a Employee registered with the name {user.FullName} please insert another");
+                        return View(model);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                        return View(model);
+                    }
+                }
+
+            }
+
+            return View(model);
+        }
+
+
+
+        public async Task<IActionResult> DetailsEmployee(int? Id)
+        {
+            if (Id == null)
+            {
+                return NotFound();
+            }
+
+            var employee = await _employeeRepository.GetEmployeeFullInfoAsync(Id.Value);
+
+            if (employee == null)
+            {
+                return NotFound();
+            }
+
+            return View(employee);
+        }
 
 
 

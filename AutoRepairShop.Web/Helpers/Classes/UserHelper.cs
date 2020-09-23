@@ -72,6 +72,11 @@ namespace AutoRepairShop.Web.Helpers.Classes
         }
 
 
+        public async Task RemoveFromRoleAsync(User user, string role)
+        {
+            await _userManager.RemoveFromRoleAsync(user, role);
+        }
+
 
         public async Task<User> GetUserByEmailAsync(string email)
         {
@@ -79,6 +84,8 @@ namespace AutoRepairShop.Web.Helpers.Classes
         }
 
 
+
+      
 
 
 
@@ -178,5 +185,14 @@ namespace AutoRepairShop.Web.Helpers.Classes
         {
             return await _userManager.ChangePasswordAsync(user, oldPassword, nwePassword);
         }
+
+
+
+        public async Task<IdentityResult> DeleteUserAsync(User user)
+        {
+            return await _userManager.DeleteAsync(user);
+        }
+
+
     }
 }
