@@ -253,7 +253,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                 }
 
 
-                //var model = _converterHelper.ToUpdateDataViewModel(user);
+
 
                 TempData["UserId"] = user.Id;
                 return RedirectToAction("UpdateUser", "Accounts");
