@@ -46,17 +46,11 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
-
-        public EmployeePosition Position { get; set; }
-
-
-
-
         public string Role
         {
             get
             {
-                return $"{this.Position.PositionName}{this.Department.DepartmentName}";
+                return $"Employee/{this.Department.DepartmentName}";
             }
         }
     }

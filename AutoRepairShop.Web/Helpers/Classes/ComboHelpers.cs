@@ -95,26 +95,5 @@ namespace AutoRepairShop.Web.Helpers.Classes
         }
 
 
-        public IEnumerable<SelectListItem> GetPositions (IEnumerable<EmployeePosition> positions)
-        {
-            var list = positions.Select(p => new SelectListItem
-            {
-                Text = p.PositionName,
-                Value = p.Id.ToString(),
-            }).ToList();
-
-
-            if (list.Count >0)
-            {
-                list.Insert(0, new SelectListItem
-                {
-                    Text = "Select a position...",
-                    Value = "0",
-                });
-            }
-
-            return list;
-        }
-
     }
 }

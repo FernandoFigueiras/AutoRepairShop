@@ -27,7 +27,5 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
 
 
 
-        IEnumerable<SelectListItem> GetPositions(IEnumerable<EmployeePosition> positions);
-
     }
 }

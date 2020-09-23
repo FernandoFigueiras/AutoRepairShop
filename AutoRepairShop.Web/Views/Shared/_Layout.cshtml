@@ -316,9 +316,13 @@
                             {
                                 <span class="role">Admin</span>
                             }
-                            else
+                            else if (this.User.IsInRole("Customer"))
                             {
                                 <span class="role">Customer</span>
+                            }
+                            else
+                            {
+                                <span class="role">Employee</span>
                             }
 
 
@@ -497,11 +501,6 @@
                                             <span>Human resources</span>
                                         </a>
                                         <ul class="nav nav-children">
-                                            <li>
-                                                <a asp-action="Index" asp-controller="EmployeePositions">
-                                                    Positions
-                                                </a>
-                                            </li>
                                             <li>
                                                 <a asp-action="Index" asp-controller="Employees">
                                                     Employees

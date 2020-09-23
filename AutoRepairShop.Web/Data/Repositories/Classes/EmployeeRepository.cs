@@ -22,7 +22,6 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
             return _context.Employees
                 .Include(e => e.Dealership)
                 .Include(e => e.Department)
-                .Include(e => e.Position)
                 .Include(e => e.User);
                 
         }

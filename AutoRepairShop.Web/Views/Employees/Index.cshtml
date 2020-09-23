@@ -36,7 +36,7 @@
                         @Html.DisplayNameFor(model => model.Department.DepartmentName)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Position.PositionName)
+                        @Html.DisplayNameFor(model => model.Department.UpdateDate)
                     </th>
                     <th>
                         Options
@@ -58,9 +58,6 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.UpdateDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Position.PositionName)
                         </td>
                         <td class="actions">
                             <a asp-action="Details" asp-route-id="@item.Id">  Details</a>

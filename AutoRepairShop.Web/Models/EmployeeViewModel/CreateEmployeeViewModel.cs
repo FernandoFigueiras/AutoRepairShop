@@ -17,8 +17,6 @@ namespace AutoRepairShop.Web.Models.EmployeeViewModel
 
 
 
-        public IEnumerable<SelectListItem> Positions { get; set; }
-
 
         [Required]
         [EmailAddress]

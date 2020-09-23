@@ -75,9 +75,6 @@ namespace AutoRepairShop.Web.Data
 
 
 
-        public DbSet<EmployeePosition> EmployeePositions { get; set; }
-
-
         public DbSet<Employee> Employees { get; set; }
 
 
@@ -136,9 +133,7 @@ namespace AutoRepairShop.Web.Data
                 .IsUnique();
 
 
-            modelBuilder.Entity<EmployeePosition>()
-                .HasIndex(e => e.PositionName)
-                .IsUnique();
+
 
             //modelBuilder.Entity<District>()
             // .HasIndex(d => d.DistrictName)

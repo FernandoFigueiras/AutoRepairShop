@@ -16,7 +16,6 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IConverterHelper _converterHelper;
         private readonly IDepartmentRepository _departmentRepository;
-        private readonly IEmployeePositionRepository _employeePositionRepository;
         private readonly IDealershipRepository _dealershipRepository;
         private readonly IZipCodeRepository _zipCodeRepository;
         private readonly ICityRepository _cityRepository;
@@ -26,7 +25,6 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         public EmployeesController(IEmployeeRepository employeeRepository,
             IConverterHelper converterHelper,
             IDepartmentRepository departmentRepository,
-            IEmployeePositionRepository employeePositionRepository,
             IDealershipRepository dealershipRepository,
             IZipCodeRepository zipCodeRepository,
             ICityRepository cityRepository,
@@ -36,7 +34,6 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             _employeeRepository = employeeRepository;
             _converterHelper = converterHelper;
             _departmentRepository = departmentRepository;
-            _employeePositionRepository = employeePositionRepository;
             _dealershipRepository = dealershipRepository;
             _zipCodeRepository = zipCodeRepository;
             _cityRepository = cityRepository;
@@ -55,9 +52,8 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         {
             var dealerships = _dealershipRepository.GetAll();
             var departments = _departmentRepository.GetAll();
-            var position = _employeePositionRepository.GetAll();
 
-            var model = _converterHelper.ToCreateEmployeeVieModel(dealerships,departments, position);
+            var model = _converterHelper.ToCreateEmployeeVieModel(dealerships,departments);
 
             return View(model);
         }
@@ -88,9 +84,8 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
                     var department = await _departmentRepository.GetByIdAsync(model.DepartmentId);
 
-                    var position = await _employeePositionRepository.GetByIdAsync(model.PositionId);
 
-                    var employee = _converterHelper.ToNewEmplyee(dealership, department, user, position);
+                    var employee = _converterHelper.ToNewEmplyee(dealership, department, user);
 
                     try
                     {

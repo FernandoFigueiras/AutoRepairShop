@@ -534,13 +534,12 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
 
 
-        public CreateEmployeeViewModel ToCreateEmployeeVieModel(IEnumerable<Dealership> dealerships, IEnumerable<Department> departments, IEnumerable<EmployeePosition> positions)
+        public CreateEmployeeViewModel ToCreateEmployeeVieModel(IEnumerable<Dealership> dealerships, IEnumerable<Department> departments)
         {
             return new CreateEmployeeViewModel
             {
                 Dealerships = _comboHelpers.GetDealerships(dealerships),
                 Departments = _comboHelpers.GetDepartments(departments),
-                Positions = _comboHelpers.GetPositions(positions),
 
             };
         }
@@ -566,7 +565,7 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
 
 
-        public Employee ToNewEmplyee(Dealership dealership, Department department, User user, EmployeePosition position)
+        public Employee ToNewEmplyee(Dealership dealership, Department department, User user)
         {
             return new Employee
             {
@@ -575,7 +574,6 @@ namespace AutoRepairShop.Web.Helpers.Classes
                 Dealership = dealership,
                 User = user,
                 Department = department,
-                Position = position,
             };
         }
     }
