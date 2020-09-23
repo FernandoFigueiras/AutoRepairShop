@@ -56,7 +56,7 @@ namespace AutoRepairShop.Web.Data.Entities
         {
             get
             {
-                return $"Employee/{this.Position.PositionName}/{this.Department.DepartmentName}";
+                return $"{this.Position.PositionName}{this.Department.DepartmentName}";
             }
         }
     }

@@ -189,6 +189,7 @@ namespace AutoRepairShop.Web.Helpers.Classes
                 UserName = model.UserName,
                 Email = model.UserName,
                 ZipCodeId = 1,
+                City = model.City,
             };
 
             if (user == null)
@@ -541,6 +542,40 @@ namespace AutoRepairShop.Web.Helpers.Classes
                 Departments = _comboHelpers.GetDepartments(departments),
                 Positions = _comboHelpers.GetPositions(positions),
 
+            };
+        }
+
+
+
+
+        public User ToEmployeeUser(string userName,  User user)
+        {
+            return new User
+            {
+                UserName= userName,
+                Email = userName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Address = user.Address,
+                ZipCodeId = user.ZipCodeId,
+                City = user.City,
+                PhoneNumber = user.PhoneNumber,
+                TaxPayerNumber = user.TaxPayerNumber,
+            };
+        }
+
+
+
+        public Employee ToNewEmplyee(Dealership dealership, Department department, User user, EmployeePosition position)
+        {
+            return new Employee
+            {
+                IsActive = true,
+                CreationDate = DateTime.Now,
+                Dealership = dealership,
+                User = user,
+                Department = department,
+                Position = position,
             };
         }
     }

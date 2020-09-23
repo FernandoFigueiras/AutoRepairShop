@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using AutoRepairShop.Web.Data.Entities;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Org.BouncyCastle.Crypto.Tls;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -25,6 +27,13 @@ namespace AutoRepairShop.Web.Models.EmployeeViewModel
 
 
         public string Password { get => "P@ssw0rd"; }
+
+
+
+
+        public User User { get; set; }
+
+
 
 
         [Required]

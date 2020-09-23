@@ -193,7 +193,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
 
 
-                    return View();
+                    return View(model);
                 }
 
                 this.ModelState.AddModelError(string.Empty, "The user already exists");
@@ -284,8 +284,6 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             var zipCode = await _zipCodeRepository.GetByIdAsync(user.ZipCodeId);
 
             var model = _converterHelper.ToUpdateDataViewModel(user, zipCode);
-
-
 
 
             return View(model);
