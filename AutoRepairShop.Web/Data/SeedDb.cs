@@ -413,15 +413,24 @@ namespace AutoRepairShop.Web.Data
 
                 if (!_context.Departments.Any())
                 {
+                    AddDepartment("Menagement");
                     AddDepartment("Mechanics");
                     AddDepartment("Reception");
                     AddDepartment("Electronic");
                     AddDepartment("Paint");
-
+                    
 
                     await _context.SaveChangesAsync();
                 }
 
+
+                if (!_context.EmployeePositions.Any())
+                {
+                    AddPosition("Manager");
+
+
+                    await _context.SaveChangesAsync();
+                }
 
                 if (!_context.ServicesSupplied.Any())
                 {
@@ -440,6 +449,18 @@ namespace AutoRepairShop.Web.Data
             }
 
 
+        }
+
+        private void AddPosition(string positionName)
+        {
+            var position = new EmployeePosition
+            {
+                PositionName = positionName,
+                CreationDate = DateTime.Now,
+                IsActive = true,
+            };
+
+            _context.EmployeePositions.Add(position);
         }
 
         private void AddDepartment(string departmentName)

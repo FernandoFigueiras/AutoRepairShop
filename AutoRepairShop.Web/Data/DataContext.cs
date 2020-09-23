@@ -78,6 +78,7 @@ namespace AutoRepairShop.Web.Data
         public DbSet<EmployeePosition> EmployeePositions { get; set; }
 
 
+        public DbSet<Employee> Employees { get; set; }
 
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)

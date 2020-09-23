@@ -4,9 +4,11 @@ using AutoRepairShop.Web.Helpers.Interfaces;
 using AutoRepairShop.Web.Models.Account;
 using AutoRepairShop.Web.Models.ActiveScheduleViewModel;
 using AutoRepairShop.Web.Models.DShip;
+using AutoRepairShop.Web.Models.EmployeeViewModel;
 using AutoRepairShop.Web.Models.MainWindow;
 using AutoRepairShop.Web.Models.VehicleViewModels;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
 using Syncfusion.EJ2.Charts;
@@ -530,5 +532,16 @@ namespace AutoRepairShop.Web.Helpers.Classes
         }
 
 
+
+        public CreateEmployeeViewModel ToCreateEmployeeVieModel(IEnumerable<Dealership> dealerships, IEnumerable<Department> departments, IEnumerable<EmployeePosition> positions)
+        {
+            return new CreateEmployeeViewModel
+            {
+                Dealerships = _comboHelpers.GetDealerships(dealerships),
+                Departments = _comboHelpers.GetDepartments(departments),
+                Positions = _comboHelpers.GetPositions(positions),
+
+            };
+        }
     }
 }

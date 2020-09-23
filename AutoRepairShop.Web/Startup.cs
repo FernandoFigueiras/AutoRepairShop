@@ -87,7 +87,7 @@ namespace AutoRepairShop.Web
             services.AddScoped<IScheduleDetailRepository, ScheduleDetailRepository>();
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             services.AddScoped<IEmployeePositionRepository, EmployeePositionRepository>();
-
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
             services.AddScoped<IConverterHelper, ConverterHelper>();
             services.AddScoped<IUserHelper, UserHelper>();

@@ -56,5 +56,13 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
+        public string FullName
+        {
+            get
+            {
+                return $"{this.FirstName} {this.LastName}";
+            }
+        }
+
     }
 }

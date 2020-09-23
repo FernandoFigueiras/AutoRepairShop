@@ -12,5 +12,22 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
 
 
         IEnumerable<SelectListItem> GetVehicles(IEnumerable<Vehicle> vehicles);
+
+
+
+
+        IEnumerable<SelectListItem> GetDealerships(IEnumerable<Dealership> dealerships);
+
+
+
+
+        IEnumerable<SelectListItem> GetDepartments(IEnumerable<Department> departments);
+
+
+
+
+
+        IEnumerable<SelectListItem> GetPositions(IEnumerable<EmployeePosition> positions);
+
     }
 }

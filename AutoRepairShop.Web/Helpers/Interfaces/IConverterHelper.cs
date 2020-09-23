@@ -2,6 +2,7 @@
 using AutoRepairShop.Web.Models.Account;
 using AutoRepairShop.Web.Models.ActiveScheduleViewModel;
 using AutoRepairShop.Web.Models.DShip;
+using AutoRepairShop.Web.Models.EmployeeViewModel;
 using AutoRepairShop.Web.Models.MainWindow;
 using AutoRepairShop.Web.Models.VehicleViewModels;
 using System.Collections.Generic;
@@ -152,6 +153,10 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
 
 
         DeleteScheduleViewModel ToDeleteScheduleViewModel(ScheduleDetail scheduleDetail);
+
+
+
+        CreateEmployeeViewModel ToCreateEmployeeVieModel(IEnumerable<Dealership> dealerships, IEnumerable<Department> departments, IEnumerable<EmployeePosition> positions);
 
     }
 }

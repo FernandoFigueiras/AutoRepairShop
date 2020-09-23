@@ -52,5 +52,69 @@ namespace AutoRepairShop.Web.Helpers.Classes
             return list;
         }
 
+
+        public IEnumerable<SelectListItem> GetDealerships(IEnumerable<Dealership> dealerships)
+        {
+            var list = dealerships.Select(d => new SelectListItem
+            {
+                Text = d.DealerShipName,
+                Value = d.Id.ToString(),
+            }).ToList();
+
+            if (list.Count > 0)
+            {
+                list.Insert(0, new SelectListItem
+                {
+                    Text = "Select a dealership...",
+                    Value = "=",
+                });
+            }
+
+            return list;
+        }
+
+        public IEnumerable<SelectListItem> GetDepartments(IEnumerable<Department> departments)
+        {
+            var list = departments.Select(d => new SelectListItem
+            {
+                Text = d.DepartmentName,
+                Value = d.Id.ToString(),
+            }).ToList();
+
+
+            if (list.Count > 0)
+            {
+                list.Insert(0, new SelectListItem
+                {
+                    Text = "Select a department...",
+                    Value = "0",
+                });
+            }
+
+            return list;
+        }
+
+
+        public IEnumerable<SelectListItem> GetPositions (IEnumerable<EmployeePosition> positions)
+        {
+            var list = positions.Select(p => new SelectListItem
+            {
+                Text = p.PositionName,
+                Value = p.Id.ToString(),
+            }).ToList();
+
+
+            if (list.Count >0)
+            {
+                list.Insert(0, new SelectListItem
+                {
+                    Text = "Select a position...",
+                    Value = "0",
+                });
+            }
+
+            return list;
+        }
+
     }
 }

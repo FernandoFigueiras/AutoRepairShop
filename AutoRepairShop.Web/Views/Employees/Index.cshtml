@@ -1,0 +1,77 @@
+﻿@model IEnumerable<AutoRepairShop.Web.Data.Entities.Employee>
+
+@{
+    ViewData["Title"] = "Employees";
+}
+
+
+
+<section class="panel">
+    <div class="panel-body">
+        <div class="inner-toolbar clearfix">
+            <ul>
+                <li class="right">
+                    <ul class="nav nav-pills nav-pills-primary">
+                        <li>
+                            <label>Go to</label>
+                        </li>
+                        <li class="active">
+                            <a asp-action="CreateEmployee" style="font-size: 15px">Add new Employee</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <table class="table table-bordered table-striped mb-none" id="datatable-editable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.User.FullName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Dealership.DealerShipName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Department.DepartmentName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Position.PositionName)
+                    </th>
+                    <th>
+                        Options
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.User.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Dealership.DealerShipName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Department.DepartmentName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UpdateDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Position.PositionName)
+                        </td>
+                        <td class="actions">
+                            <a asp-action="Details" asp-route-id="@item.Id">  Details</a>
+                            <a asp-action="Edit" asp-route-id="@item.Id">  Edit</a>
+                            <a asp-action="AddModel" asp-route-id="@item.Id">  Add Model</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">  Delete</a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</section>
