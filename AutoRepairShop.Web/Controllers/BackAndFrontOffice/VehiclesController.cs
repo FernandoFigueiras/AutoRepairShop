@@ -424,5 +424,172 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
         }
 
+
+
+
+        public IActionResult AddVehicleNoUser()
+        {
+
+            var model = new AddVehicleViewModel
+            {
+                Brands = _vehicleRepository.GetComboBrands(),
+                Fuels = _vehicleRepository.GetComboFuels(),
+                Colors = _vehicleRepository.GetComboColors(),
+            };
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddVehicleNoUser(AddVehicleViewModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var user = await _userHelper.GetUserByEmailAsync("genericclientuser@autorepairshop.com");
+                var vehicle = _converterHelper.ToNewVehicle(model, user);
+
+
+                try
+                {
+
+                    if (model.ModelName != null)
+                    {
+                        if (await _brandRepository.ModelNameExistsAsync(model.ModelName))
+                        {
+                            ModelState.AddModelError(string.Empty, $"There is already a model registered with {model.ModelName}, please chose from list of models");
+                            model.Brands = await _vehicleRepository.GetComboSoloBrand(model).ToAsyncEnumerable().ToList();
+                            model.Models = _vehicleRepository.GetComboModels(model.BrandId);
+                            model.Fuels = _vehicleRepository.GetComboFuels();
+                            model.Colors = _vehicleRepository.GetComboColors();
+                            return View(model);
+                        }
+
+                        if (await _brandRepository.ExistsAsync(model.BrandId))
+                        {
+                            var newModel = new BrandModel
+                            {
+                                ModelName = model.ModelName,
+                                BrandId = model.BrandId,
+                            };
+
+                            try
+                            {
+                                await _brandRepository.AddModelFromNewVehicleAsync(newModel);
+                            }
+                            catch (Exception ex)
+                            {
+                                if (ex.InnerException.Message.Contains("duplicate"))
+                                {
+
+                                    ModelState.AddModelError(string.Empty, $"There is already a model registered with the name {newModel.ModelName}, please chose another from the list");
+                                    model.Brands = await _vehicleRepository.GetComboSoloBrand(model).ToAsyncEnumerable().ToList();
+                                    model.Models = _vehicleRepository.GetComboModels(model.BrandId);
+                                    model.Fuels = _vehicleRepository.GetComboFuels();
+                                    model.Colors = _vehicleRepository.GetComboColors();
+                                    return View(model);
+
+                                }
+                                else
+                                {
+                                    ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                                    model.Brands = await _vehicleRepository.GetComboSoloBrand(model).ToAsyncEnumerable().ToList();
+                                    model.Models = _vehicleRepository.GetComboModels(model.BrandId);
+                                    model.Fuels = _vehicleRepository.GetComboFuels();
+                                    model.Colors = _vehicleRepository.GetComboColors();
+                                    return View(model);
+                                }
+                            }
+
+                            var modelId = await _brandRepository.GetModelIdAsync(model.ModelName);
+                            model.ModelId = modelId;
+                            var vehicle1 = _converterHelper.ToNewVehicle(model, user);
+
+                            try
+                            {
+                                await _vehicleRepository.CreateAsync(vehicle1);
+                                return RedirectToAction(nameof(Index));
+                            }
+                            catch (Exception ex)
+                            {
+                                if (ex.InnerException.Message.Contains("duplicate"))
+                                {
+
+
+                                    ModelState.AddModelError(string.Empty, $"There is already a Car registered with the Licence PLate number {vehicle.LicencePlate}");
+                                    model.Brands = _vehicleRepository.GetComboBrands();
+                                    model.Models = _vehicleRepository.GetComboModels(model.BrandId);
+                                    model.Fuels = _vehicleRepository.GetComboFuels();
+                                    model.Colors = _vehicleRepository.GetComboColors();
+                                    return View(model);
+                                }
+                                else
+                                {
+                                    ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                                    model.Brands = _vehicleRepository.GetComboBrands();
+                                    model.Models = _vehicleRepository.GetComboModels(model.BrandId);
+                                    model.Fuels = _vehicleRepository.GetComboFuels();
+                                    model.Colors = _vehicleRepository.GetComboColors();
+                                    return View(model);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, "The Brand chosen is no longer available, please contact the company for more information");
+                            model.Brands = _vehicleRepository.GetComboBrands();
+                            model.Models = _vehicleRepository.GetComboModels(model.BrandId);
+                            model.Fuels = _vehicleRepository.GetComboFuels();
+                            model.Colors = _vehicleRepository.GetComboColors();
+                            return View(model);
+                        }
+
+                    }
+
+                    await _vehicleRepository.CreateAsync(vehicle);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException.Message.Contains("duplicate"))
+                    {
+
+                        if (ModelState.IsValid)
+                        {
+                            ModelState.AddModelError(string.Empty, $"There is already a Car registered with the licence Plate {vehicle}, please insert another");
+                            model.Brands = _vehicleRepository.GetComboBrands();
+                            model.Models = _vehicleRepository.GetComboModels(model.BrandId);
+                            model.Fuels = _vehicleRepository.GetComboFuels();
+                            model.Colors = _vehicleRepository.GetComboColors();
+                            return View(model);
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                        model.Brands = _vehicleRepository.GetComboBrands();
+                        model.Models = _vehicleRepository.GetComboModels(model.BrandId);
+                        model.Fuels = _vehicleRepository.GetComboFuels();
+                        model.Colors = _vehicleRepository.GetComboColors();
+                        return View(model);
+                    }
+                }
+            }
+            return View(model);
+        }
+
+
+        public async Task<IActionResult> ShowDealershipVehicles()
+        {
+
+            var user = await _userHelper.GetUserByEmailAsync("genericclientuser@autorepairshop.com");
+
+            var vehicles =  _vehicleRepository.GetUserVehicles(user.Id);
+
+
+            return View(vehicles);
+        }
     }
 }

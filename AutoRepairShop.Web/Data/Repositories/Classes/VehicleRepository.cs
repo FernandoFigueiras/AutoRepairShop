@@ -154,5 +154,12 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
             return await _context.Vehicles.FirstOrDefaultAsync(v => v.User.Id == userId);
         }
 
+
+
+        public async Task<Vehicle> GetVehicleByLicencePlateAsync(string licencePlate)
+        {
+            return await _context.Vehicles.FirstOrDefaultAsync(v => v.LicencePlate == licencePlate);
+        }
+
     }
 }

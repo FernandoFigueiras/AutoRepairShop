@@ -44,7 +44,14 @@ namespace AutoRepairShop.Web.Data.Repositories.Interfaces
         Task<SelectListItem> GetComboSoloBrand(AddVehicleViewModel model);
 
 
+
+
         Task<Vehicle> GetVehicleByUserIdAsync(string userId);
+
+
+
+
+        Task<Vehicle> GetVehicleByLicencePlateAsync(string licencePlate);
     }
 
 

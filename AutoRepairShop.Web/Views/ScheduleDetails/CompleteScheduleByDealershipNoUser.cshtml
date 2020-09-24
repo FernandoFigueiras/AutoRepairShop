@@ -1,4 +1,4 @@
-﻿@model AutoRepairShop.Web.Models.ActiveScheduleViewModel.CompleteSchdeuleByDealershipViewModel
+﻿@model AutoRepairShop.Web.Models.ActiveScheduleViewModel.CompleteScheduleByDealershipNoUserViewModel
 @{
     ViewData["Title"] = "Complete Schedule";
 }
@@ -18,19 +18,12 @@
                 <form asp-action="CompleteScheduleByDealershipUser">
                     <input type="hidden" asp-for="@Model.DealershipId"  />
                     <input type="hidden" asp-for="@Model.ServiceId"  />
-                    <input type="hidden" asp-for="@Model.UserId" />
+                    <input type="hidden" asp-for="@Model.UserId"  />
+                    <input type="hidden" asp-for="@Model.VehicleId"  />
                     <input type="hidden" asp-for="DaysToDisable" id="selectDate" />
 
 
-                    <div class="form-group">
-                        <label class="col-md-3 control-label" asp-for="VehicleId"></label>
-                        <div class="col-md-6">
-                            <select class="form-control" id="vehicles" asp-items="Model.Vehicles" asp-for="VehicleId">
-                            </select>
-                            <span asp-validation-for="VehicleId" class="text-danger"></span>
-                        </div>
 
-                    </div>
 
                     <div class="form-group">
                         <label class="col-md-3 control-label" asp-for="Mileage"></label>

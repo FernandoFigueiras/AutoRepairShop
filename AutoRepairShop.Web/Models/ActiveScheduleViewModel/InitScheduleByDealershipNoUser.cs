@@ -4,8 +4,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AutoRepairShop.Web.Models.ActiveScheduleViewModel
 {
-    public class InitScheduleByDealership
+    public class InitScheduleByDealershipNoUser
     {
+
+        public string UserID { get; set; }
+
+
+
         public int DealershipId { get; set; }
 
 
@@ -17,11 +22,7 @@ namespace AutoRepairShop.Web.Models.ActiveScheduleViewModel
 
 
         [Required]
-        [Display(Name = "User Name")]
-        [EmailAddress]
-        public string UserName { get; set; }
-
-
-
+        [Display(Name = "Licence Plate")]
+        public string Licenceplate { get; set; }
     }
 }

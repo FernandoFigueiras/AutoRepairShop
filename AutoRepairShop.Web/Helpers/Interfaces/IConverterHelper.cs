@@ -178,10 +178,17 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
 
         InitScheduleByDealership ToNewSchedulebyDealership(int Id, IEnumerable<ServicesSupplied> services);
 
+        InitScheduleByDealershipNoUser ToNewSchedulebyDealershipNoUser(int Id, IEnumerable<ServicesSupplied> services, User user);
+
 
         CompleteSchdeuleByDealershipViewModel ToCompleteScheduleByDealershipViewModel(IEnumerable<Vehicle> vehicles, Dealership dealership, Service service);
 
+        CompleteScheduleByDealershipNoUserViewModel ToCompleteScheduleByDealershipNoUserViewModel(string userId, int vehicleId, int dealershipId);
+
         Task<ActiveSchedule> ToActiveScheduleFromDealershipSchedule(CompleteSchdeuleByDealershipViewModel model);
+
+
+        Task<ActiveSchedule> ToActiveScheduleFromDealershipScheduleNoUser(CompleteScheduleByDealershipNoUserViewModel model);
 
     }
 }

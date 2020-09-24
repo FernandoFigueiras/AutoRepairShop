@@ -692,6 +692,17 @@ namespace AutoRepairShop.Web.Helpers.Classes
         }
 
 
+        public InitScheduleByDealershipNoUser ToNewSchedulebyDealershipNoUser(int Id, IEnumerable<ServicesSupplied> services, User user)
+        {
+            return new InitScheduleByDealershipNoUser
+            {
+                DealershipId = Id,
+                Services = _comboHelpers.GetServices(services),
+                UserID = user.Id,
+            };
+        }
+
+
         public CompleteSchdeuleByDealershipViewModel ToCompleteScheduleByDealershipViewModel(IEnumerable<Vehicle> vehicles, Dealership dealership, Service service)
         {
             return new CompleteSchdeuleByDealershipViewModel
@@ -702,7 +713,32 @@ namespace AutoRepairShop.Web.Helpers.Classes
             };
         }
 
+
+        public CompleteScheduleByDealershipNoUserViewModel ToCompleteScheduleByDealershipNoUserViewModel(string userId, int vehicleId, int dealershipId)
+        {
+            return new CompleteScheduleByDealershipNoUserViewModel
+            {
+                UserId = userId,
+                DealershipId = dealershipId,
+                VehicleId = vehicleId,
+            };
+        }
+
         public async Task<ActiveSchedule> ToActiveScheduleFromDealershipSchedule(CompleteSchdeuleByDealershipViewModel model)
+        {
+            return new ActiveSchedule
+            {
+                CreationDate = DateTime.Now,
+                IsActive = true,
+                ScheduleDay = model.Day,
+                Remarks = model.Remarks,
+                Services = await _serviceRepository.GetByIdAsync(model.ServiceId),
+                Mileage = model.Mileage,
+            };
+        }
+
+
+        public async Task<ActiveSchedule> ToActiveScheduleFromDealershipScheduleNoUser(CompleteScheduleByDealershipNoUserViewModel model)
         {
             return new ActiveSchedule
             {

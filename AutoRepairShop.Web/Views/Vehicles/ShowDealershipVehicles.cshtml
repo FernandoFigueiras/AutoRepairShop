@@ -1,0 +1,81 @@
+﻿@model IEnumerable<AutoRepairShop.Web.Data.Entities.Vehicle>
+
+@{
+    ViewData["Title"] = "Generic Vehicles";
+}
+
+
+
+<section class="panel">
+    <div class="panel-body">
+        <div class="inner-toolbar clearfix">
+            <ul>
+                <li class="right">
+                    <ul class="nav nav-pills nav-pills-primary">
+                        <li>
+                            <label>Go to</label>
+                        </li>
+                        <li>
+                            <a asp-action="AddVehicleNoUser" asp-controller="Vehicles" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 250px">Add Vehicle</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <table class="table table-bordered table-striped mb-none" id="datatable-editable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LicencePlate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Model.Brand.BrandName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Model.ModelName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Fuel.FuelType)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Color)
+                    </th>
+                    <th>
+                        Options
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LicencePlate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Model.Brand.BrandName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Model.ModelName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Fuel.FuelType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Color.ColorName)
+                        </td>
+
+                        <td class="actions">
+                            <a asp-action="DetailsVehicle" asp-route-id="@item.Id">  Details</a>
+                            <a asp-action="EditVehicle" asp-route-id="@item.Id">  Edit</a>
+                            <a asp-action="DeleteVehicle" asp-route-id="@item.Id">  Delete</a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</section>
+
