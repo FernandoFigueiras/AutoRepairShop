@@ -11,5 +11,8 @@ namespace AutoRepairShop.Web.Data.Repositories.Interfaces
 
 
         Task<Employee> GetEmployeeFullInfoAsync(int Id);
+
+
+        Task<Employee> GetFullEmployeeByUserAsync(string userId);
     }
 }

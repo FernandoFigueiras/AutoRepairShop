@@ -79,5 +79,17 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
                .Where(d => d.Id == Id)
                .FirstOrDefaultAsync();
         }
+
+
+
+        public IQueryable<ScheduleDetail> GetScheduleForDealership(int id)
+        {
+            return _context.ScheduleDetails
+                .Include(d => d.ActiveSchedule)
+                .ThenInclude(a => a.Services)
+                .Include(d => d.Dealership)
+                .Include(d => d.Vehicle)
+                .Where(d => d.Dealership.Id == id);
+        }
     }
 }

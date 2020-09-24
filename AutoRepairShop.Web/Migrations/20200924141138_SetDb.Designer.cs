@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoRepairShop.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200923231524_SetDb")]
+    [Migration("20200924141138_SetDb")]
     partial class SetDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -350,6 +350,107 @@ namespace AutoRepairShop.Web.Migrations
                     b.ToTable("Fuels");
                 });
 
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.Repair", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreationDate");
+
+                    b.Property<DateTime?>("DeactivationDate");
+
+                    b.Property<int?>("DepartmentId");
+
+                    b.Property<int?>("EmployeeId");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("ServiceDone");
+
+                    b.Property<DateTime?>("UpdateDate");
+
+                    b.Property<double>("WorkHours");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("Repairs");
+                });
+
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.RepairHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreationDate");
+
+                    b.Property<DateTime?>("DeactivationDate");
+
+                    b.Property<string>("Dealership");
+
+                    b.Property<int>("DealershipId");
+
+                    b.Property<int>("EmplyeeId");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("LicencePlate");
+
+                    b.Property<string>("Mileage");
+
+                    b.Property<string>("Remarks");
+
+                    b.Property<DateTime>("RepairDate");
+
+                    b.Property<string>("RepairHours");
+
+                    b.Property<string>("RepairRemarks");
+
+                    b.Property<string>("Service");
+
+                    b.Property<int>("ServiceId");
+
+                    b.Property<DateTime?>("UpdateDate");
+
+                    b.Property<int>("VehicleId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RepairHistories");
+                });
+
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.RepairSchedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreationDate");
+
+                    b.Property<DateTime?>("DeactivationDate");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<int?>("RepairId");
+
+                    b.Property<int?>("ScheduleId");
+
+                    b.Property<DateTime?>("UpdateDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RepairId");
+
+                    b.HasIndex("ScheduleId");
+
+                    b.ToTable("RepairSchedules");
+                });
+
             modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.ScheduleDetail", b =>
                 {
                     b.Property<int>("Id")
@@ -391,6 +492,8 @@ namespace AutoRepairShop.Web.Migrations
 
                     b.Property<DateTime?>("DeactivationDate");
 
+                    b.Property<int?>("DepartmentId");
+
                     b.Property<bool>("IsActive");
 
                     b.Property<string>("ServiceDescription");
@@ -401,6 +504,8 @@ namespace AutoRepairShop.Web.Migrations
                     b.Property<DateTime?>("UpdateDate");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Services");
                 });
@@ -764,6 +869,28 @@ namespace AutoRepairShop.Web.Migrations
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.Repair", b =>
+                {
+                    b.HasOne("AutoRepairShop.Web.Data.Entities.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId");
+
+                    b.HasOne("AutoRepairShop.Web.Data.Entities.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId");
+                });
+
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.RepairSchedule", b =>
+                {
+                    b.HasOne("AutoRepairShop.Web.Data.Entities.Repair", "Repair")
+                        .WithMany()
+                        .HasForeignKey("RepairId");
+
+                    b.HasOne("AutoRepairShop.Web.Data.Entities.ActiveSchedule", "Schedule")
+                        .WithMany()
+                        .HasForeignKey("ScheduleId");
+                });
+
             modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.ScheduleDetail", b =>
                 {
                     b.HasOne("AutoRepairShop.Web.Data.Entities.ActiveSchedule", "ActiveSchedule")
@@ -777,6 +904,13 @@ namespace AutoRepairShop.Web.Migrations
                     b.HasOne("AutoRepairShop.Web.Data.Entities.Vehicle", "Vehicle")
                         .WithMany()
                         .HasForeignKey("VehicleId");
+                });
+
+            modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.Service", b =>
+                {
+                    b.HasOne("AutoRepairShop.Web.Data.Entities.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId");
                 });
 
             modelBuilder.Entity("AutoRepairShop.Web.Data.Entities.ServicesSupplied", b =>

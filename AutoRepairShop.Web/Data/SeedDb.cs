@@ -32,7 +32,7 @@ namespace AutoRepairShop.Web.Data
 
             await _userHelper.CheckRoleAsync("Admin");
             await _userHelper.CheckRoleAsync("Customer");
-            await _userHelper.CheckRoleAsync("Employee");
+          
 
 
 
@@ -194,6 +194,40 @@ namespace AutoRepairShop.Web.Data
                     }
                 }
 
+                var genericUser = await _userHelper.GetUserByEmailAsync("genericclientuser@autorepairshop.com");
+
+
+                if (genericUser == null)
+                {
+                    genericUser = new User
+                    {
+                        FirstName = "Generic",
+                        LastName = "User",
+                        UserName = "genericclientuser@autorepairshop.com",
+                        Email = "genericclientuser@autorepairshop.com",
+                        ZipCodeId = 1,
+                        IsActive = true,
+                        CanLogin = true,
+                    };
+
+                    var resultUser = await _userHelper.AddUserAsync(genericUser, "P@ssw0rd");
+                    var tokenUser = await _userHelper.GenerateEmailConfirmationTokenAsync(genericUser);
+                    var resulttokenUser = await _userHelper.ConfirmEmailAsync(genericUser, tokenUser);
+
+                    if (resultUser != IdentityResult.Success)
+                    {
+                        throw new InvalidOperationException("The User could not be created in seeder");
+                    }
+
+
+                    var isInRoleUser = await _userHelper.IsUSerInRoleAsync(genericUser, "Customer");
+
+
+                    if (!isInRoleUser)
+                    {
+                        await _userHelper.AddUserToRoleAsync(genericUser, "Customer");
+                    }
+                }
 
 
 

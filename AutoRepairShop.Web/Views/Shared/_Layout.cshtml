@@ -376,204 +376,355 @@
                                         <span>Dashboard</span>
                                     </a>
                                 </li>
-                                @if (this.User.IsInRole("Customer"))
-                                {
-                                    <li class="nav-parent">
-                                        <a>
-                                            <i class="fa fa-car" aria-hidden="true"></i>
-                                            <span>vehicles</span>
-                                        </a>
-                                        <ul class="nav nav-children">
-                                            <li>
-                                                <a asp-action="Index" asp-controller="Vehicles">
-                                                    My Vehicles
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a asp-action="AddVehicle" asp-controller="Vehicles">
-                                                    Add Vehicle
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
+                                @{
 
-                                    <li class="nav-parent">
-                                        <a>
-                                            <i class="fa fa-calendar" aria-hidden="true"></i>
-                                            <span>Schedules</span>
-                                        </a>
-                                        <ul class="nav nav-children">
-                                            <li>
-                                                <a asp-action="Index" asp-controller="ScheduleDetails">
-                                                    My Schedules
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a asp-action="BeginNew" asp-controller="ScheduleDetails">
-                                                    Make Schedule
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
+                                    if (this.User.IsInRole("Customer"))
+                                    {
+                                        <li class="nav-parent">
+                                            <a>
+                                                <i class="fa fa-car" aria-hidden="true"></i>
+                                                <span>vehicles</span>
+                                            </a>
+                                            <ul class="nav nav-children">
+                                                <li>
+                                                    <a asp-action="Index" asp-controller="Vehicles">
+                                                        My Vehicles
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-action="AddVehicle" asp-controller="Vehicles">
+                                                        Add Vehicle
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="nav-parent">
+                                            <a>
+                                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                <span>Schedules</span>
+                                            </a>
+                                            <ul class="nav nav-children">
+                                                <li>
+                                                    <a asp-action="Index" asp-controller="ScheduleDetails">
+                                                        My Schedules
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-action="BeginNew" asp-controller="ScheduleDetails">
+                                                        Make Schedule
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                    }
+                                    else if (this.User.IsInRole("Admin"))
+                                    {
+                                        <li class="nav-parent">
+                                            <a>
+                                                <i class="fa fa-globe" aria-hidden="true"></i>
+                                                <span>Countries</span>
+                                            </a>
+                                            <ul class="nav nav-children">
+                                                <li>
+                                                    <a asp-action="Index" asp-controller="Countries">
+                                                        Countries
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-action="CreateCountry" asp-controller="Countries">
+                                                        Add Country
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="nav-parent">
+                                            <a>
+                                                <i class="fa fa-building" aria-hidden="true"></i>
+                                                <span>Dealerships</span>
+                                            </a>
+                                            <ul class="nav nav-children">
+                                                <li>
+                                                    <a asp-action="Index" asp-controller="Dealerships">
+                                                        Dealerships
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-action="Create" asp-controller="Dealerships">
+                                                        Add Dealership
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="nav-parent">
+                                            <a>
+                                                <i class="fa fa-puzzle-piece" aria-hidden="true"></i>
+                                                <span>Departments</span>
+                                            </a>
+                                            <ul class="nav nav-children">
+                                                <li>
+                                                    <a asp-action="Index" asp-controller="Departments">
+                                                        Departments
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-action="CreateDepartment" asp-controller="Departments">
+                                                        Add Department
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="nav-parent">
+                                            <a>
+                                                <i class="fa fa-wrench" aria-hidden="true"></i>
+                                                <span>Services</span>
+                                            </a>
+                                            <ul class="nav nav-children">
+                                                <li>
+                                                    <a asp-action="Index" asp-controller="Services">
+                                                        Services
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-action="Create" asp-controller="Services">
+                                                        Add Service
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="nav-parent">
+                                            <a>
+                                                <i class="fa fa-group" aria-hidden="true"></i>
+                                                <span>Human resources</span>
+                                            </a>
+                                            <ul class="nav nav-children">
+                                                <li>
+                                                    <a asp-action="Index" asp-controller="Employees">
+                                                        Employees
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="nav-parent">
+                                            <a>
+                                                <i class="fa fa-barcode" aria-hidden="true"></i>
+                                                <span>Brands</span>
+                                            </a>
+                                            <ul class="nav nav-children">
+                                                <li>
+                                                    <a asp-action="Index" asp-controller="Brands">
+                                                        Brands
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-action="Create" asp-controller="Brands">
+                                                        Add Brand
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="nav-parent">
+                                            <a>
+                                                <i class="fa fa-flash" aria-hidden="true"></i>
+                                                <span>Fuel</span>
+                                            </a>
+                                            <ul class="nav nav-children">
+                                                <li>
+                                                    <a asp-action="Index" asp-controller="Fuels">
+                                                        Fuel
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-action="Create" asp-controller="Fuels">
+                                                        Add Fuel
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="nav-parent">
+                                            <a>
+                                                <i class="fa fa-tint" aria-hidden="true"></i>
+                                                <span>Colors</span>
+                                            </a>
+                                            <ul class="nav nav-children">
+                                                <li>
+                                                    <a asp-action="Index" asp-controller="Colors">
+                                                        Colors
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-action="Create" asp-controller="Colors">
+                                                        Add Color
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    }
+                                    else if (this.User.IsInRole("Employee/Menagement"))
+                                    {
+
+                                        <li class="nav-parent">
+                                            <a>
+                                                <i class="fa fa-wrench" aria-hidden="true"></i>
+                                                <span>Services</span>
+                                            </a>
+                                            <ul class="nav nav-children">
+                                                <li>
+                                                    <a asp-action="Index" asp-controller="Services">
+                                                        Services
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-action="Create" asp-controller="Services">
+                                                        Add Service
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="nav-parent">
+                                            <a>
+                                                <i class="fa fa-group" aria-hidden="true"></i>
+                                                <span>Human resources</span>
+                                            </a>
+                                            <ul class="nav nav-children">
+                                                <li>
+                                                    <a asp-action="Index" asp-controller="Employees">
+                                                        Employees
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+
+                                        <li class="nav-parent">
+                                            <a>
+                                                <i class="fa fa-flash" aria-hidden="true"></i>
+                                                <span>Fuel</span>
+                                            </a>
+                                            <ul class="nav nav-children">
+                                                <li>
+                                                    <a asp-action="Index" asp-controller="Fuels">
+                                                        Fuel
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-action="Create" asp-controller="Fuels">
+                                                        Add Fuel
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="nav-parent">
+                                            <a>
+                                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                <span>Schedules</span>
+                                            </a>
+                                            <ul class="nav nav-children">
+                                                <li>
+                                                    <a asp-action="ShowScheduleForDealership" asp-controller="ScheduleDetails">
+                                                        Schedules
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-action="BeginNew" asp-controller="ScheduleDetails">
+                                                        Make Schedule
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="nav-parent">
+                                            <a>
+                                                <i class="fa fa-wrench" aria-hidden="true"></i>
+                                                <span>Repairs</span>
+                                            </a>
+                                            <ul class="nav nav-children">
+                                                <li>
+                                                    <a asp-action="Index" asp-controller="Repairs">
+                                                        Repairs
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                    }
+                                    else
+                                    {
+
+                                        <li class="nav-parent">
+                                            <a>
+                                                <i class="fa fa-car" aria-hidden="true"></i>
+                                                <span>vehicles</span>
+                                            </a>
+                                            <ul class="nav nav-children">
+                                                <li>
+                                                    <a asp-action="Index" asp-controller="Vehicles">
+                                                        Vehicles
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-action="AddVehicle" asp-controller="Vehicles">
+                                                        Add Vehicle
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="nav-parent">
+                                            <a>
+                                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                <span>Schedules</span>
+                                            </a>
+                                            <ul class="nav nav-children">
+                                                <li>
+                                                    <a asp-action="ShowScheduleForDealership" asp-controller="ScheduleDetails">
+                                                        Schedules
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-action="MakeScheduleForClientInit" asp-controller="ScheduleDetails">
+                                                        Make Schedule
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+
+                                        <li class="nav-parent">
+                                            <a>
+                                                <i class="fa fa-wrench" aria-hidden="true"></i>
+                                                <span>Repairs</span>
+                                            </a>
+                                            <ul class="nav nav-children">
+                                                <li>
+                                                    <a asp-action="Index" asp-controller="Repairs">
+                                                        Repairs
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+
+                                    }
+
 
                                 }
-                                @if (this.User.IsInRole("Admin"))
-                                {
-                                    <li class="nav-parent">
-                                        <a>
-                                            <i class="fa fa-globe" aria-hidden="true"></i>
-                                            <span>Countries</span>
-                                        </a>
-                                        <ul class="nav nav-children">
-                                            <li>
-                                                <a asp-action="Index" asp-controller="Countries">
-                                                    Countries
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a asp-action="CreateCountry" asp-controller="Countries">
-                                                    Add Country
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
 
-                                    <li class="nav-parent">
-                                        <a>
-                                            <i class="fa fa-building" aria-hidden="true"></i>
-                                            <span>Dealerships</span>
-                                        </a>
-                                        <ul class="nav nav-children">
-                                            <li>
-                                                <a asp-action="Index" asp-controller="Dealerships">
-                                                    Dealerships
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a asp-action="Create" asp-controller="Dealerships">
-                                                    Add Dealership
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
 
-                                    <li class="nav-parent">
-                                        <a>
-                                            <i class="fa fa-puzzle-piece" aria-hidden="true"></i>
-                                            <span>Departments</span>
-                                        </a>
-                                        <ul class="nav nav-children">
-                                            <li>
-                                                <a asp-action="Index" asp-controller="Departments">
-                                                    Departments
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a asp-action="CreateDepartment" asp-controller="Departments">
-                                                    Add Department
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
 
-                                    <li class="nav-parent">
-                                        <a>
-                                            <i class="fa fa-wrench" aria-hidden="true"></i>
-                                            <span>Services</span>
-                                        </a>
-                                        <ul class="nav nav-children">
-                                            <li>
-                                                <a asp-action="Index" asp-controller="Services">
-                                                    Services
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a asp-action="Create" asp-controller="Services">
-                                                    Add Service
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
 
-                                    <li class="nav-parent">
-                                        <a>
-                                            <i class="fa fa-group" aria-hidden="true"></i>
-                                            <span>Human resources</span>
-                                        </a>
-                                        <ul class="nav nav-children">
-                                            <li>
-                                                <a asp-action="Index" asp-controller="Employees">
-                                                    Employees
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
 
-                                    <li class="nav-parent">
-                                        <a>
-                                            <i class="fa fa-barcode" aria-hidden="true"></i>
-                                            <span>Brands</span>
-                                        </a>
-                                        <ul class="nav nav-children">
-                                            <li>
-                                                <a asp-action="Index" asp-controller="Brands">
-                                                    Brands
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a asp-action="Create" asp-controller="Brands">
-                                                    Add Brand
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
 
-                                    <li class="nav-parent">
-                                        <a>
-                                            <i class="fa fa-flash" aria-hidden="true"></i>
-                                            <span>Fuel</span>
-                                        </a>
-                                        <ul class="nav nav-children">
-                                            <li>
-                                                <a asp-action="Index" asp-controller="Fuels">
-                                                    Fuel
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a asp-action="Create" asp-controller="Fuels">
-                                                    Add Fuel
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-
-                                    <li class="nav-parent">
-                                        <a>
-                                            <i class="fa fa-tint" aria-hidden="true"></i>
-                                            <span>Colors</span>
-                                        </a>
-                                        <ul class="nav nav-children">
-                                            <li>
-                                                <a asp-action="Index" asp-controller="Colors">
-                                                    Colors
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a asp-action="Create" asp-controller="Colors">
-                                                    Add Color
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                }
-
-                                
-                                
-                                
-                                
-                              
-                                
-                                
                             </ul>
                         </nav>
 

@@ -1,0 +1,77 @@
+﻿@model IEnumerable<AutoRepairShop.Web.Data.Entities.ScheduleDetail>
+
+@{
+    ViewData["Title"] = "Schedules";
+}
+
+
+<section class="panel">
+    <div class="panel-body">
+        <div class="inner-toolbar clearfix">
+            <ul>
+                <li class="right">
+                    <ul class="nav nav-pills nav-pills-primary">
+                        <li>
+                            <label>Go to</label>
+                        </li>
+                        <li class="active">
+                            <a asp-action="MakeScheduleForClientInit" style="font-size: 15px">Add New Schedule</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+
+        <table class="table table-bordered table-striped mb-none" id="datatable-editable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Vehicle.LicencePlate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Dealership.DealerShipName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ActiveSchedule.Services.ServiceType)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ActiveSchedule.ScheduleDay)
+                    </th>
+                    <th>
+                        Options
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Vehicle.LicencePlate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Dealership.DealerShipName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ActiveSchedule.Services.ServiceType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ActiveSchedule.ScheduleDay)
+                        </td>
+
+
+                        <td class="actions">
+                            <a asp-action="EditSchedule" asp-route-id="@item.Id">Edit</a>
+                            <a asp-action="DetailsSchedule" asp-route-id="@item.Id">Details</a>
+                            <a asp-action="DeleteSchedule" asp-route-id="@item.Id">Delete</a>
+                            <a asp-action="ResumeToRepair" asp-route-id="@item.Id">Repair</a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+    </div>
+</section>

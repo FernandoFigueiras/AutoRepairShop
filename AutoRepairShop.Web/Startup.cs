@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace AutoRepairShop.Web
 {
@@ -87,6 +88,13 @@ namespace AutoRepairShop.Web
             services.AddScoped<IScheduleDetailRepository, ScheduleDetailRepository>();
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IRepairRepository, RepairRepository>();
+            services.AddScoped<IRepairScheduleRepository, RepairScheduleRepository>();
+            services.AddScoped<IRepairRepository, RepairRepository>();
+
+
+
+
 
             services.AddScoped<IConverterHelper, ConverterHelper>();
             services.AddScoped<IUserHelper, UserHelper>();

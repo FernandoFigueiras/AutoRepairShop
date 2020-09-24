@@ -35,5 +35,17 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
                 .Where(e => e.Id == Id)
                 .FirstOrDefaultAsync();
         }
+
+
+
+        public async Task<Employee> GetFullEmployeeByUserAsync(string userId)
+        {
+            return await _context.Employees
+                .Include(e => e.Dealership)
+                .Include(e => e.Department)
+                .Include(e => e.User)
+                .Where(e => e.User.Id == userId)
+                .FirstOrDefaultAsync();
+        }
     }
 }

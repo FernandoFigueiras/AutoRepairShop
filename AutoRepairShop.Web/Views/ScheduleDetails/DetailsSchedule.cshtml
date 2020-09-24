@@ -16,11 +16,21 @@
                             <label>Go to</label>
                         </li>
                         <li class="active">
-                            <a asp-action="EditSchedule" asp-route-id="@Model.ActiveScheduleId" style="font-size: 15px">Edit</a>
+                            <a asp-action="EditSchedule" asp-route-id="@Model.ActiveScheduleId" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Edit</a>
                         </li>
-                        <li>
-                            <a asp-action="Index" style="font-size: 15px">Back to List</a>
-                        </li>
+
+                        @if (!this.User.IsInRole("Customer"))
+                        {
+                          <li>
+                            <a asp-action="ShowScheduleForDealership" asp-controller="ScheduleDetails" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Exit</a>
+                          </li>
+                        }
+                        else
+                        {
+                           
+                        
+
+                        }
                     </ul>
                 </li>
             </ul>

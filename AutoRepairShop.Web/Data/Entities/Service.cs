@@ -47,6 +47,7 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
+        public Department Department { get; set; }
 
     }
 }

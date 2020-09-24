@@ -54,7 +54,7 @@
                     </div>
 
 
-                    @if (Model.ZipCode4 == null)
+                    @if (!this.User.IsInRole("Customer"))
                     {
                         <div class="form-group">
                             <label class="col-md-3 control-label" asp-for="ZipCode4">Zip Code</label>

@@ -2,6 +2,8 @@
 using AutoRepairShop.Web.Helpers.Interfaces;
 using AutoRepairShop.Web.Models.ActiveScheduleViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGeneration;
+using Syncfusion.EJ2;
 using Syncfusion.EJ2.Linq;
 using System;
 using System.Collections.Generic;
@@ -20,6 +22,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
         private readonly IDealershipRepository _dealershipRepository;
         private readonly IScheduleDetailRepository _scheduleDetailRepository;
         private readonly IServiceRepository _serviceRepository;
+        private readonly IEmployeeRepository _employeeRepository;
 
         public ScheduleDetailsController(IActiveScheduleRepository activeScheduleRepository,
             IUserHelper userHelper,
@@ -28,7 +31,8 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             IConverterHelper converterHelper,
             IDealershipRepository dealershipRepository,
             IScheduleDetailRepository scheduleDetailRepository,
-            IServiceRepository serviceRepository)
+            IServiceRepository serviceRepository,
+            IEmployeeRepository employeeRepository)
         {
             _activeScheduleRepository = activeScheduleRepository;
             _userHelper = userHelper;
@@ -38,6 +42,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             _dealershipRepository = dealershipRepository;
             _scheduleDetailRepository = scheduleDetailRepository;
             _serviceRepository = serviceRepository;
+            _employeeRepository = employeeRepository;
         }
 
 
@@ -136,7 +141,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
             var service = await _servicesSuppliedRepository.GetService(model.ServicesSuppliedId);
             var newModel = _converterHelper.ToCompleteScheduleViewModel(model, service.Service);
-            var list = await GetDisabledDays(model.ServicesSuppliedId, model.DealershipId);
+            var list = await GetDisabledDaysAsync(model.ServicesSuppliedId, model.DealershipId);
             var days = Newtonsoft.Json.JsonConvert.SerializeObject(list);
             newModel.DaysToDisable = days;
 
@@ -195,7 +200,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
         /// <param name="servicesSuppliedId"></param>
         /// <param name="dealershipId"></param>
         /// <returns>a List of dates to be disabled</returns>
-        public async Task<List<DateTime>> GetDisabledDays(int servicesSuppliedId, int dealershipId)
+        public async Task<List<DateTime>> GetDisabledDaysAsync(int servicesSuppliedId, int dealershipId)
         {
             var list = await _activeScheduleRepository.GetDaysByServiceId(servicesSuppliedId);
 
@@ -260,7 +265,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
 
 
-            var list = await GetDisabledDays(scheduleDetail.ActiveSchedule.Services.Id, scheduleDetail.Dealership.Id);
+            var list = await GetDisabledDaysAsync(scheduleDetail.ActiveSchedule.Services.Id, scheduleDetail.Dealership.Id);
 
             var services = _servicesSuppliedRepository.GetWithServicesByDealershipId(scheduleDetail.Dealership.Id);
 
@@ -370,6 +375,174 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             }
 
             return View(model);
+        }
+
+
+        public async Task<IActionResult> ShowScheduleForDealership()
+        {
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+
+            var employee = await _employeeRepository.GetFullEmployeeByUserAsync(user.Id);
+
+            var schedules = _scheduleDetailRepository.GetScheduleForDealership(employee.Dealership.Id);
+
+
+            return View(schedules);
+          
+        }
+
+
+
+
+        public async Task<IActionResult> MakeScheduleForClientInit()
+        {
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+
+            var employee = await _employeeRepository.GetFullEmployeeByUserAsync(user.Id);
+
+            var services = _servicesSuppliedRepository.GetWithServicesByDealershipId(employee.Dealership.Id);
+
+            var model = _converterHelper.ToNewSchedulebyDealership(employee.Dealership.Id, services);
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> MakeScheduleForClientInit(InitScheduleByDealership model)
+        {
+            if (ModelState.IsValid)
+            {
+
+
+                if (model.UserName != null)
+                {
+                    var user = await _userHelper.GetUserByEmailAsync(model.UserName);
+
+
+                    if (user != null)
+                    {
+                        return RedirectToAction("CompleteScheduleByDealershipUser", model);
+                    }
+                }
+
+               
+            }
+            var userReturn = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+
+            var employee = await _employeeRepository.GetFullEmployeeByUserAsync(userReturn.Id);
+
+            var services = _servicesSuppliedRepository.GetWithServicesByDealershipId(employee.Dealership.Id);
+
+            var newModel = _converterHelper.ToNewSchedulebyDealership(employee.Dealership.Id, services);
+            return View(newModel);
+        }
+
+
+      
+        public async Task<IActionResult> CompleteScheduleByDealershipUser(InitScheduleByDealership model)
+        {
+            var dealership = await _dealershipRepository.GetByIdAsync(model.DealershipId);
+
+            var service = await _serviceRepository.GetByIdAsync(model.ServiceId);
+
+            var user = await _userHelper.GetUserByEmailAsync(model.UserName);
+
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var vehicles = _vehicleRepository.GetUserVehicles(user.Id);
+
+            if (vehicles == null)
+            {
+                ModelState.AddModelError(string.Empty, $"user {user.UserName} has no vehicles registered");
+            }
+
+            var dates = await GetDisabledDaysAsync(service.Id, dealership.Id);
+
+            var days = Newtonsoft.Json.JsonConvert.SerializeObject(dates);
+
+            var newModel = _converterHelper.ToCompleteScheduleByDealershipViewModel(vehicles, dealership, service);
+
+            newModel.DaysToDisable = days;
+            newModel.UserId = user.Id;
+
+            return View(newModel);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> CompleteScheduleByDealershipUser(CompleteSchdeuleByDealershipViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var service = await _serviceRepository.GetByIdAsync(model.ServiceId);
+
+                if (!await _scheduleDetailRepository.IsDuplicatedSchedulesForSameServiceAsync(model.VehicleId, model.ServiceId))
+                {
+                    var activeSchedule = await _converterHelper.ToActiveScheduleFromDealershipSchedule(model);
+
+                    var vehicle = await _vehicleRepository.GetByIdAsync(model.VehicleId);
+
+                    var dealership = await _dealershipRepository.GetByIdAsync(model.DealershipId);
+
+                    var scheduleDetail = _converterHelper.ToScheduleDetail(vehicle, activeSchedule, dealership);
+
+                    try
+                    {
+
+                        scheduleDetail.ActiveSchedule = activeSchedule;
+                        await _scheduleDetailRepository.CreateAsync(scheduleDetail);
+
+                        return RedirectToAction("ShowScheduleForDealership");
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex.InnerException.Message.Contains("duplicate"))
+                        {
+                            ModelState.AddModelError(string.Empty, "There is already a schedule for that service");
+
+                        }
+                    }
+                }
+                else
+                {
+                    ViewBag.ServiceDuplicated = $"There is already a schedule registered for {service.ServiceType}, please chose another or change the current schedule";
+                    var dealership = await _dealershipRepository.GetByIdAsync(model.DealershipId);
+
+                    var serviceReturn = await _serviceRepository.GetByIdAsync(model.ServiceId);
+
+                    var vehicles = _vehicleRepository.GetUserVehicles(model.UserId);
+
+                    var newModel = _converterHelper.ToCompleteScheduleByDealershipViewModel(vehicles, dealership, serviceReturn);
+
+                    var dates = await GetDisabledDaysAsync(serviceReturn.Id, dealership.Id);
+
+                    var days = Newtonsoft.Json.JsonConvert.SerializeObject(dates);
+                    newModel.DaysToDisable = days;
+                    return View(newModel);
+
+                }
+
+
+            }
+
+            var dealership1 = await _dealershipRepository.GetByIdAsync(model.DealershipId);
+
+            var serviceReturn1 = await _serviceRepository.GetByIdAsync(model.ServiceId);
+
+            var vehicles1 = _vehicleRepository.GetUserVehicles(model.UserId);
+
+            var newModel1 = _converterHelper.ToCompleteScheduleByDealershipViewModel(vehicles1, dealership1, serviceReturn1);
+
+            var dates1 = await GetDisabledDaysAsync(serviceReturn1.Id, dealership1.Id);
+
+            var days1 = Newtonsoft.Json.JsonConvert.SerializeObject(dates1);
+            newModel1.DaysToDisable = days1;
+            return View(newModel1);
         }
     }
 }

@@ -7,11 +7,6 @@ using AutoRepairShop.Web.Models.DShip;
 using AutoRepairShop.Web.Models.EmployeeViewModel;
 using AutoRepairShop.Web.Models.MainWindow;
 using AutoRepairShop.Web.Models.VehicleViewModels;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.Internal;
-using Syncfusion.EJ2.Charts;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -463,7 +458,7 @@ namespace AutoRepairShop.Web.Helpers.Classes
             {
                 Vehicles = _comboHelpers.GetVehicles(vehicles),
                 ServicesSupplied = _comboHelpers.GetServices(services),
-               
+
             };
         }
 
@@ -495,8 +490,8 @@ namespace AutoRepairShop.Web.Helpers.Classes
                 Vehicle = vehicle,
                 ActiveSchedule = activeSchedule,
                 Dealership = dealership,
-                
-                
+
+
             };
         }
 
@@ -512,7 +507,7 @@ namespace AutoRepairShop.Web.Helpers.Classes
                 ServicesSuppliedId = model.ServicesSuppliedId,
                 DealershipId = model.DealershipId,
                 ServiceId = service.Id
-               
+
             };
 
         }
@@ -620,11 +615,11 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
 
 
-        public User ToEmployeeUser(string userName,  User user)
+        public User ToEmployeeUser(string userName, User user)
         {
             return new User
             {
-                UserName= userName,
+                UserName = userName,
                 Email = userName,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
@@ -685,5 +680,39 @@ namespace AutoRepairShop.Web.Helpers.Classes
             };
         }
 
+
+
+        public InitScheduleByDealership ToNewSchedulebyDealership(int Id, IEnumerable<ServicesSupplied> services)
+        {
+            return new InitScheduleByDealership
+            {
+                DealershipId = Id,
+                Services = _comboHelpers.GetServices(services),
+            };
+        }
+
+
+        public CompleteSchdeuleByDealershipViewModel ToCompleteScheduleByDealershipViewModel(IEnumerable<Vehicle> vehicles, Dealership dealership, Service service)
+        {
+            return new CompleteSchdeuleByDealershipViewModel
+            {
+                DealershipId = dealership.Id,
+                ServiceId = service.Id,
+                Vehicles = _comboHelpers.GetVehicles(vehicles),
+            };
+        }
+
+        public async Task<ActiveSchedule> ToActiveScheduleFromDealershipSchedule(CompleteSchdeuleByDealershipViewModel model)
+        {
+            return new ActiveSchedule
+            {
+                CreationDate = DateTime.Now,
+                IsActive = true,
+                ScheduleDay = model.Day,
+                Remarks = model.Remarks,
+                Services = await _serviceRepository.GetByIdAsync(model.ServiceId),
+                Mileage = model.Mileage,
+            };
+        }
     }
 }

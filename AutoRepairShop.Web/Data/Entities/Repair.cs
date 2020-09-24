@@ -2,9 +2,10 @@
 
 namespace AutoRepairShop.Web.Data.Entities
 {
-    public class Employee : IEntity
+    public class Repair : IEntity
     {
         public int Id { get; set; }
+
 
 
 
@@ -28,26 +29,23 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
-        public Dealership Dealership { get; set; }
-
-
-
-
-        public User User { get; set; }
-
-
-
-
         public Department Department { get; set; }
 
 
 
-        public string Role
-        {
-            get
-            {
-                return $"Employee/{this.Department.DepartmentName}";
-            }
-        }
+
+        public Employee Employee { get; set; }
+
+
+
+
+        public string ServiceDone { get; set; }
+
+
+
+
+        public double WorkHours { get; set; }
+
+
     }
 }

@@ -21,5 +21,8 @@ namespace AutoRepairShop.Web.Data.Repositories.Interfaces
 
 
         Task<ScheduleDetail> GetScheduleDetailByIdAsync(int Id);
+
+
+        IQueryable<ScheduleDetail> GetScheduleForDealership(int id);
     }
 }

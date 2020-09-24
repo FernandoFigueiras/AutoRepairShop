@@ -174,5 +174,14 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
 
         Task<Employee> ToEmplyoyeeFromEditViewModelAsync(EditEmployeeViewModel model, User user);
 
+
+
+        InitScheduleByDealership ToNewSchedulebyDealership(int Id, IEnumerable<ServicesSupplied> services);
+
+
+        CompleteSchdeuleByDealershipViewModel ToCompleteScheduleByDealershipViewModel(IEnumerable<Vehicle> vehicles, Dealership dealership, Service service);
+
+        Task<ActiveSchedule> ToActiveScheduleFromDealershipSchedule(CompleteSchdeuleByDealershipViewModel model);
+
     }
 }

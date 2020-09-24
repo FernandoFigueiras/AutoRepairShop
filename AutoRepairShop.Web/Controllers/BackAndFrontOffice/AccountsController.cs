@@ -168,7 +168,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                     user.IsActive = false;
                     user.CreationDate = DateTime.UtcNow;
-
+                    user.CanLogin = true;
 
                     var result = await _userHelper.AddUserAsync(user, model.Password);
 
