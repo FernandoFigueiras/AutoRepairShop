@@ -10,9 +10,14 @@ namespace AutoRepairShop.Web.Data.Repositories.Interfaces
         IQueryable<RepairSchedule> GetDealershipRepairs(int id);
 
 
+        IQueryable<RepairSchedule> GetUserRepairs(string id);
+
+
         IQueryable<RepairSchedule> GetRepairSchedule(int id);
 
 
         Task<RepairSchedule> GetRepairInfoByIdAsync(int id);
+
+        Task<RepairSchedule> GetRepairScheduleFinishAsync(int id);
     }
 }

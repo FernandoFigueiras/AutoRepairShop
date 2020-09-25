@@ -36,6 +36,25 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
         }
 
 
+        public IQueryable<RepairSchedule> GetUserRepairs(string id)
+        {
+            var test = _context.RepairSchedules
+                .Include(r => r.Repair)
+                .ThenInclude(r => r.Department)
+                .Include(r => r.Schedule)
+                .ThenInclude(r => r.ActiveSchedule)
+                .Include(r => r.Schedule)
+                .ThenInclude(r => r.Vehicle)
+                .Include(r => r.Schedule)
+                .ThenInclude(r => r.ActiveSchedule)
+                .ThenInclude(r => r.Services)
+                .Where(r => r.Schedule.Vehicle.User.Id == id);
+
+
+            return test;
+        }
+
+
         public IQueryable<RepairSchedule> GetRepairSchedule(int id)
         {
             var test = _context.RepairSchedules
@@ -61,6 +80,25 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
                 .Include(r => r.Repair)
                 .Where(r => r.Id == id)
                 .FirstOrDefaultAsync();
+        }
+
+
+        public async Task<RepairSchedule> GetRepairScheduleFinishAsync(int id)
+        {
+            var test = await _context.RepairSchedules
+               .Include(r => r.Repair)
+               .ThenInclude(r => r.Department)
+               .Include(r => r.Schedule)
+               .ThenInclude(r => r.ActiveSchedule)
+               .Include(r => r.Schedule)
+               .ThenInclude(r => r.Vehicle)
+               .Include(r => r.Schedule)
+               .ThenInclude(r => r.ActiveSchedule)
+               .ThenInclude(r => r.Services)
+               .Where(r => r.Id == id).FirstOrDefaultAsync();
+
+
+            return test;
         }
 
     }

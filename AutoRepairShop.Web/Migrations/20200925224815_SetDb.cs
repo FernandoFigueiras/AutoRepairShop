@@ -117,7 +117,6 @@ namespace AutoRepairShop.Web.Migrations
                     UpdateDate = table.Column<DateTime>(nullable: true),
                     DeactivationDate = table.Column<DateTime>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false),
-                    VehicleId = table.Column<int>(nullable: false),
                     LicencePlate = table.Column<string>(nullable: true),
                     Mileage = table.Column<string>(nullable: true),
                     DealershipId = table.Column<int>(nullable: false),
@@ -127,8 +126,7 @@ namespace AutoRepairShop.Web.Migrations
                     Remarks = table.Column<string>(nullable: true),
                     RepairDate = table.Column<DateTime>(nullable: false),
                     RepairHours = table.Column<string>(nullable: true),
-                    RepairRemarks = table.Column<string>(nullable: true),
-                    EmplyeeId = table.Column<int>(nullable: false)
+                    RepairRemarks = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

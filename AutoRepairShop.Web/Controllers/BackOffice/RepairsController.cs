@@ -6,7 +6,9 @@ using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
 using AutoRepairShop.Web.Helpers.Interfaces;
 using AutoRepairShop.Web.Models.RepairViewModels;
+using MailKit;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutoRepairShop.Web.Controllers.BackOffice
 {
@@ -18,9 +20,11 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         private readonly IRepairScheduleRepository _repairScheduleRepository;
         private readonly IActiveScheduleRepository _activeScheduleRepository;
         private readonly IUserHelper _userHelper;
-        private readonly IDealershipRepository _dealershipRepository;
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IRepairRepository _repairRepository;
+        private readonly IRepairHistoryRepository _repairHistoryRepository;
+        private readonly IVehicleRepository _vehicleRepository;
+        private readonly IMailHelper _mailHelper;
 
         public RepairsController(IScheduleDetailRepository scheduleDetailRepository,
             IDealershipDepartmentRepository dealershipDepartmentRepository,
@@ -28,9 +32,11 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             IRepairScheduleRepository repairScheduleRepository,
             IActiveScheduleRepository activeScheduleRepository,
             IUserHelper userHelper,
-            IDealershipRepository dealershipRepository,
             IEmployeeRepository employeeRepository,
-            IRepairRepository repairRepository)
+            IRepairRepository repairRepository,
+            IRepairHistoryRepository repairHistoryRepository,
+            IVehicleRepository vehicleRepository,
+            IMailHelper mailHelper)
         {
             _scheduleDetailRepository = scheduleDetailRepository;
             _dealershipDepartmentRepository = dealershipDepartmentRepository;
@@ -38,14 +44,17 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             _repairScheduleRepository = repairScheduleRepository;
             _activeScheduleRepository = activeScheduleRepository;
             _userHelper = userHelper;
-            _dealershipRepository = dealershipRepository;
             _employeeRepository = employeeRepository;
             _repairRepository = repairRepository;
+            _repairHistoryRepository = repairHistoryRepository;
+            _vehicleRepository = vehicleRepository;
+            _mailHelper = mailHelper;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            
-            return View();
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+            var repair = _repairScheduleRepository.GetUserRepairs(user.Id);
+            return View(repair);
         }
 
         public async Task<IActionResult> DealershipRepairs()
@@ -181,15 +190,74 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             {
                 return NotFound();
             }
+            var repairSchedule = await _repairScheduleRepository.GetRepairScheduleFinishAsync(id.Value);
 
-            var repairSchedule = _repairScheduleRepository.GetRepairSchedule(id.Value);
 
             if (repairSchedule == null)
             {
                 return NotFound();
             }
 
-            return View();
+            var model = _converterHelper.ToFinishRepairViewModel(repairSchedule);
+
+
+            return View(model);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> FinishRepair(FinishRepairViewModel model)
+        {
+            if (model == null)
+            {
+                return View(model);
+            }
+
+            var repairShedule = await _repairScheduleRepository.GetRepairScheduleFinishAsync(model.RepairScheduleID);
+
+            var scheduleDetail = await _scheduleDetailRepository.GetScheduleDetailByIdAsync(model.ScheduleDetailId);
+
+            var repair = await _repairRepository.GetByIdAsync(model.RepairId);
+
+            var activeSchedule = await _activeScheduleRepository.GetByIdAsync(scheduleDetail.ActiveSchedule.Id);
+
+            var repairHistory = _converterHelper.ToRepairHistory(repairShedule, scheduleDetail);
+
+            var vehicle = await _vehicleRepository.GetUserVehicle(model.VehicleId);
+
+            var user = await _userHelper.GetUserByIdAsync(vehicle.User.Id);
+
+
+            
+            
+            try
+            {
+                await _repairHistoryRepository.CreateAsync(repairHistory);
+                await _repairScheduleRepository.DeleteAsync(repairShedule);
+                await _scheduleDetailRepository.DeleteAsync(scheduleDetail);
+                await _repairRepository.DeleteAsync(repair);
+                await _activeScheduleRepository.DeleteAsync(activeSchedule);
+                
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+            }
+
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "Unable to send email for the user");
+            }
+            else
+            {
+                _mailHelper.SendEmail(user.UserName, "Repair finished", $"<h1>Your repair information</h1></br><p>Your vehicle {vehicle.LicencePlate} is ready to be picked up at the workshop</p> </br>");
+            }
+
+
+
+            return View(model);
+
+
+        }
+
     }
 }

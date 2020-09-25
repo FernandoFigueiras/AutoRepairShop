@@ -28,6 +28,14 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
 
 
 
+        public async Task<Vehicle> GetUserVehicle(int id)
+        {
+            return await _context.Vehicles
+                .Include(v => v.User)
+                .Where(v => v.Id == id)
+                .FirstOrDefaultAsync();
+        }
+
 
 
         public IEnumerable<SelectListItem> GetComboBrands()
@@ -160,6 +168,10 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
         {
             return await _context.Vehicles.FirstOrDefaultAsync(v => v.LicencePlate == licencePlate);
         }
+
+
+
+
 
     }
 }

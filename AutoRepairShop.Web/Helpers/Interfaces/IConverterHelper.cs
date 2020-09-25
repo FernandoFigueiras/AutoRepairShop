@@ -206,5 +206,12 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
 
         Repair ToRepairEdit(RepairSchedule repairSchedule);
 
+
+        FinishRepairViewModel ToFinishRepairViewModel(RepairSchedule repairSchedule);
+
+
+
+        RepairHistory ToRepairHistory(RepairSchedule repairSchedule, ScheduleDetail scheduleDetail);
+
     }
 }

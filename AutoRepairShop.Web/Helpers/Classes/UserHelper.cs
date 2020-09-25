@@ -107,7 +107,7 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
 
 
-
+     
 
 
         public async Task<string> GenerateEmailConfirmationTokenAsync(User user)

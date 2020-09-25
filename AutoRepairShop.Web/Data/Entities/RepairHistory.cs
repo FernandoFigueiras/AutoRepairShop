@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AutoRepairShop.Web.Data.Entities
 {
@@ -10,10 +7,7 @@ namespace AutoRepairShop.Web.Data.Entities
         public int Id { get; set; }
 
 
-
-
         public DateTime? CreationDate { get; set; }
-
 
 
 
@@ -21,17 +15,11 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
-
         public DateTime? DeactivationDate { get; set; }
 
 
 
-
         public bool IsActive { get; set; }
-
-
-
-        public int VehicleId { get; set; }
 
 
 
@@ -41,9 +29,7 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
-
         public string Mileage { get; set; }
-
 
 
 
@@ -51,9 +37,7 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
-
         public string Dealership { get; set; }
-
 
 
 
@@ -61,14 +45,11 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
-
         public string Service { get; set; }
 
 
 
-
         public string Remarks { get; set; }
-
 
 
 
@@ -78,19 +59,11 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
-
         public string RepairHours { get; set; }
 
 
 
-
         public string RepairRemarks { get; set; }
-
-
-
-
-
-        public int EmplyeeId { get; set; }
 
 
 

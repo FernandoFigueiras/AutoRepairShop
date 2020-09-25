@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoRepairShop.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200925144207_SetDb")]
+    [Migration("20200925224815_SetDb")]
     partial class SetDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -418,8 +418,6 @@ namespace AutoRepairShop.Web.Migrations
 
                     b.Property<int>("DealershipId");
 
-                    b.Property<int>("EmplyeeId");
-
                     b.Property<bool>("IsActive");
 
                     b.Property<string>("LicencePlate");
@@ -439,8 +437,6 @@ namespace AutoRepairShop.Web.Migrations
                     b.Property<int>("ServiceId");
 
                     b.Property<DateTime?>("UpdateDate");
-
-                    b.Property<int>("VehicleId");
 
                     b.HasKey("Id");
 

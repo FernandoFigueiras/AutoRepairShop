@@ -23,7 +23,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
                 .ThenInclude(a => a.Services)
                 .Include(d => d.Dealership)
                 .Include(d => d.Vehicle)
-                .Where(d => d.Vehicle.User.Id == userId);
+                .Where(d => d.Vehicle.User.Id == userId && d.IsActive==true);
 
 
             return detail;

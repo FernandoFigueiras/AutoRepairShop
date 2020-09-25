@@ -416,8 +416,6 @@ namespace AutoRepairShop.Web.Migrations
 
                     b.Property<int>("DealershipId");
 
-                    b.Property<int>("EmplyeeId");
-
                     b.Property<bool>("IsActive");
 
                     b.Property<string>("LicencePlate");
@@ -437,8 +435,6 @@ namespace AutoRepairShop.Web.Migrations
                     b.Property<int>("ServiceId");
 
                     b.Property<DateTime?>("UpdateDate");
-
-                    b.Property<int>("VehicleId");
 
                     b.HasKey("Id");
 

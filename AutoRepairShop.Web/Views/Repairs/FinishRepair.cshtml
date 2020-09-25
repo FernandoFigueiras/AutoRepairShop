@@ -1,5 +1,73 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model AutoRepairShop.Web.Models.RepairViewModels.FinishRepairViewModel
+
 @{
+    ViewData["Title"] = "Finish repair";
 }
+
+
+
+<h3>Are you sure you want to finish?</h3>
+
+<h2>@ViewBag.Error </h2>
+
+<section class="panel">
+    <div class="panel-body tab-content">
+        <div id="access-log" class="tab-pane active">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <table class="table table-striped table-no-more table-bordered  mb-none">
+                <thead>
+                    <tr>
+                        <th style="width: 25%; margin: auto"><span class="text-normal text-sm">Data</span></th>
+                        <th style="width: 55%"><span class="text-normal text-sm">Repair Information</span></th>
+                    </tr>
+                </thead>
+                <tbody class="log-viewer">
+                    <tr>
+                        <td data-title="Type" class="pt-md pb-md">
+                            @Html.DisplayNameFor(model => model.Vehicle.LicencePlate)
+                        </td>
+                        <td data-title="Date" class="pt-md pb-md">
+                            @Html.DisplayFor(model => model.Vehicle.LicencePlate)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-title="Type" class="pt-md pb-md">
+                            @Html.DisplayNameFor(model => model.ScheduleDetail.ActiveSchedule.Services.ServiceType)
+                        </td>
+                        <td data-title="Date" class="pt-md pb-md">
+                            @Html.DisplayFor(model => model.ScheduleDetail.ActiveSchedule.Services.ServiceType)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-title="Type" class="pt-md pb-md">
+                            @Html.DisplayNameFor(model => model.Repair.ServiceDone)
+                        </td>
+                        <td data-title="Date" class="pt-md pb-md">
+                            @Html.DisplayFor(model => model.Repair.ServiceDone)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-title="Type" class="pt-md pb-md">
+                            @Html.DisplayNameFor(model => model.Repair.WorkHours)
+                        </td>
+                        <td data-title="Date" class="pt-md pb-md">
+                            @Html.DisplayFor(model => model.Repair.WorkHours)
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+ 
+
+        <form asp-action="FinishRepair" style="text-align: center">
+            <input type="hidden" asp-for="RepairId" />
+            <input type="hidden" asp-for="ScheduleDetailId" />
+            <input type="hidden" asp-for="VehicleId" />
+            <input type="hidden" asp-for="RepairScheduleID" />
+            <button type="submit" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Finish</button>
+            <a asp-action="DealershipRepairs" formnovalidate class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Exit</a>
+        </form>
+
+    </div>
+</section>

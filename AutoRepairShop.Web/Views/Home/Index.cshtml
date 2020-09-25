@@ -14,8 +14,8 @@
                         <div class="col-sm-12">
                             <div class="carousel-content center centered">
                                 <span class="home-icon pe-7s-gleam bounce-in"></span>
-                                <h2 class="boxed animation animated-item-1 fade-down">WELCOME TO IMPACT</h2><br>
-                                <p class="boxed animation animated-item-2 fade-up">SELECT A DEMO</p>
+                                <h2 class="boxed animation animated-item-1 fade-down">DON'T LET YOUR CAR TAKE AWAY YOUR DRIVING PLEASURE</h2><br>
+                                @*<p class="boxed animation animated-item-2 fade-up">SELECT A DEMO</p>*@
                                 <br>
                                 <a class="btn btn-md animation bounce-in" asp-controller="Accounts"
                                    asp-action="Login">Sign In</a>
@@ -32,7 +32,6 @@
 <script src="~/js/plugins.js"></script>
 <script src="~/js/bootstrap.min.js"></script>
 <script src="~/js/jquery.prettyPhoto.js"></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWDPCiH080dNCTYC-uprmLOn2mt2BMSUk&amp;sensor=true"></script>
 <script src="~/js/init.js"></script>
 
 
@@ -41,9 +40,11 @@
     jQuery(document).ready(function ($) {
         'use strict';
         jQuery('body').backstretch([
-            "images/bg/bg1.jpg",
-            "images/bg/bg5.jpg",
-            "images/bg/bg4.jpg"
+            "images/bg/bt1.jpg",
+            "images/bg/bt2.jpg",
+            "images/bg/bt3.jpg",
+            "images/bg/bt4.jpg",
+            "images/bg/bt5.jpg",
         ], { duration: 5000, fade: 500 });
 
         $("#mapwrapper").gMap({

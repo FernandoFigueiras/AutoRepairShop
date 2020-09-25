@@ -17,6 +17,10 @@ namespace AutoRepairShop.Web.Data.Repositories.Interfaces
 
 
 
+        Task<Vehicle> GetUserVehicle(int id);
+
+
+
 
         IEnumerable<SelectListItem> GetComboBrands();
 

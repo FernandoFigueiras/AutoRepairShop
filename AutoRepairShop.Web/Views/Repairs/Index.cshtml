@@ -1,0 +1,73 @@
+﻿@model IEnumerable<AutoRepairShop.Web.Data.Entities.RepairSchedule>
+
+@{
+    ViewData["Title"] = "Dealership Repairs";
+}
+
+
+
+<section class="panel">
+    <div class="panel-body">
+        <div class="inner-toolbar clearfix">
+            <ul>
+                <li class="right">
+                    <ul class="nav nav-pills nav-pills-primary">
+                        <li>
+                            <label>Go to</label>
+                        </li>
+                        <li class="active">
+                            <a asp-action="Index" style="font-size: 15px">Exit</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <table class="table table-bordered table-striped mb-none" id="datatable-editable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Schedule.Vehicle.LicencePlate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Schedule.ActiveSchedule.Services.ServiceType)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Repair.Department.DepartmentName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Repair.CreationDate)
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Schedule.Vehicle.LicencePlate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Schedule.ActiveSchedule.Services.ServiceType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Repair.Department.DepartmentName)
+                    </td>
+                    <th>
+                        @Html.DisplayFor(modelItem => item.Repair.CreationDate.Value)
+                    </th>
+                    <td class="actions">
+                        <a>  We're working on your car</a>
+
+                    </td>
+                </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</section>
+

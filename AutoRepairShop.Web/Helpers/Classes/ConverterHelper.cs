@@ -777,7 +777,7 @@ namespace AutoRepairShop.Web.Helpers.Classes
             return new Repair
             {
                 IsActive = true,
-                CreationDate = model.Schedule.ScheduleDay,
+                CreationDate = DateTime.Now,
                 Department = await _departmentRepository.GetByIdAsync(model.DepartmentId),
             };
         }
@@ -805,6 +805,46 @@ namespace AutoRepairShop.Web.Helpers.Classes
         }
 
 
-        
+        public FinishRepairViewModel ToFinishRepairViewModel (RepairSchedule repairSchedule)
+        {
+            return new FinishRepairViewModel
+            {
+                Vehicle = repairSchedule.Schedule.Vehicle,
+                VehicleId = repairSchedule.Schedule.Vehicle.Id,
+                Repair = repairSchedule.Repair,
+                RepairId = repairSchedule.Repair.Id,
+                ScheduleDetail = repairSchedule.Schedule,
+                ScheduleDetailId = repairSchedule.Schedule.Id,
+                RepairSchedule = repairSchedule,
+                RepairScheduleID = repairSchedule.Id,
+                ActiveSchedule = repairSchedule.Schedule.ActiveSchedule,
+                ActiveScheduleID = repairSchedule.Schedule.ActiveSchedule.Id,
+                
+            };
+        }
+
+
+
+        public RepairHistory ToRepairHistory(RepairSchedule repairSchedule, ScheduleDetail scheduleDetail)
+        {
+            var test = new RepairHistory
+            {
+                IsActive = true,
+                CreationDate = DateTime.Now,
+                LicencePlate = scheduleDetail.Vehicle.LicencePlate,
+                Mileage = scheduleDetail.ActiveSchedule.Mileage,
+                DealershipId = scheduleDetail.Dealership.Id,
+                Dealership = scheduleDetail.Dealership.DealerShipName,
+                ServiceId = scheduleDetail.ActiveSchedule.Services.Id,
+                Service = scheduleDetail.ActiveSchedule.Services.ServiceType,
+                Remarks = scheduleDetail.ActiveSchedule.Remarks,
+                RepairDate = repairSchedule.Repair.CreationDate.Value,
+                RepairHours = repairSchedule.Repair.WorkHours.ToString(),
+                RepairRemarks = repairSchedule.Repair.ServiceDone,
+
+            };
+
+            return test;
+        }
     }
 }
