@@ -9,7 +9,7 @@ namespace AutoRepairShop.Web.Helpers.Classes
     public class ComboHelpers : IComboHelpers
     {
 
-        public IEnumerable<SelectListItem> GetServices(IEnumerable<ServicesSupplied> services)
+        public IEnumerable<SelectListItem> GetServices(IEnumerable<DealershipService> services)
         {
             var list = services.Select(s => new SelectListItem
             {

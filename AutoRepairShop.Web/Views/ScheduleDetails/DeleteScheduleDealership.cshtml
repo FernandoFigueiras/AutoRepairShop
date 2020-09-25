@@ -1,0 +1,73 @@
+﻿@model AutoRepairShop.Web.Models.ActiveScheduleViewModel.DeleteScheduleViewModel
+
+@{
+    ViewData["Title"] = "Delete Schedule";
+}
+
+<h3>Are you sure you want to delete this?</h3>
+
+
+<h2>@ViewBag.Error </h2>
+
+
+
+<section class="panel">
+    <div class="panel-body tab-content">
+        <div id="access-log" class="tab-pane active">
+            <table class="table table-striped table-no-more table-bordered  mb-none">
+                <thead>
+                    <tr>
+                        <th style="width: 25%; margin: auto"><span class="text-normal text-sm">Data</span></th>
+                        <th style="width: 55%"><span class="text-normal text-sm">Schedule Information</span></th>
+                        @*<th style="width: 35%"><span class="text-normal text-sm">Message</span></th>*@
+                    </tr>
+                </thead>
+                <tbody class="log-viewer">
+                    <tr>
+                        <td data-title="Type" class="pt-md pb-md">
+                            @Html.DisplayNameFor(model => model.LicencePLate)
+                        </td>
+                        <td data-title="Date" class="pt-md pb-md">
+                            @Html.DisplayFor(model => model.LicencePLate)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-title="Type" class="pt-md pb-md">
+                            @Html.DisplayNameFor(model => model.Dealership)
+                        </td>
+                        <td data-title="Date" class="pt-md pb-md">
+                            @Html.DisplayFor(model => model.Dealership)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-title="Type" class="pt-md pb-md">
+                            @Html.DisplayNameFor(model => model.Service)
+                        </td>
+                        <td data-title="Date" class="pt-md pb-md">
+                            @Html.DisplayFor(model => model.Service)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-title="Type" class="pt-md pb-md">
+                            @Html.DisplayNameFor(model => model.ScheduleDay)
+                        </td>
+                        <td data-title="Date" class="pt-md pb-md">
+                            @Html.DisplayFor(model => model.ScheduleDay)
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <form asp-action="DeleteSchedule" style="text-align: center">
+            <input type="hidden" asp-for="ActiveScheduleId" />
+            <button asp-action="DeleteScheduleDealership" asp-controller="ScheduleDetails" asp-route-id="ActiveScheduleId" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Delete</button>
+            <button asp-action="Index" formnovalidate class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Exit</button>
+        </form>
+    </div>
+
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

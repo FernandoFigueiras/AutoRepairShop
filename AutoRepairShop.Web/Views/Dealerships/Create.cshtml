@@ -151,8 +151,10 @@
                     dataType: 'json',
                     data: {zip4: $("#zipcode4input").val(), zip3: $("#zipcode3input").val()},
                     success: function (data) {
-                        $("#cityText").val(data.split(',')[1]);
-                        $("#zipId").val(data.split(',')[0]);
+                        var cityText = $("#cityText");
+                        cityText.val(data.split(',')[1]);
+                        var zipId = $("#zipId")
+                        zipId.val(data.split(',')[0]);
 
                 },
                 error: function () {

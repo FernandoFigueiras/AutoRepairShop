@@ -18,20 +18,25 @@
             @for (int i = 0; i < Model.Services.Count(); i++)
             {
 
-                <tr>
-                    <th>
-                        @Html.DisplayFor(model => model.Services[i].Service.ServiceType)
-                        <input type="hidden" asp-for="Services[i].Id" />
-                    </th>
-                    <td>
-                        @Html.CheckBoxFor(m => Model.Services[i].IsActive)
-                    </td>
-                </tr>
+            <tr>
+                <th>
+                    @Html.DisplayFor(model => model.Services[i].Service.ServiceType)
+                    <input type="hidden" asp-for="Services[i].Id" />
+                </th>
+                <td>
+                    @Html.CheckBoxFor(m => Model.Services[i].IsActive)
+                </td>
+                <td>
+                    @Html.TextAreaFor(m => Model.Services[i].ServicesPerDay)
+                </td>
+            </tr>
             }
 
     </table>
     <td>
-        <input type="submit" value="Post" />
+        <button type="submit" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Add</button>
+        <button asp-action="Index" formnovalidate class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Exit</button>
+
     </td>
 }
 

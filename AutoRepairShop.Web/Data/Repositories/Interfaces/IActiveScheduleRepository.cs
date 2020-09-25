@@ -9,7 +9,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Interfaces
     {
 
 
-        Task<IEnumerable<ServicesSupplied>> GetDealershipsWithServicesAsync(int serviceId);
+        Task<IEnumerable<DealershipService>> GetDealershipsWithServicesAsync(int serviceId);
 
         Task<List<ActiveSchedule>> GetDaysByServiceId(int serviceId);
     }

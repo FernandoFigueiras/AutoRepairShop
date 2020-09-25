@@ -1,5 +1,10 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Syncfusion.EJ2.Linq;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AutoRepairShop.Web.Data.Repositories.Classes
 {
@@ -13,7 +18,10 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
         }
 
 
-
+        public async Task<List<Service>> GetAllServicesAsync()
+        {
+            return await _context.Services.ToListAsync();
+        }
 
     }
 }

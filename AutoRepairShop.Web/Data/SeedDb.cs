@@ -460,7 +460,7 @@ namespace AutoRepairShop.Web.Data
                 }
 
 
-                if (!_context.ServicesSupplied.Any())
+                if (!_context.DealershipServices.Any())
                 {
                     var dealership = _context.Dealerships.FirstOrDefault();
                     var services = _context.Services.AsEnumerable();
@@ -497,14 +497,14 @@ namespace AutoRepairShop.Web.Data
         private void AddServicesSupllied(Dealership dealershipId, Service service)
         {
             var randNum = new Random();
-            var servicesSupplied = new ServicesSupplied
+            var servicesSupplied = new DealershipService
             {
                 Dealership = dealershipId,
                 Service = service,
                 ServicesPerDay = randNum.Next(1, 10),
             };
 
-            _context.ServicesSupplied.Add(servicesSupplied);
+            _context.DealershipServices.Add(servicesSupplied);
         }
 
         private void AddDealership(string dealershipName)

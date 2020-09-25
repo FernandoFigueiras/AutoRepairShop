@@ -56,11 +56,6 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
-        
-        public int CityId { get; set; }
-
-
-
 
         public string City { get; set; }
 

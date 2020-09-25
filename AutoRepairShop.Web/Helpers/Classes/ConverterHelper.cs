@@ -380,13 +380,14 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
 
 
-        public DealershipServicesViewModel ToDealershipViewModel(int dealershipId, string dealershipName, List<ServicesSupplied> services)
+        public DealershipServicesViewModel ToDealershipViewModel(int dealershipId, string dealershipName, List<DealershipService> services)
         {
             return new DealershipServicesViewModel
             {
                 DealershipId = dealershipId,
                 Services = services,
                 DealershipName = dealershipName,
+                
             };
         }
 
@@ -394,28 +395,28 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
 
 
-        public ServicesSupplied ToServicesSupplied(Dealership dealership, Service service, int? serviceSuppliedId, bool isActive)
+        public DealershipService ToServicesSupplied(Dealership dealership, Service service, int servicesPerDay)
         {
-            return new ServicesSupplied
+            return new DealershipService
             {
-                Id = serviceSuppliedId.Value,
                 Dealership = dealership,
                 Service = service,
-                IsActive = isActive,
+                IsActive = true,
+                ServicesPerDay = servicesPerDay
             };
-
         }
 
 
 
 
 
-        public ServicesSupplied ToNewServicesSupplied(Dealership dealership, Service service)
+        public DealershipService ToNewServicesSupplied(Dealership dealership, Service service)
         {
-            return new ServicesSupplied
+            return new DealershipService
             {
                 Dealership = dealership,
                 Service = service,
+                ServicesPerDay=0,
                 IsActive = false,
             };
 
@@ -452,7 +453,7 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
 
 
-        public BeginScheduleViewModel ToNewScheduleViewModel(IEnumerable<Vehicle> vehicles, IEnumerable<ServicesSupplied> services)
+        public BeginScheduleViewModel ToNewScheduleViewModel(IEnumerable<Vehicle> vehicles, IEnumerable<DealershipService> services)
         {
             return new BeginScheduleViewModel
             {
@@ -533,7 +534,7 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
 
 
-        public EditScheduleViewModel ToEditScheduleViewModel(ScheduleDetail scheduleDetail, IEnumerable<ServicesSupplied> services)
+        public EditScheduleViewModel ToEditScheduleViewModel(ScheduleDetail scheduleDetail, IEnumerable<DealershipService> services)
         {
             return new EditScheduleViewModel
             {
@@ -682,7 +683,7 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
 
 
-        public InitScheduleByDealership ToNewSchedulebyDealership(int Id, IEnumerable<ServicesSupplied> services)
+        public InitScheduleByDealership ToNewSchedulebyDealership(int Id, IEnumerable<DealershipService> services)
         {
             return new InitScheduleByDealership
             {
@@ -692,7 +693,7 @@ namespace AutoRepairShop.Web.Helpers.Classes
         }
 
 
-        public InitScheduleByDealershipNoUser ToNewSchedulebyDealershipNoUser(int Id, IEnumerable<ServicesSupplied> services, User user)
+        public InitScheduleByDealershipNoUser ToNewSchedulebyDealershipNoUser(int Id, IEnumerable<DealershipService> services, User user)
         {
             return new InitScheduleByDealershipNoUser
             {

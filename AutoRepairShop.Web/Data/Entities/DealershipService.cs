@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AutoRepairShop.Web.Data.Entities
 {
-    public class ServicesSupplied: IEntity
+    public class DealershipService: IEntity
     {
 
         public int Id { get; set; }

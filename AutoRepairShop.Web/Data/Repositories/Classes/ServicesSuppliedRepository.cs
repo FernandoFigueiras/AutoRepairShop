@@ -2,6 +2,7 @@
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity.UI.Pages.Internal.Account;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AutoRepairShop.Web.Data.Repositories.Classes
 {
-    public class ServicesSuppliedRepository : GenericRepository<ServicesSupplied>, IServicesSuppliedRepository
+    public class ServicesSuppliedRepository : GenericRepository<DealershipService>, IServicesSuppliedRepository
     {
         private readonly DataContext _context;
 
@@ -18,44 +19,72 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
             _context = context;
         }
 
-        public IEnumerable<ServicesSupplied> GetWithServicesByDealershipId(int id)
+        public IEnumerable<DealershipService> GetWithServicesByDealershipId(int id)
         {
-            return _context.ServicesSupplied.Include(s => s.Dealership).Include(s => s.Service).Where(d => d.Dealership.Id == id).ToList();
+            return _context.DealershipServices.Include(s => s.Dealership).Include(s => s.Service).Where(d => d.Dealership.Id == id).ToList();
         }
 
 
-        public IEnumerable<ServicesSupplied> GetServices()
+        public IEnumerable<DealershipService> GetServices()
         {
-            return _context.ServicesSupplied.Include(s => s.Service).ToList();
+            return _context.DealershipServices.Include(s => s.Service).ToList();
         } 
 
 
-        public async Task<ServicesSupplied> GetService(int serviceSuppliedId)
+        public async Task<DealershipService> GetService(int serviceSuppliedId)
         {
-            return await _context.ServicesSupplied.Include(s => s.Service).Where(s => s.Id == serviceSuppliedId).FirstOrDefaultAsync();
+            return await _context.DealershipServices.Include(s => s.Service).Where(s => s.Id == serviceSuppliedId).FirstOrDefaultAsync();
         }
 
 
-        public async Task<ServicesSupplied> GetDealership(int id)
+        public async Task<DealershipService> GetDealership(int id)
         {
-            return await _context.ServicesSupplied.FirstOrDefaultAsync(s => s.Dealership.Id==id);
+            return await _context.DealershipServices.FirstOrDefaultAsync(s => s.Dealership.Id==id);
         }
 
 
 
-        public async Task<IEnumerable<ServicesSupplied>> GetDealershipsByServicesasync(int serviceId)
+        public async Task<IEnumerable<DealershipService>> GetDealershipsByServicesasync(int serviceId)
         {
 
-            return await _context.ServicesSupplied
+            return await _context.DealershipServices
                 .Include(s => s.Dealership)
                 .Where(s => s.Service.Id == serviceId).ToListAsync();
         }
 
 
-        public async Task<ServicesSupplied> GetDealershipServicesPerDayAsync(int servicesSuppliedId, int dealershipId)
+        public async Task<DealershipService> GetDealershipServicesPerDayAsync(int servicesSuppliedId, int dealershipId)
         {
-            return await _context.ServicesSupplied
+            return await _context.DealershipServices
                 .FirstOrDefaultAsync(s => s.Id == servicesSuppliedId && s.Dealership.Id == dealershipId);
         }
+
+
+
+        public async Task AddServicesToDealershipAsync(Service service, Dealership dealership)
+        {
+            AddService(service, dealership);
+
+            await _context.SaveChangesAsync();
+        }
+
+        private void AddService(Service serviceId, Dealership dealershipId)
+        {
+            var servicesSupplied = new DealershipService
+            {
+                
+                Dealership = dealershipId,
+                Service = serviceId,
+            };
+
+            _context.DealershipServices.Add(servicesSupplied);
+        }
+
+
+        public IEnumerable<DealershipService> GetServicesSupplied (int dealershipId)
+        {
+            return _context.DealershipServices.Include(s =>s.Service).Where(s => s.Dealership.Id == dealershipId);
+        }
+        
     }
 }

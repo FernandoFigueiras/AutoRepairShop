@@ -20,9 +20,9 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
 
 
        
-        public async Task<IEnumerable<ServicesSupplied>> GetDealershipsWithServicesAsync(int serviceId)
+        public async Task<IEnumerable<DealershipService>> GetDealershipsWithServicesAsync(int serviceId)
         {
-            var services = await _context.ServicesSupplied
+            var services = await _context.DealershipServices
                 .Include(s => s.Service)
                 .Include(s => s.Dealership)
                 .Where(s => s.Service.Id == serviceId).ToListAsync();

@@ -163,6 +163,8 @@
     <Compile Remove="Migrations\20200923231524_SetDb.Designer.cs" />
     <Compile Remove="Migrations\20200924083805_SetDb.cs" />
     <Compile Remove="Migrations\20200924083805_SetDb.Designer.cs" />
+    <Compile Remove="Migrations\20200924141138_SetDb.cs" />
+    <Compile Remove="Migrations\20200924141138_SetDb.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

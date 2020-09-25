@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoRepairShop.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200924141138_SetDb")]
-    partial class SetDb
+    [Migration("20200924222755_SetDB")]
+    partial class SetDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -193,8 +193,6 @@ namespace AutoRepairShop.Web.Migrations
                         .IsRequired();
 
                     b.Property<string>("City");
-
-                    b.Property<int>("CityId");
 
                     b.Property<DateTime?>("CreationDate");
 

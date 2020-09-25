@@ -63,7 +63,7 @@ namespace AutoRepairShop.Web.Data
 
 
 
-        public DbSet<ServicesSupplied> ServicesSupplied { get; set; }
+        public DbSet<DealershipService> DealershipServices { get; set; }
 
 
 
@@ -146,15 +146,6 @@ namespace AutoRepairShop.Web.Data
 
 
 
-
-            //modelBuilder.Entity<District>()
-            // .HasIndex(d => d.DistrictName)
-            // .IsUnique();
-
-
-            //modelBuilder.Entity<City>()
-            //  .HasIndex(c => c.CityName)
-            //  .IsUnique();
 
 
 

@@ -6,7 +6,7 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
 {
     public interface IComboHelpers
     {
-        IEnumerable<SelectListItem> GetServices(IEnumerable<ServicesSupplied> services);
+        IEnumerable<SelectListItem> GetServices(IEnumerable<DealershipService> services);
 
 
 

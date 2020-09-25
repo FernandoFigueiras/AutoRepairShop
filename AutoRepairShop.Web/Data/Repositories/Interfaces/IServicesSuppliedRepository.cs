@@ -4,22 +4,25 @@ using System.Threading.Tasks;
 
 namespace AutoRepairShop.Web.Data.Repositories.Interfaces
 {
-    public interface IServicesSuppliedRepository : IGenericRepository<ServicesSupplied>
+    public interface IServicesSuppliedRepository : IGenericRepository<DealershipService>
     {
 
-        IEnumerable<ServicesSupplied> GetWithServicesByDealershipId(int id);
+        IEnumerable<DealershipService> GetWithServicesByDealershipId(int id);
 
-        IEnumerable<ServicesSupplied> GetServices();
+        IEnumerable<DealershipService> GetServices();
 
-        Task<ServicesSupplied> GetService(int serviceSuppliedId);
+        Task<DealershipService> GetService(int serviceSuppliedId);
 
-        Task<ServicesSupplied> GetDealership(int id);
+        Task<DealershipService> GetDealership(int id);
 
-        Task<IEnumerable<ServicesSupplied>> GetDealershipsByServicesasync(int serviceId);
+        Task<IEnumerable<DealershipService>> GetDealershipsByServicesasync(int serviceId);
 
 
-        Task<ServicesSupplied> GetDealershipServicesPerDayAsync(int servicesSuppliedId, int dealershipId);
+        Task<DealershipService> GetDealershipServicesPerDayAsync(int servicesSuppliedId, int dealershipId);
 
-       
+        Task AddServicesToDealershipAsync(Service service, Dealership dealership);
+
+
+        IEnumerable<DealershipService> GetServicesSupplied(int dealershipId);
     }
 }

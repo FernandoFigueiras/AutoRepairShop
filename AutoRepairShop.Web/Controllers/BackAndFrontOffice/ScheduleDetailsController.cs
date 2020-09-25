@@ -362,7 +362,67 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                 {
                     await _scheduleDetailRepository.DeleteAsync(scheduleDetail);
                     await _activeScheduleRepository.DeleteAsync(activeSchedule);
+
                     return RedirectToAction(nameof(Index));
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
+            }
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> DeleteScheduleDealership(int? Id)
+        {
+
+            var userName = this.User.Identity.Name;
+
+            var user = await _userHelper.GetUserByEmailAsync(userName);
+
+
+            if (user.IsActive == false)
+            {
+                return RedirectToAction("EditUser", "Accounts");
+            }
+
+            if (Id == null)
+            {
+                return NotFound();
+            }
+
+            var scheduleDetail = await _scheduleDetailRepository.GetScheduleDetailByIdAsync(Id.Value);
+
+
+            var model = _converterHelper.ToDeleteScheduleViewModel(scheduleDetail);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteScheduleDealership(DeleteScheduleViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var activeSchedule = await _activeScheduleRepository.GetByIdAsync(model.ActiveScheduleId);
+
+                var scheduleDetail = await _scheduleDetailRepository.GetScheduleDetailAsync(model.ActiveScheduleId);
+
+                if (activeSchedule == null)
+                {
+                    return View(model);
+                }
+
+                try
+                {
+                    await _scheduleDetailRepository.DeleteAsync(scheduleDetail);
+                    await _activeScheduleRepository.DeleteAsync(activeSchedule);
+
+                    return RedirectToAction("ShowScheduleForDealership");
                 }
                 catch (Exception)
                 {

@@ -92,17 +92,17 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
 
 
 
-        DealershipServicesViewModel ToDealershipViewModel(int dealershipId, string dealershipName, List<ServicesSupplied> services);
+        DealershipServicesViewModel ToDealershipViewModel(int dealershipId, string dealershipName, List<DealershipService> services);
 
 
 
 
-        ServicesSupplied ToServicesSupplied(Dealership dealership, Service service, int? serviceSuppliedId, bool isActive);
+        DealershipService ToServicesSupplied(Dealership dealership, Service service, int servicesPerDay);
 
 
 
 
-        ServicesSupplied ToNewServicesSupplied(Dealership dealership, Service service);
+        DealershipService ToNewServicesSupplied(Dealership dealership, Service service);
 
 
 
@@ -117,7 +117,7 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
 
 
 
-        BeginScheduleViewModel ToNewScheduleViewModel(IEnumerable<Vehicle> vehicles, IEnumerable<ServicesSupplied> services);
+        BeginScheduleViewModel ToNewScheduleViewModel(IEnumerable<Vehicle> vehicles, IEnumerable<DealershipService> services);
 
 
 
@@ -139,7 +139,7 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
 
 
 
-        EditScheduleViewModel ToEditScheduleViewModel(ScheduleDetail scheduleDetail, IEnumerable<ServicesSupplied> services);
+        EditScheduleViewModel ToEditScheduleViewModel(ScheduleDetail scheduleDetail, IEnumerable<DealershipService> services);
 
 
 
@@ -176,9 +176,9 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
 
 
 
-        InitScheduleByDealership ToNewSchedulebyDealership(int Id, IEnumerable<ServicesSupplied> services);
+        InitScheduleByDealership ToNewSchedulebyDealership(int Id, IEnumerable<DealershipService> services);
 
-        InitScheduleByDealershipNoUser ToNewSchedulebyDealershipNoUser(int Id, IEnumerable<ServicesSupplied> services, User user);
+        InitScheduleByDealershipNoUser ToNewSchedulebyDealershipNoUser(int Id, IEnumerable<DealershipService> services, User user);
 
 
         CompleteSchdeuleByDealershipViewModel ToCompleteScheduleByDealershipViewModel(IEnumerable<Vehicle> vehicles, Dealership dealership, Service service);

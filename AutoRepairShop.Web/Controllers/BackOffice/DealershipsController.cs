@@ -1,10 +1,12 @@
-﻿using AutoRepairShop.Web.Data.Entities;
+﻿using AutoRepairShop.Web.Data;
+using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
 using AutoRepairShop.Web.Helpers.Interfaces;
 using AutoRepairShop.Web.Models.DShip;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,13 +20,15 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         private readonly IConverterHelper _converterHelper;
         private readonly ICityRepository _cityRepository;
         private readonly IZipCodeRepository _zipCodeRepository;
+        private readonly DataContext _context;
 
         public DealershipsController(IDealershipRepository dealershipRepository,
             IServicesSuppliedRepository servicesSuppliedRepository,
             IServiceRepository serviceRepository,
             IConverterHelper converterHelper,
             ICityRepository cityRepository,
-            IZipCodeRepository zipCodeRepository)
+            IZipCodeRepository zipCodeRepository,
+            DataContext context)
         {
             _dealershipRepository = dealershipRepository;
             _servicesSuppliedRepository = servicesSuppliedRepository;
@@ -32,6 +36,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             _converterHelper = converterHelper;
             _cityRepository = cityRepository;
             _zipCodeRepository = zipCodeRepository;
+            _context = context;
         }
 
         // GET: Dealerships
@@ -77,12 +82,14 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                 try
                 {
 
+
                     dealership.CreationDate = DateTime.Now;
                     dealership.IsActive = true;
+                    var zipcode = await _zipCodeRepository.GetByIdAsync(dealership.ZipCodeId);
+                    dealership.ZipCode = zipcode;
                     await _dealershipRepository.CreateAsync(dealership);
 
-
-                    return RedirectToAction("AddDealershipToServices");
+                    return RedirectToAction($"AddDealershipToServices", dealership);
                 }
                 catch (Exception ex)
                 {
@@ -113,19 +120,21 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
             var dShip = await _dealershipRepository.GetByNameAsync(dealership.DealerShipName);
 
-            var services = _serviceRepository.GetAll().ToList();
-
+            var services = await _serviceRepository.GetAllServicesAsync();
 
             foreach (var item in services)
             {
-                var servicesSupplied = _converterHelper.ToNewServicesSupplied(dShip, item);
-
-                await _servicesSuppliedRepository.CreateAsync(servicesSupplied);
-
+                await _servicesSuppliedRepository.AddServicesToDealershipAsync(item, dShip);
             }
+
+            
+
 
             return RedirectToAction(nameof(Index));
         }
+
+
+
 
         // GET: Dealerships/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -223,7 +232,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                 return NotFound();
             }
 
-            var services = _servicesSuppliedRepository.GetServices().ToList();
+            var services = _servicesSuppliedRepository.GetServicesSupplied(dealership.Id).ToList();
 
 
 
@@ -234,24 +243,22 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
 
 
-        //TODO view
         [HttpPost]
         public async Task<IActionResult> AddService(DealershipServicesViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var dealeship = await _dealershipRepository.GetByIdAsync(model.DealershipId);
-
 
 
                 foreach (var item in model.Services)
                 {
-                    var service = await _serviceRepository.GetByIdAsync(item.Id);
 
-                    var ServicesSupplied = _converterHelper.ToServicesSupplied(dealeship, service, item.Id, item.IsActive);
 
-                    await _servicesSuppliedRepository.UpdateAsync(ServicesSupplied);
+                    await _servicesSuppliedRepository.UpdateAsync(item);
+
                 }
+
+
 
 
                 return RedirectToAction(nameof(Index));
