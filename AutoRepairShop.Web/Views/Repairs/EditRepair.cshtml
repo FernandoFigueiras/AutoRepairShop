@@ -1,0 +1,80 @@
+﻿@model AutoRepairShop.Web.Data.Entities.RepairSchedule
+
+@{
+    ViewData["Title"] = "Edit Repair";
+}
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+
+            <div class="panel-body">
+                <form asp-action="EditRepair">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="Repair.Id" />
+
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" asp-for="Repair.ServiceDone"></label>
+                        <div class="col-md-6">
+                            <textarea class="form-control" rows="3" data-plugin-maxlength maxlength="5000" asp-for="Repair.ServiceDone"></textarea>
+                            <p>
+                                <code>max-length</code> set to 5000.
+                            </p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" asp-for="Repair.WorkHours"></label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="inputDefault" asp-for="Repair.WorkHours">
+                        </div>
+                        <span asp-validation-for="Repair.WorkHours" class="text-warning"></span>
+                    </div>
+
+
+
+
+                    <div style="text-align: center">
+                        <div class="form-group">
+                            <button type="submit" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Submit</button>
+                            <button asp-action="DealershipRepairs" formnovalidate class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Exit</button>
+                        </div>
+                    </div>
+
+
+
+                </form>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#ModelId").change(function () {
+
+                if ($("#ModelId option:selected").html() === "(Other not listed)") {
+                    $("#show").show();
+                }
+                else {
+                    $("#show").hide();
+                }
+            });
+        });
+
+    </script>
+}

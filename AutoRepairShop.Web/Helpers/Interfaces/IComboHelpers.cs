@@ -25,7 +25,7 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
 
 
 
-
+        IEnumerable<SelectListItem> GetDealershipDepartments(IEnumerable<DealershipDepartment> departments);
 
     }
 }

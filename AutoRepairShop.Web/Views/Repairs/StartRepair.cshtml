@@ -1,0 +1,132 @@
+﻿@model AutoRepairShop.Web.Models.RepairViewModels.StartRepairViewModel
+
+@{
+    ViewData["Title"] = "Start Repair";
+}
+
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+
+            <div class="panel-body">
+                <form class="form-horizontal form-bordered" asp-action="StartRepair">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="DealershipId" />
+                    <input type="hidden" asp-for="VehicleId" />
+                    <input type="hidden" asp-for="ScheduleId" />
+                    <input type="hidden" asp-for="ActiveScheduleId" />
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" asp-for="Dealership.DealerShipName"></label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="inputDefault" readonly="readonly" asp-for="Dealership.DealerShipName">
+                        </div>
+                        <span asp-validation-for="Dealership.DealerShipName" class="text-warning"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" asp-for="Vehicle.LicencePlate"></label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="inputDefault" readonly="readonly" asp-for="Vehicle.LicencePlate">
+                        </div>
+                        <span asp-validation-for="Vehicle.LicencePlate" class="text-warning"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" asp-for="Vehicle.Model.Brand.BrandName"></label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="inputDefault" readonly="readonly" asp-for="Vehicle.Model.Brand.BrandName">
+                        </div>
+                        <span asp-validation-for="Vehicle.Model.Brand.BrandName" class="text-warning"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" asp-for="Vehicle.Model.Brand.BrandName"></label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="inputDefault" readonly="readonly" asp-for="Vehicle.Model.ModelName">
+                        </div>
+                        <span asp-validation-for="Vehicle.Model.ModelName" class="text-warning"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" asp-for="Vehicle.Fuel.FuelType"></label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="inputDefault" readonly="readonly" asp-for="Vehicle.Fuel.FuelType">
+                        </div>
+                        <span asp-validation-for="Vehicle.Fuel.FuelType" class="text-warning"></span>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" asp-for="Schedule.Mileage"></label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" asp-for="Schedule.Mileage">
+                        </div>
+                        <span asp-validation-for="Schedule.Mileage" class="text-warning"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" asp-for="Schedule.Services.ServiceType"></label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly="readonly" asp-for="Schedule.Services.ServiceType">
+                        </div>
+                        <span asp-validation-for="Schedule.Services.ServiceType" class="text-warning"></span>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" asp-for="Schedule.ScheduleDay"></label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly="readonly" asp-for="Schedule.ScheduleDay">
+                        </div>
+                        <span asp-validation-for="Schedule.ScheduleDay" class="text-warning"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" asp-for="Schedule.Remarks"></label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly="readonly" asp-for="Schedule.Remarks">
+                        </div>
+                        <span asp-validation-for="Schedule.Remarks" class="text-warning"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" asp-for="DepartmentId"></label>
+                        <div class="col-md-6">
+                            <select class="form-control" id="BrandId" asp-items="Model.Departments" asp-for="DepartmentId">
+                            </select>
+                            <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+
+
+                    <div style="text-align: center">
+                        <div class="form-group">
+                            <button type="submit" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Start Repair</button>
+                            <button asp-action="ShowScheduleForDealership" asp-controller="ScheduleDetails" formnovalidate class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Exit</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </section>
+
+
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

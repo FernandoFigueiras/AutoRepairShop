@@ -34,11 +34,6 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
-        public Employee Employee { get; set; }
-
-
-
-
         public string ServiceDone { get; set; }
 
 

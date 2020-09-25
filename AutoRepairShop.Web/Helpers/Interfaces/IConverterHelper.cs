@@ -4,6 +4,7 @@ using AutoRepairShop.Web.Models.ActiveScheduleViewModel;
 using AutoRepairShop.Web.Models.DShip;
 using AutoRepairShop.Web.Models.EmployeeViewModel;
 using AutoRepairShop.Web.Models.MainWindow;
+using AutoRepairShop.Web.Models.RepairViewModels;
 using AutoRepairShop.Web.Models.VehicleViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -178,17 +179,32 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
 
         InitScheduleByDealership ToNewSchedulebyDealership(int Id, IEnumerable<DealershipService> services);
 
+
         InitScheduleByDealershipNoUser ToNewSchedulebyDealershipNoUser(int Id, IEnumerable<DealershipService> services, User user);
 
 
         CompleteSchdeuleByDealershipViewModel ToCompleteScheduleByDealershipViewModel(IEnumerable<Vehicle> vehicles, Dealership dealership, Service service);
 
+
         CompleteScheduleByDealershipNoUserViewModel ToCompleteScheduleByDealershipNoUserViewModel(string userId, int vehicleId, int dealershipId);
+
 
         Task<ActiveSchedule> ToActiveScheduleFromDealershipSchedule(CompleteSchdeuleByDealershipViewModel model);
 
 
         Task<ActiveSchedule> ToActiveScheduleFromDealershipScheduleNoUser(CompleteScheduleByDealershipNoUserViewModel model);
+
+
+
+        StartRepairViewModel ToStartRepairViewModel(ScheduleDetail scheduleDetail, IEnumerable<DealershipDepartment> departments);
+
+
+        Task<Repair> ToRepairAsync(StartRepairViewModel model);
+
+        RepairSchedule ToRepairSchedule(ScheduleDetail SDetail, Repair repair);
+
+
+        Repair ToRepairEdit(RepairSchedule repairSchedule);
 
     }
 }

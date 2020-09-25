@@ -37,6 +37,9 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
                .ThenInclude(a => a.Services)
                .Include(d => d.Dealership)
                .Include(d => d.Vehicle)
+               .Include(v => v.Vehicle.Model.Brand)
+               .Include(v => v.Vehicle.Model)
+               .Include(v => v.Vehicle.Fuel)
                .Where(d => d.ActiveSchedule.Id == activeScheduleId).FirstOrDefaultAsync();
 
             return detail;
@@ -89,7 +92,14 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
                 .ThenInclude(a => a.Services)
                 .Include(d => d.Dealership)
                 .Include(d => d.Vehicle)
-                .Where(d => d.Dealership.Id == id);
+                .Where(d => d.Dealership.Id == id && d.IsActive==true);
         }
+
+
+        public async Task<ScheduleDetail> GetScheduleDetailByActiveSchedule(int id)
+        {
+            return await _context.ScheduleDetails.FirstOrDefaultAsync(a => a.ActiveSchedule.Id == id);
+        }
+
     }
 }

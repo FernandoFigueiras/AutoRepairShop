@@ -20,7 +20,8 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         private readonly IConverterHelper _converterHelper;
         private readonly ICityRepository _cityRepository;
         private readonly IZipCodeRepository _zipCodeRepository;
-        private readonly DataContext _context;
+        private readonly IDepartmentRepository _departmentRepository;
+        private readonly IDealershipDepartmentRepository _dealershipDepartmentRepository;
 
         public DealershipsController(IDealershipRepository dealershipRepository,
             IServicesSuppliedRepository servicesSuppliedRepository,
@@ -28,7 +29,8 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             IConverterHelper converterHelper,
             ICityRepository cityRepository,
             IZipCodeRepository zipCodeRepository,
-            DataContext context)
+            IDepartmentRepository departmentRepository,
+            IDealershipDepartmentRepository dealershipDepartmentRepository)
         {
             _dealershipRepository = dealershipRepository;
             _servicesSuppliedRepository = servicesSuppliedRepository;
@@ -36,7 +38,8 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             _converterHelper = converterHelper;
             _cityRepository = cityRepository;
             _zipCodeRepository = zipCodeRepository;
-            _context = context;
+            _departmentRepository = departmentRepository;
+            _dealershipDepartmentRepository = dealershipDepartmentRepository;
         }
 
         // GET: Dealerships
@@ -130,10 +133,27 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             
 
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("AddDepartmentsToDealership", dShip);
         }
 
 
+        public async Task<IActionResult> AddDepartmentsToDealership(Dealership dealership)
+        {
+
+            var dShip = await _dealershipRepository.GetByNameAsync(dealership.DealerShipName);
+
+            var departments = await _departmentRepository.GetDepartments();
+
+            foreach (var item in departments)
+            {
+                await _dealershipDepartmentRepository.AddDepartmentToDealershipAsync(item, dShip);
+            }
+
+
+
+
+            return RedirectToAction(nameof(Index));
+        }
 
 
         // GET: Dealerships/Edit/5
@@ -292,5 +312,8 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
             return null;
         }
+
+
+
     }
 }

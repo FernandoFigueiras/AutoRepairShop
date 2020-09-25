@@ -28,7 +28,8 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
-        public ActiveSchedule Schedule { get; set; }
+
+        public ScheduleDetail Schedule { get; set; }
 
 
 

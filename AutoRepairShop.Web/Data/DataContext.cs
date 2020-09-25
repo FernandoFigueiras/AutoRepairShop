@@ -82,6 +82,7 @@ namespace AutoRepairShop.Web.Data
         public DbSet<RepairSchedule> RepairSchedules { get; set; }
 
 
+
         public DbSet<Repair> Repairs { get; set; }
 
 

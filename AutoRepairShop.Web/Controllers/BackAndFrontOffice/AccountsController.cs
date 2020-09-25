@@ -90,6 +90,13 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             {
                 var user = await _userHelper.GetUserByEmailAsync(model.UserName);
 
+                if (user==null)
+                {
+                    this.ModelState.AddModelError(string.Empty, "Failed to login");
+                    return this.View(model);
+                }
+                
+
                 if (user.CanLogin)
                 {
                     var result = await _userHelper.LoginAsync(model);

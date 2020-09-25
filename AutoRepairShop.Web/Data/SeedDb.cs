@@ -460,6 +460,20 @@ namespace AutoRepairShop.Web.Data
                 }
 
 
+                if (!_context.DealershipDepartments.Any())
+                {
+                    var dealership = _context.Dealerships.FirstOrDefault();
+                    var departments = _context.Departments.AsEnumerable();
+
+                    foreach (var item in departments)
+                    {
+                        AddDealershipDepartent(dealership, item);
+                    }
+
+                    await _context.SaveChangesAsync();
+                }
+
+
                 if (!_context.DealershipServices.Any())
                 {
                     var dealership = _context.Dealerships.FirstOrDefault();
@@ -479,6 +493,17 @@ namespace AutoRepairShop.Web.Data
 
         }
 
+        private void AddDealershipDepartent(Dealership dealership, Department department)
+        {
+            var dealershipDepartment = new DealershipDepartment
+            {
+                Department = department,
+                Dealership = dealership,
+                IsActive = true,
+                CreationDate = DateTime.Now,
+            };
+            _context.DealershipDepartments.Add(dealershipDepartment);
+        }
 
         private void AddDepartment(string departmentName)
         {

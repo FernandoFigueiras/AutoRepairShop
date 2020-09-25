@@ -6,9 +6,12 @@ using AutoRepairShop.Web.Models.ActiveScheduleViewModel;
 using AutoRepairShop.Web.Models.DShip;
 using AutoRepairShop.Web.Models.EmployeeViewModel;
 using AutoRepairShop.Web.Models.MainWindow;
+using AutoRepairShop.Web.Models.RepairViewModels;
 using AutoRepairShop.Web.Models.VehicleViewModels;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AutoRepairShop.Web.Helpers.Classes
@@ -751,5 +754,57 @@ namespace AutoRepairShop.Web.Helpers.Classes
                 Mileage = model.Mileage,
             };
         }
+
+        public StartRepairViewModel ToStartRepairViewModel(ScheduleDetail scheduleDetail, IEnumerable<DealershipDepartment> departments)
+        {
+            return new StartRepairViewModel
+            {
+                Dealership = scheduleDetail.Dealership,
+                DealershipId = scheduleDetail.Dealership.Id,
+                Departments = _comboHelpers.GetDealershipDepartments(departments),
+                VehicleId = scheduleDetail.Vehicle.Id,
+                Vehicle = scheduleDetail.Vehicle,
+                ScheduleId = scheduleDetail.Id,
+                Schedule = scheduleDetail.ActiveSchedule,
+                ActiveScheduleId = scheduleDetail.ActiveSchedule.Id
+            };
+        }
+
+
+
+        public async Task<Repair> ToRepairAsync(StartRepairViewModel model)
+        {
+            return new Repair
+            {
+                IsActive = true,
+                CreationDate = model.Schedule.ScheduleDay,
+                Department = await _departmentRepository.GetByIdAsync(model.DepartmentId),
+            };
+        }
+
+
+
+        public RepairSchedule ToRepairSchedule(ScheduleDetail SDetail, Repair repair)
+        {
+            return new RepairSchedule
+            {
+                IsActive = true,
+                Schedule = SDetail,
+                Repair = repair,
+            };
+        }
+
+
+        public Repair ToRepairEdit(RepairSchedule repairSchedule)
+        {
+            return new Repair
+            {
+                Department = repairSchedule.Repair.Department
+
+            };
+        }
+
+
+        
     }
 }

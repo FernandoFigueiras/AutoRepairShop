@@ -71,7 +71,7 @@
                             <a asp-action="EditSchedule" asp-route-id="@item.Id">Edit</a>
                             <a asp-action="DetailsSchedule" asp-route-id="@item.Id">Details</a>
                             <a asp-action="DeleteScheduleDealership" asp-route-id="@item.Id">Delete</a>
-                            <a asp-action="ResumeToRepair" asp-route-id="@item.Id">Repair</a>
+                            <a asp-action="StartRepair" asp-controller="Repairs" asp-route-id="@item.Id">Repair</a>
                         </td>
                     </tr>
                 }
