@@ -12,7 +12,9 @@
                 <form method="post">
                     <input type="hidden" asp-for="DealershipId" />
                     <input type="hidden" asp-for="UserID" />
-
+                    <div>
+                        <span class="text-danger">@ViewBag.Error</span>
+                    </div>
 
                     <div class="form-group">
                         <label class="col-md-3 control-label" asp-for="ServiceId"></label>

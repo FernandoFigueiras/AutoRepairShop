@@ -145,7 +145,9 @@ namespace AutoRepairShop.Web.Data
                 .HasIndex(d => d.DepartmentName)
                 .IsUnique();
 
-
+            modelBuilder.Entity<User>()
+                .HasIndex(d => d.TaxPayerNumber)
+                .IsUnique();
 
 
 

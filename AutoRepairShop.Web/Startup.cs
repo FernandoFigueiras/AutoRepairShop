@@ -1,26 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoRepairShop.Web.Data;
+﻿using AutoRepairShop.Web.Data;
 using AutoRepairShop.Web.Data.Entities;
-using AutoRepairShop.Web.Data.Repositories;
 using AutoRepairShop.Web.Data.Repositories.Classes;
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
-using AutoRepairShop.Web.Helpers;
 using AutoRepairShop.Web.Helpers.Classes;
 using AutoRepairShop.Web.Helpers.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Pages.Account.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace AutoRepairShop.Web
 {
@@ -43,11 +34,11 @@ namespace AutoRepairShop.Web
                 config.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
                 config.SignIn.RequireConfirmedEmail = true;
                 config.User.RequireUniqueEmail = true;
-                config.Password.RequireDigit = false;
-                config.Password.RequiredUniqueChars = 0;
-                config.Password.RequireLowercase = false;
-                config.Password.RequireUppercase = false;
-                config.Password.RequireNonAlphanumeric = false;
+                config.Password.RequireDigit = true;
+                config.Password.RequiredUniqueChars = 1;
+                config.Password.RequireLowercase = true;
+                config.Password.RequireUppercase = true;
+                config.Password.RequireNonAlphanumeric = true;
                 config.Password.RequiredLength = 6;
             })
                 .AddDefaultTokenProviders()
@@ -116,11 +107,23 @@ namespace AutoRepairShop.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddMvc().AddRazorPagesOptions(options =>
+
+
+            services.ConfigureApplicationCookie(Options =>
             {
-                options.Conventions.AddPageRoute("/Home/Main", "");
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            
+
+                Options.LoginPath = "/Home/NotAuthorized";
+
+                Options.AccessDeniedPath = "/Home/NotAuthorized";
+
+            });
+
+
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -136,6 +139,12 @@ namespace AutoRepairShop.Web
                 app.UseHsts();
             }
 
+
+
+            app.UseStatusCodePagesWithReExecute("/error/{0}");
+
+
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();
@@ -143,13 +152,13 @@ namespace AutoRepairShop.Web
 
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MzE2NjU5QDMxMzgyZTMyMmUzMGNTM0tiVzhha2hYR3NoL3I5UW1qelNoVWtubUo3T0wrbklkd2QxS29rNTQ9");
 
-            
+
 
             app.UseMvc(routes =>
             {
-                    routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute(
+                name: "default",
+                template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

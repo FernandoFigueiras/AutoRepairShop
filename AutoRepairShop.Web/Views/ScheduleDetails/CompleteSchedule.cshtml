@@ -18,11 +18,11 @@
                     <input type="hidden" asp-for="DaysToDisable" id="selectDate" />
 
 
-                    <div class=" control-section" style="text-align: center">
+                    <div style="text-align: center">
                         <div id="wrapper" class="datepicker-section">
                             <label asp-for="Day">Chose a Day</label>
                             <div id="datepicker-control" style="width: 250px; margin-left: 35%">
-                                <ejs-datepicker id="datepicker" ejs-for="Day" renderDayCell="disableDate" placeholder="" min="@DateTime.Now"></ejs-datepicker>
+                                <ejs-datepicker id="datepicker" ejs-for="Day" renderDayCell="disableDate" min="@DateTime.Now"></ejs-datepicker>
                             </div>
                         </div>
                     </div>
@@ -97,8 +97,8 @@
 
 
 
-
 <ejs-scripts></ejs-scripts>
+
 
 
 
@@ -108,4 +108,6 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <!-- Syncfusion Essential JS 2 Scripts -->
+    
 }

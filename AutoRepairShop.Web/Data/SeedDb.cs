@@ -32,132 +32,132 @@ namespace AutoRepairShop.Web.Data
 
             await _userHelper.CheckRoleAsync("Admin");
             await _userHelper.CheckRoleAsync("Customer");
-          
 
 
 
-            if (!_context.Countries.Any())
-            {
 
-                AddCountry("Portugal");
+            //if (!_context.Countries.Any())
+            //{
 
-                await _context.SaveChangesAsync();
-            }
+            //    AddCountry("Portugal");
+
+            //    await _context.SaveChangesAsync();
+            //}
 
 
             if (!_context.Districts.Any())
             {
-                string DistrictFile = "Districts.txt";
+                //string DistrictFile = "Districts.txt";
 
 
 
-                string path = Path.Combine(
-                Directory.GetCurrentDirectory(),
-                $"Data\\TextFiles\\",
-                DistrictFile);
+                //string path = Path.Combine(
+                //Directory.GetCurrentDirectory(),
+                //$"Data\\TextFiles\\",
+                //DistrictFile);
 
 
 
-                if (File.Exists(path))
-                {
+                //if (File.Exists(path))
+                //{
 
-                    using (StreamReader sr = new StreamReader(path))
-                    {
-                        var countryId = await _context.Countries.FirstOrDefaultAsync(c => c.CountryName == "Portugal");
+                //    using (StreamReader sr = new StreamReader(path))
+                //    {
+                //        var countryId = await _context.Countries.FirstOrDefaultAsync(c => c.CountryName == "Portugal");
 
-                        string d;
-                        while ((d = sr.ReadLine()) != null)
-                        {
-                            string district = d;
+                //        string d;
+                //        while ((d = sr.ReadLine()) != null)
+                //        {
+                //            string district = d;
 
-                            AddDistrict(district, countryId.Id);
-                            await _context.SaveChangesAsync();
-                        }
-                        sr.Close();
-                    }
-
-
-                }
+                //            AddDistrict(district, countryId.Id);
+                //            await _context.SaveChangesAsync();
+                //        }
+                //        sr.Close();
+                //    }
 
 
-                if (!_context.Cities.Any())
-                {
-                    string CountyFile = "Cities.txt";
+                //}
 
 
-                    string pathCounty = Path.Combine(
-                    Directory.GetCurrentDirectory(),
-                     $"Data\\TextFiles\\",
-                     CountyFile);
+                //if (!_context.Cities.Any())
+                //{
+                //    string CountyFile = "Cities.txt";
 
 
-                    if (File.Exists(pathCounty))
-                    {
-                        using (StreamReader srCity = new StreamReader(pathCounty))
-                        {
-                            string c;
-
-                            while ((c = srCity.ReadLine()) != null)
-                            {
-                                string[] line = new string[2];
-
-                                line = c.Split(';');
-
-                                int districtId = Convert.ToInt32(line[0]);
-                                string cityName = line[1];
-
-                                AddCity(cityName, districtId);
-                            }
-                            srCity.Close();
-                        }
+                //    string pathCounty = Path.Combine(
+                //    Directory.GetCurrentDirectory(),
+                //     $"Data\\TextFiles\\",
+                //     CountyFile);
 
 
-                        await _context.SaveChangesAsync();
-                    }
+                //    if (File.Exists(pathCounty))
+                //    {
+                //        using (StreamReader srCity = new StreamReader(pathCounty))
+                //        {
+                //            string c;
 
-                }
+                //            while ((c = srCity.ReadLine()) != null)
+                //            {
+                //                string[] line = new string[2];
 
+                //                line = c.Split(';');
 
-                if (!_context.ZipCodes.Any())
-                {
-                    AddZipCode(256, "0000", "000");
-                    await _context.SaveChangesAsync();
+                //                int districtId = Convert.ToInt32(line[0]);
+                //                string cityName = line[1];
 
-                    string zipCodesFile = "ZipCode.txt";
-
-
-                    string pathZipCodes = Path.Combine(
-                    Directory.GetCurrentDirectory(),
-                     $"Data\\TextFiles\\",
-                     zipCodesFile);
-
-
-                    if (File.Exists(pathZipCodes))
-                    {
-                        using (StreamReader srZipCode = new StreamReader(pathZipCodes))
-                        {
-                            string c;
-
-                            while ((c = srZipCode.ReadLine()) != null)
-                            {
-                                string[] line = new string[17];
-
-                                line = c.Split(',');
-
-                                int cityId = Convert.ToInt32(line[1]);
-                                string zipCode4 = line[14];
-                                string zipCode3 = line[15];
-
-                                AddZipCode(cityId, zipCode4, zipCode3);
-                            }
-                            srZipCode.Close();
-                        }
+                //                AddCity(cityName, districtId);
+                //            }
+                //            srCity.Close();
+                //        }
 
 
-                        await _context.SaveChangesAsync();
-                    }
+                //        await _context.SaveChangesAsync();
+                //    }
 
-                }
+                //}
+
+
+                //if (!_context.ZipCodes.Any())
+                //{
+                //    AddZipCode(256, "0000", "000");
+                //    await _context.SaveChangesAsync();
+
+                //    string zipCodesFile = "ZipCode.txt";
+
+
+                //    string pathZipCodes = Path.Combine(
+                //    Directory.GetCurrentDirectory(),
+                //     $"Data\\TextFiles\\",
+                //     zipCodesFile);
+
+
+                //    if (File.Exists(pathZipCodes))
+                //    {
+                //        using (StreamReader srZipCode = new StreamReader(pathZipCodes))
+                //        {
+                //            string c;
+
+                //            while ((c = srZipCode.ReadLine()) != null)
+                //            {
+                //                string[] line = new string[17];
+
+                //                line = c.Split(',');
+
+                //                int cityId = Convert.ToInt32(line[1]);
+                //                string zipCode4 = line[14];
+                //                string zipCode3 = line[15];
+
+                //                AddZipCode(cityId, zipCode4, zipCode3);
+                //            }
+                //            srZipCode.Close();
+                //        }
+
+
+                //        await _context.SaveChangesAsync();
+                //    }
+
+                //}
 
                 var user = await _userHelper.GetUserByEmailAsync("fjfigdev@gmail.com");
 
@@ -175,7 +175,7 @@ namespace AutoRepairShop.Web.Data
                         CanLogin = true,
                     };
 
-                    var result = await _userHelper.AddUserAsync(user, "123456");
+                    var result = await _userHelper.AddUserAsync(user, "P@ssw0rd");
                     var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
                     var resulttoken = await _userHelper.ConfirmEmailAsync(user, token);
 
@@ -449,7 +449,7 @@ namespace AutoRepairShop.Web.Data
 
                 if (!_context.Departments.Any())
                 {
-                    AddDepartment("Menagement");
+                    AddDepartment("Management");
                     AddDepartment("Mechanics");
                     AddDepartment("Reception");
                     AddDepartment("Electronic");

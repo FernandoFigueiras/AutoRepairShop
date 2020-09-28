@@ -41,6 +41,7 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
             using (var client = new SmtpClient())
             {
+                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
                 client.CheckCertificateRevocation = false;
                 client.Connect(smtp, int.Parse(port), false);
                 client.Authenticate(from, password);

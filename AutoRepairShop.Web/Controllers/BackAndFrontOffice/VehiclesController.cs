@@ -2,6 +2,7 @@
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
 using AutoRepairShop.Web.Helpers.Interfaces;
 using AutoRepairShop.Web.Models.VehicleViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             _userHelper = userHelper;
         }
 
-
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> Index()
         {
             var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
@@ -53,7 +54,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
 
 
-
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> AddVehicle()
         {
 
@@ -217,7 +218,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
 
 
-
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin, Customer")]
         public async Task<IActionResult> DeleteVehicle(int? id)
         {
 
@@ -289,7 +290,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
 
 
-
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin, Customer")]
         public async Task<IActionResult> EditVehicle(int? id)
         {
 
@@ -384,7 +385,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
         }
 
 
-
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Employee/Mechanics, Employee/Electronic,Employee/Paint, Admin, Customer")]
         public async Task<IActionResult> DetailsVehicle(int? id)
         {
 
@@ -426,7 +427,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
 
 
-
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin")]
         public IActionResult AddVehicleNoUser()
         {
 
@@ -580,7 +581,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             return View(model);
         }
 
-
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Employee/Mechanics, Employee/Electronic, Employee/Paint, Admin")]
         public async Task<IActionResult> ShowDealershipVehicles()
         {
 

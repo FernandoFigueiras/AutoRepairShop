@@ -1,5 +1,6 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -20,6 +21,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
         // GET: Fuels
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin")]
         public IActionResult Index()
         {
             return View(_fuelRepository.GetAll().OrderBy(f => f.FuelType));
@@ -44,6 +46,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
         // GET: Fuels/Create
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin")]
         public IActionResult Create()
         {
             return View();
@@ -88,6 +91,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
         // GET: Fuels/Edit/5
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -164,6 +168,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
         // GET: Fuels/Delete/5
+        [Authorize(Roles = "Employee/Management, Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

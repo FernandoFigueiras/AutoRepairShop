@@ -7,6 +7,7 @@ using AutoRepairShop.Web.Data.Repositories.Interfaces;
 using AutoRepairShop.Web.Helpers.Interfaces;
 using AutoRepairShop.Web.Models.RepairViewModels;
 using MailKit;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -50,6 +51,9 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             _vehicleRepository = vehicleRepository;
             _mailHelper = mailHelper;
         }
+
+
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin, Customer")]
         public async Task<IActionResult> Index()
         {
             var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
@@ -57,6 +61,8 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             return View(repair);
         }
 
+
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Employee/Mechanics, Employee/Electronic,Employee/Paint, Admin")]
         public async Task<IActionResult> DealershipRepairs()
         {
 
@@ -67,6 +73,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             return View(repair);
         }
 
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Employee/Mechanics, Employee/Electronic,Employee/Paint")]
         public async Task<IActionResult> StartRepair(int? Id)
         {
             if (Id == null)
@@ -139,6 +146,8 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
         }
 
+
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Employee/Mechanics, Employee/Electronic, Employee/Paint ")]
         public async Task<IActionResult> EditRepair(int? id)
         {
             if (id == null)
@@ -183,7 +192,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
 
 
-        
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Employee/Mechanics, Employee/Electronic, Employee/Paint")]
         public async Task<IActionResult> FinishRepair(int? id)
         {
             if (id == null)
@@ -236,6 +245,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                 await _scheduleDetailRepository.DeleteAsync(scheduleDetail);
                 await _repairRepository.DeleteAsync(repair);
                 await _activeScheduleRepository.DeleteAsync(activeSchedule);
+                return RedirectToAction("DealershipRepairs");
                 
             }
             catch (Exception ex)
@@ -250,9 +260,10 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             else
             {
                 _mailHelper.SendEmail(user.UserName, "Repair finished", $"<h1>Your repair information</h1></br><p>Your vehicle {vehicle.LicencePlate} is ready to be picked up at the workshop</p> </br>");
+                ViewBag.Message = "An email was sent to the user with this information";
             }
 
-
+            
 
             return View(model);
 

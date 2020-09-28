@@ -838,7 +838,7 @@ namespace AutoRepairShop.Web.Helpers.Classes
                 ServiceId = scheduleDetail.ActiveSchedule.Services.Id,
                 Service = scheduleDetail.ActiveSchedule.Services.ServiceType,
                 Remarks = scheduleDetail.ActiveSchedule.Remarks,
-                RepairDate = repairSchedule.Repair.CreationDate.Value,
+                RepairDate = DateTime.Now,
                 RepairHours = repairSchedule.Repair.WorkHours.ToString(),
                 RepairRemarks = repairSchedule.Repair.ServiceDone,
 

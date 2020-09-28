@@ -1,5 +1,6 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -14,6 +15,9 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         {
             _departmentRepository = departmentRepository;
         }
+
+
+        [Authorize(Roles = "Employee/Management, Admin")]
         public IActionResult Index()
         {
 
@@ -23,7 +27,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
 
-
+        [Authorize(Roles = "Employee/Management, Admin")]
         public IActionResult CreateDepartment()
         {
             return View();
@@ -65,7 +69,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             return View(department);
         }
 
-
+        [Authorize(Roles = "Employee/Management, Admin")]
         public async Task<IActionResult> EditDepartment(int? Id)
         {
             if (Id == null)
@@ -120,7 +124,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
         }
 
-
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin")]
         public async Task<IActionResult> DetailsDepartment(int? Id)
         {
             if (Id == null)
@@ -138,7 +142,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             return View(department);
         }
 
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteDepartment(int? Id)
         {
             if (Id == null)

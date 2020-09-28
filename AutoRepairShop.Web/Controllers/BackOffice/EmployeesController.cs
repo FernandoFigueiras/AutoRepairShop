@@ -7,6 +7,7 @@ using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
 using AutoRepairShop.Web.Helpers.Interfaces;
 using AutoRepairShop.Web.Models.EmployeeViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,7 +47,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
 
 
-
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin")]
         public IActionResult Index()
         {
             var employees = _employeeRepository.GetEmployeesFullInfoAsync();
@@ -57,7 +58,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
 
 
-
+        [Authorize(Roles = "Employee/Management,  Admin")]
         public IActionResult CreateEmployee()
         {
             var dealerships = _dealershipRepository.GetAll();
@@ -113,14 +114,24 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                     {
                         if (ex.InnerException.Message.Contains("duplicate"))
                         {
+                            ViewBag.Error = $"There is allready a Employee registered with the name {user.FullName} please insert another";
 
-                            ModelState.AddModelError(string.Empty, $"There is allready a Employee registered with the name {user.FullName} please insert another");
-                            return View(model);
+                            var dealerships = _dealershipRepository.GetAll();
+                            var departments = _departmentRepository.GetAll();
+
+                            var modelret = _converterHelper.ToCreateEmployeeVieModel(dealerships, departments);
+
+                            return View(modelret);
                         }
                         else
                         {
                             ModelState.AddModelError(string.Empty, ex.InnerException.Message);
-                            return View(model);
+                            var dealerships = _dealershipRepository.GetAll();
+                            var departments = _departmentRepository.GetAll();
+
+                            var modelret = _converterHelper.ToCreateEmployeeVieModel(dealerships, departments);
+
+                            return View(modelret);
                         }
                     }
 
@@ -155,17 +166,27 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                 }
 
                 this.ModelState.AddModelError(string.Empty, $"the user {user.UserName} allready exists");
+                var dealershipsret = _dealershipRepository.GetAll();
+                var departmentsret = _departmentRepository.GetAll();
+
+                var modelreturn = _converterHelper.ToCreateEmployeeVieModel(dealershipsret, departmentsret);
+
+                return View(modelreturn);
             }
 
 
+            var dealershipsstate = _dealershipRepository.GetAll();
+            var departmentsstate = _departmentRepository.GetAll();
 
-            return View(model);
+            var modelstate = _converterHelper.ToCreateEmployeeVieModel(dealershipsstate, departmentsstate);
+
+            return View(modelstate);
         }
 
 
 
 
-
+        [Authorize(Roles = "Employee/Management, Admin")]
         public async Task<IActionResult> DeleteEmployee(int? Id)
         {
             if (Id == null)
@@ -244,7 +265,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
 
 
-
+        [Authorize(Roles = "Employee/Management, Admin")]
         public async Task<IActionResult> EditEmployee(int? Id)
         {
             if (Id == null)
@@ -335,7 +356,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
 
-
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin")]
         public async Task<IActionResult> DetailsEmployee(int? Id)
         {
             if (Id == null)

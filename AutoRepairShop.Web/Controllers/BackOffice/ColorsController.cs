@@ -1,5 +1,6 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,6 +18,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
         // GET: Colors
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Employee/Mechanics, Employee/Electronic,Employee/Paint, Admin")]
         public IActionResult Index()
         {
             return View(_colorRepository.GetAll());
@@ -41,6 +43,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
         // GET: Colors/Create
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin")]
         public IActionResult Create()
         {
             return View();
@@ -89,6 +92,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
         // GET: Colors/Edit/5
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -168,7 +172,9 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             return View(color);
         }
 
+
         // GET: Colors/Delete/5
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

@@ -1,6 +1,7 @@
 ﻿using AutoRepairShop.Web.Data.Repositories.Interfaces;
 using AutoRepairShop.Web.Helpers.Interfaces;
 using AutoRepairShop.Web.Models.ActiveScheduleViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.Web.CodeGeneration;
@@ -47,7 +48,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
         }
 
 
-
+        
         public async Task<IActionResult> Index()
         {
 
@@ -68,7 +69,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             return View(ScheduleDetail);
         }
 
-
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin, Customer")]
         public async Task<IActionResult> BeginNew()
         {
 
@@ -136,7 +137,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             return View(model);
         }
 
-
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin, Customer")]
         public async Task<IActionResult> CompleteSchedule(BeginScheduleViewModel model)
         {
 
@@ -182,7 +183,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             return View(model);
         }
 
-
+       
         public async Task<JsonResult> GetDealershipByService(int serviceId)
         {
             var dealership = await _servicesSuppliedRepository.GetDealershipsByServicesasync(serviceId);
@@ -229,7 +230,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
         }
 
-
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin, Customer")]
         public async Task<IActionResult> EditSchedule(int? id)
         {
 
@@ -299,7 +300,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             return View(model);
         }
 
-
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Employee/Mechanics, Employee/Electronic, Employee/Paint, Admin, Customer")]
         public async Task<IActionResult> DetailsSchedule(int? id)
         {
             if (id == null)
@@ -316,7 +317,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
         }
 
 
-
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin, Customer")]
         public async Task<IActionResult> DeleteSchedule(int? Id)
         {
 
@@ -376,6 +377,8 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             return View(model);
         }
 
+
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin")]
         public async Task<IActionResult> DeleteScheduleDealership(int? Id)
         {
 
@@ -435,7 +438,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             return View(model);
         }
 
-
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Employee/Mechanics, Employee/Electronic, Employee/Paint, Admin")]
         public async Task<IActionResult> ShowScheduleForDealership()
         {
             var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
@@ -451,7 +454,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
 
 
-
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin")]
         public async Task<IActionResult> MakeScheduleForClientInit()
         {
             var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
@@ -505,7 +508,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
         }
 
 
-      
+        [Authorize(Roles = "Employee/Management, Employee/Reception,  Admin")]
         public async Task<IActionResult> CompleteScheduleByDealershipUser(InitScheduleByDealership model)
         {
             var dealership = await _dealershipRepository.GetByIdAsync(model.DealershipId);
@@ -612,7 +615,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
         }
 
 
-
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin")]
         public async Task<IActionResult> MakeScheduleForClientNoUserInit()
         {
             var userEmployee = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
@@ -639,7 +642,18 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                 if (vehicle==null)
                 {
-                    return NotFound();
+                    ViewBag.Error= $"There is no vehicle listed with licence plate {model.Licenceplate}, add to vehicles first";
+                    var userEmployee = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+
+                    var employeeError = await _employeeRepository.GetFullEmployeeByUserAsync(userEmployee.Id);
+
+                    var servicesError = _servicesSuppliedRepository.GetWithServicesByDealershipId(employeeError.Dealership.Id);
+
+                    var userError = await _userHelper.GetUserByEmailAsync("genericclientuser@autorepairshop.com");
+
+                    var modelError = _converterHelper.ToNewSchedulebyDealershipNoUser(employeeError.Dealership.Id, servicesError, userError);
+
+                    return View(modelError);
                 }
 
                 var user = await _userHelper.GetUserByIdAsync(model.UserID);
@@ -666,7 +680,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
         }
 
 
-
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin")]
         public async Task<IActionResult> CompleteScheduleByDealershipNoUser(InitScheduleByDealershipNoUser model)
         {
             var dealership = await _dealershipRepository.GetByIdAsync(model.DealershipId);
@@ -685,7 +699,8 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
             if (vehicle == null)
             {
-                ModelState.AddModelError(string.Empty, $"The Vehicle {vehicle.LicencePlate} was not found");
+                ModelState.AddModelError(string.Empty, $"The Vehicle {model.Licenceplate} was not found");
+                return View(model);
             }
 
             var dates = await GetDisabledDaysAsync(service.Id, dealership.Id);

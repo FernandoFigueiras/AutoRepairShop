@@ -3,6 +3,7 @@ using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
 using AutoRepairShop.Web.Helpers.Interfaces;
 using AutoRepairShop.Web.Models.DShip;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -43,6 +44,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
         // GET: Dealerships
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             return View(_dealershipRepository.GetAllWithZipCode());
@@ -68,6 +70,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
         // GET: Dealerships/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -117,7 +120,6 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             return View(dealership);
         }
 
-
         public async Task<IActionResult> AddDealershipToServices(Dealership dealership)
         {
 
@@ -136,7 +138,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             return RedirectToAction("AddDepartmentsToDealership", dShip);
         }
 
-
+        [Authorize(Roles = "Employee/Management, Admin")]
         public async Task<IActionResult> AddDepartmentsToDealership(Dealership dealership)
         {
 
@@ -157,6 +159,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
 
         // GET: Dealerships/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -209,6 +212,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
         // GET: Dealerships/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -240,7 +244,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
 
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddService(int? id)
         {
             var dealership = await _dealershipRepository.GetByIdAsync(id.Value);
@@ -264,6 +268,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
 
         [HttpPost]
+        [Authorize(Roles = "Employee/Management, Admin")]
         public async Task<IActionResult> AddService(DealershipServicesViewModel model)
         {
             if (ModelState.IsValid)

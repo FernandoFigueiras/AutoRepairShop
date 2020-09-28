@@ -1,27 +1,37 @@
 ﻿@model AutoRepairShop.Web.Models.Account.UpdateUserDataViewModel
+@using Syncfusion.EJ2.Navigations;
 @{
     ViewData["Title"] = "My Profile";
-    
+
 
 }
 
 
+
+
+
 <div class="row">
-    <div class="col-md-4 col-lg-3">
+    <div>
+
+
+    
+
 
         <section class="panel">
             <div class="panel-body">
                 <div class="thumb-info mb-md">
 
-                    @if (Model.User.ImageUrl != string.Empty)
+                    @if (Model.User.ImageUrl != null)
                     {
                         <a>
-                            <img src="@Url.Content(Model.User.ImageUrl)" class="rounded img-responsive" />
+                            <img src="@Url.Content(Model.User.ImageUrl)" class="rounded img-responsive" width="300" height="300" />
                         </a>
                     }
                     else
                     {
-                        <img src="~/images/ico/avatar.png" class="rounded img-responsive" />
+                        <a>
+                            <img src="~/StoreImages/Users/No-image-available.jpg" class="rounded img-responsive" width="300" height="300" />
+                        </a>
                     }
                     <div class="thumb-info-title">
 
@@ -33,6 +43,10 @@
                         else if (this.User.IsInRole("Customer"))
                         {
                             <span class="thumb-info-type">Customer</span>
+                        }
+                        else
+                        {
+                            <span class="thumb-info-type">Employee</span>
                         }
 
                     </div>
@@ -52,28 +66,28 @@
                         <input type="hidden" asp-for="@Model.TaxPayerNumber" />
                         <input type="hidden" asp-for="@Model.PhoneNumber" />
 
-                                <div class="col-md-6" style="margin-bottom: 5px; text-align: center" >
+                        <div class="col-md-6" style="margin-bottom: 5px; text-align: center">
                             <div class="fileupload fileupload-new" data-provides="fileupload">
                                 <div class="input-append">
                                     <span class="btn btn-default btn-file">
                                         <span class="fileupload-exists">Change</span>
                                         <span class="fileupload-new">Change Picture</span>
-                                        <input type="file"  asp-for="ImageFile"/>
+                                        <input type="file" asp-for="ImageFile" />
                                     </span>
                                     <a href="#" class="btn btn-default fileupload-exists" data-dismiss="fileupload">Remove</a>
                                 </div>
                             </div>
                         </div>
-                        <br/>
-                        <div style="text-align: center; margin-top: 5px">
-                          
+                        <br />
+                        <div>
+
                             <input class="btn btn-primary" type="submit" />
 
                         </div>
-                        
+
 
                     </form>
-                   
+
                 </div>
 
 
@@ -104,20 +118,7 @@
             </ul>
             <div class="tab-content">
                 <div id="overview" class="tab-pane active">
-                    <h4 class="mb-md">Talk to us</h4>
 
-                    <section class="simple-compose-box mb-xlg">
-                        <form method="post">
-                            <textarea name="message-text" data-plugin-textarea-autosize placeholder="Your message here" rows="1"></textarea>
-                        </form>
-                        <div class="compose-box-footer">
-                            <ul class="compose-btn">
-                                <li>
-                                    <a class="btn btn-primary btn-xs">Post</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </section>
 
                     <h4 class="mb-xlg">Timeline</h4>
 
@@ -129,7 +130,7 @@
 
                             </div>
 
-                           
+
 
 
 
@@ -142,12 +143,20 @@
                     </div>
                 </div>
                 <div id="edit" class="tab-pane">
+                 
 
+                    <ejs-accordion id="ParentNested" width="100%" expandMode="Multiple">
+                        <e-accordion-accordionitems>
+                            <e-accordion-accordionitem header="Personal information" expanded="true" content='#childNested1'></e-accordion-accordionitem>
+                            <e-accordion-accordionitem header="Change Password" expanded="true" content='#childNested2'></e-accordion-accordionitem>
+                        </e-accordion-accordionitems>
+                    </ejs-accordion>
 
-                    <h4 class="mb-xlg">Personal Information</h4>
+  
+
                     <fieldset>
 
-                        <form class="form-horizontal" method="post">
+                        <form method="post" id="childNested1">
                             <div class="form-group">
                                 <input type="hidden" asp-for="@Model.User.Id" />
                                 <input type="hidden" asp-for="@Model.User.UserName" />
@@ -238,10 +247,10 @@
 
 
 
+              
                     <hr class="dotted tall">
-                    <h4 class="mb-xlg">Change Password</h4>
-                    <fieldset class="mb-xl">
-                        <form class="form-horizontal" asp-action="ResetPasswordFromEditUser">
+                    <fieldset class="mb-xl" >
+                        <form asp-action="ResetPasswordFromEditUser" id="childNested2">
                             <input type="hidden" asp-for="@Model.User.Id" />
                             <input type="hidden" asp-for="@Model.User.UserName" />
                             <input type="hidden" asp-for="@Model.User.Email" />
@@ -294,7 +303,7 @@
     </div>
     <h3>My Vehicles</h3>
     <div class="col-md-12 col-lg-3">
-        @if (Model.Vehicles== null || Model.Vehicles.Count() == 0)
+        @if (Model.Vehicles == null || Model.Vehicles.Count() == 0)
         {
             <p>No vehicles yet</p>
             <a asp-action="AddVehicle" asp-controller="Vehicles">Add Vehicle</a>
@@ -331,7 +340,9 @@
 
     </div>
 
- </div>
+</div>
+
+<ejs-scripts></ejs-scripts>
 <script src="~/assets/vendor/jquery-autosize/jquery.autosize.js"></script>
 
 <script type="text/javascript">
@@ -356,7 +367,7 @@
              newDiv.appendChild(para);
         }
 
-  
+
 
        let info = document.createElement("li");
        let text = document.createTextNode("@Model.User.CreationDate");

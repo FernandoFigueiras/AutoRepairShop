@@ -1,6 +1,7 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
 using AutoRepairShop.Web.Helpers.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -26,14 +27,14 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
 
-
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin")]
         public IActionResult Index()
         {
             return View(_countryRepository.GetCountriesWithDistricts());
         }
 
 
-
+        [Authorize(Roles = "Admin")]
         public IActionResult CreateCountry()
         {
             return View();
@@ -75,7 +76,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
 
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditCountry(int? id)
         {
             if (id == null)
@@ -100,6 +101,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditCountry(Country country)
         {
 
@@ -143,7 +145,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
         }
 
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DetailsCountry(int? id)
         {
             if (id == null)
@@ -162,7 +164,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             return View(country);
         }
 
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteCountry(int? id)
         {
             if (id == null)
@@ -227,7 +229,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
         /*##############################################   Districts   ####################################################################*/
 
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddDistrict(int? id)
         {
             var country = await _countryRepository.GetByIdAsync(id.Value);
@@ -301,7 +303,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             return View(district);
         }
 
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditDistrict(int? id)
         {
             if (id == null)
@@ -381,7 +383,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
 
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteDistrict(int? id)
         {
             if (id == null)
@@ -453,7 +455,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
 
-
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Employee/Mechanics, Employee/Electronic,Employee/Paint, Admin")]
         public async Task<IActionResult> DetailsDistrict(int? id)
         {
             if (id == null)
@@ -474,7 +476,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
 
         /*##############################################    Cities  ############################################################*/
-
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin, Customer")]
         public async Task<IActionResult> AddCity(int? id)
         {
             if (id == null)
@@ -551,7 +553,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
 
 
-
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin, Customer")]
         public async Task<IActionResult> EditCity(int? id)
         {
             if (id == null)
@@ -634,7 +636,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
 
-
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin")]
         public async Task<IActionResult> DeleteCity(int? id)
         {
             if (id == null)

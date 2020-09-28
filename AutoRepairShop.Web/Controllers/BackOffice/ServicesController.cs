@@ -1,5 +1,6 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,12 +19,14 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
         // GET: Services
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Employee/Mechanics, Employee/Electronic,Employee/Paint, Admin")]
         public IActionResult Index()
         {
             return View(_serviceRepository.GetAll());
         }
 
         // GET: Services/Details/5
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Employee/Mechanics, Employee/Electronic,Employee/Paint, Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -41,6 +44,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
         // GET: Services/Create
+        [Authorize(Roles = "Employee/Management, Admin")]
         public IActionResult Create()
         {
             return View();
@@ -83,6 +87,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
         // GET: Services/Edit/5
+        [Authorize(Roles = "Employee/Management, Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -130,6 +135,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
         // GET: Services/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

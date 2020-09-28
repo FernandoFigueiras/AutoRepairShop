@@ -68,6 +68,8 @@ namespace AutoRepairShop.Web.Controllers
             return View();
         }
 
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -75,5 +77,16 @@ namespace AutoRepairShop.Web.Controllers
         }
 
 
+        [Route("error/404")]
+        public IActionResult Error404()
+        {
+            return View();
+        }
+
+       
+        public IActionResult NotAuthorized()
+        {
+            return View();
+        }
     }
 }

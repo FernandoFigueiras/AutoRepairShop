@@ -499,7 +499,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                 if (result.Succeeded)
                 {
-                    ModelState.AddModelError(string.Empty, "Your password has been changed, open app and perform login");
+                    @ViewBag.UserMessage = "Your password has been changed, open app and perform login";
                     return View();
                 }
 
@@ -589,7 +589,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                     return View(model);
                 }
 
-                ViewBag.Message = "Done";
+                ViewBag.Message = "Changes were applied to your profile";
                 return View(model);
 
             }
@@ -671,9 +671,8 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                 string data = zipcode.Id + "," + cityName.CityName;
 
-                var r = this.Json(data);
+                return this.Json(data);
 
-                return r;
             }
 
             return null;
@@ -682,7 +681,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
         public async Task<IActionResult> ChangePicture(UpdateUserDataViewModel model)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && model.ImageFile != null)
             {
                 var user = await _userHelper.GetUserByIdAsync(model.User.Id);
 

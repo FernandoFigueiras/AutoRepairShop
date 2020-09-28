@@ -2,7 +2,7 @@
 
 
 
-<div id="preloader"></div>
+@*<div id="preloader"></div>*@
 
 
 <section id="main-slider" class="no-margin">
@@ -15,7 +15,6 @@
                             <div class="carousel-content center centered">
                                 <span class="home-icon pe-7s-gleam bounce-in"></span>
                                 <h2 class="boxed animation animated-item-1 fade-down">DON'T LET YOUR CAR TAKE AWAY YOUR DRIVING PLEASURE</h2><br>
-                                @*<p class="boxed animation animated-item-2 fade-up">SELECT A DEMO</p>*@
                                 <br>
                                 <a class="btn btn-md animation bounce-in" asp-controller="Accounts"
                                    asp-action="Login">Sign In</a>
@@ -40,36 +39,13 @@
     jQuery(document).ready(function ($) {
         'use strict';
         jQuery('body').backstretch([
-            "images/bg/bt1.jpg",
             "images/bg/bt2.jpg",
+            "images/bg/bt5.jpg",
             "images/bg/bt3.jpg",
             "images/bg/bt4.jpg",
-            "images/bg/bt5.jpg",
+            "images/bg/bt1.jpg",
         ], { duration: 5000, fade: 500 });
 
-        $("#mapwrapper").gMap({
-            controls: false,
-            scrollwheel: false,
-            markers: [{
-                latitude: 40.7566,
-                longitude: -73.9863,
-                icon: {
-                    image: "images/marker.png",
-                    iconsize: [44, 44],
-                    iconanchor: [12, 46],
-                    infowindowanchor: [12, 0]
-                }
-            }],
-            icon: {
-                image: "images/marker.png",
-                iconsize: [26, 46],
-                iconanchor: [12, 46],
-                infowindowanchor: [12, 0]
-            },
-            latitude: 40.7566,
-            longitude: -73.9863,
-            zoom: 14
-        });
     });
 </script>
 

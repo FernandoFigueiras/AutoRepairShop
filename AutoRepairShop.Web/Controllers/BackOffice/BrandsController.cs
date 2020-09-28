@@ -1,6 +1,7 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
 using AutoRepairShop.Web.Data.Repositories.Interfaces;
 using AutoRepairShop.Web.Models.ModelBrand;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,6 +20,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
         // GET: Brands
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin")]
         public IActionResult Index()
         {
             return View(_brandRepository.GetAll().OrderBy(b => b.BrandName));
@@ -43,6 +45,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
         // GET: Brands/Create
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin")]
         public IActionResult Create()
         {
             return View();
@@ -87,6 +90,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
         // GET: Brands/Edit/5
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -162,6 +166,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         }
 
         // GET: Brands/Delete/5
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -220,7 +225,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
 
 
-
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin, Customer")]
         public async Task<IActionResult> AddModel(int? id)
         {
             if (id == null)
@@ -288,7 +293,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
 
 
-
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin, Customer")]
         public async Task<IActionResult> EditModel(int? id)
         {
             if (id == null)
@@ -360,7 +365,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
 
 
-
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin")]
         public async Task<IActionResult> DeleteModel(int? id)
         {
             if (id == null)
