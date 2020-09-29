@@ -1,0 +1,25 @@
+﻿@model AutoRepairShop.Web.Models.Account.DuplicatedUserViewModel
+@{
+    ViewData["Title"] = "User";
+}
+
+<div style="text-align: center">
+    <h3>There is allready a user registered with the tax payer number you entered</h3>
+    <h2>Your user will be deleted, please contact the company</h2>
+
+
+
+    <form method="post">
+
+
+        <div style="text-align: center">
+
+            <div class="form-group">
+                <a asp-action="Index" asp-controller="Home" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary">Exit</a>
+            </div>
+        </div>
+
+
+
+    </form>
+</div>

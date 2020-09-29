@@ -61,6 +61,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             {
                 try
                 {
+                    service.IsActive = true;
                     await _serviceRepository.CreateAsync(service);
                     return RedirectToAction(nameof(Index));
                 }
@@ -157,8 +158,29 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var service = await _serviceRepository.GetByIdAsync(id);
-            await _serviceRepository.DeleteAsync(service);
+
+            try
+            {
+                var service = await _serviceRepository.GetByIdAsync(id);
+                await _serviceRepository.DeleteAsync(service);
+                
+
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException.Message.Contains("REFERENCE constraint"))
+                {
+
+
+                    ViewBag.Error = $"This service is provided by dealerships, fist deactivate service and then update dealership in edit mode";
+                    return View();
+
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                }
+            }
             return RedirectToAction(nameof(Index));
         }
 

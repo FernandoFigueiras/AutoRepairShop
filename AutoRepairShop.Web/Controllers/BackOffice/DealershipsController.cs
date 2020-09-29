@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace AutoRepairShop.Web.Controllers.BackOffice
@@ -23,6 +24,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         private readonly IZipCodeRepository _zipCodeRepository;
         private readonly IDepartmentRepository _departmentRepository;
         private readonly IDealershipDepartmentRepository _dealershipDepartmentRepository;
+        private readonly IDealershipServiceRepository _dealershipServiceRepository;
 
         public DealershipsController(IDealershipRepository dealershipRepository,
             IServicesSuppliedRepository servicesSuppliedRepository,
@@ -31,7 +33,8 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             ICityRepository cityRepository,
             IZipCodeRepository zipCodeRepository,
             IDepartmentRepository departmentRepository,
-            IDealershipDepartmentRepository dealershipDepartmentRepository)
+            IDealershipDepartmentRepository dealershipDepartmentRepository,
+            IDealershipServiceRepository dealershipServiceRepository)
         {
             _dealershipRepository = dealershipRepository;
             _servicesSuppliedRepository = servicesSuppliedRepository;
@@ -41,6 +44,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             _zipCodeRepository = zipCodeRepository;
             _departmentRepository = departmentRepository;
             _dealershipDepartmentRepository = dealershipDepartmentRepository;
+            _dealershipServiceRepository = dealershipServiceRepository;
         }
 
         // GET: Dealerships
@@ -120,6 +124,8 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             return View(dealership);
         }
 
+
+        [Authorize(Roles = "Employee/Management, Admin")]
         public async Task<IActionResult> AddDealershipToServices(Dealership dealership)
         {
 
@@ -167,7 +173,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                 return NotFound();
             }
 
-            var dealership = await _dealershipRepository.GetByIdAsync(id.Value);
+            var dealership = await _dealershipRepository.GetWithZipCodeAsync(id.Value);
             if (dealership == null)
             {
                 return NotFound();
@@ -185,28 +191,90 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    dealership.UpdateDate = DateTime.Now;
+                var dShip = await _dealershipRepository.GetByIdAsync(dealership.Id);
 
-                    if (dealership.IsActive == false)
-                    {
-                        dealership.DeactivationDate = DateTime.Now;
-                    }
-                    await _dealershipRepository.UpdateAsync(dealership);
-                }
-                catch (DbUpdateConcurrencyException)
+                if (dealership.IsActive == true)
                 {
-                    if (!await _dealershipRepository.ExistsAsync(dealership.Id))
+                    try
                     {
-                        return NotFound();
+
+                        var services = await _serviceRepository.GetAllServicesAsync();
+                        
+
+                        foreach (var item in services)
+                        {
+                            await _servicesSuppliedRepository.AddServicesToDealershipAsync(item, dShip);
+                        }
+
+
+                        var departments = await _departmentRepository.GetDepartments();
+
+                        foreach (var item in departments)
+                        {
+                            await _dealershipDepartmentRepository.AddDepartmentToDealershipAsync(item, dShip);
+                        }
+
+                        dShip.IsActive = true;
+                        dShip.UpdateDate = DateTime.Now;
+
+                       
+                        var zipcode = await _zipCodeRepository.GetByIdAsync(dealership.ZipCodeId);
+                        dShip.ZipCode = zipcode;
+                        await _dealershipRepository.UpdateAsync(dShip);
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!await _dealershipRepository.ExistsAsync(dealership.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
+                else
+                {
+
+                    try
+                    {
+                        var departments = _dealershipDepartmentRepository.GetDealershipDepartments(dShip.Id);
+
+                        await _dealershipDepartmentRepository.DeleteDEalershipDepartmentsAsync(departments);
+
+                        var services = _servicesSuppliedRepository.GetWithServicesByDealershipId(dShip.Id);
+
+                        await _dealershipServiceRepository.DeleteServicesFromDealershipAsync(services);
+
+
+                        dShip.IsActive = false;
+                        dealership.UpdateDate = DateTime.Now;
+
+
+                        var zipcode = await _zipCodeRepository.GetByIdAsync(dShip.ZipCodeId);
+                        dShip.ZipCode = zipcode;
+                        await _dealershipRepository.UpdateAsync(dShip);
+
+                        return RedirectToAction("Index");
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!await _dealershipRepository.ExistsAsync(dealership.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    
+                }
+
+
+               
             }
             return View(dealership);
         }
@@ -239,7 +307,19 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var dealership = await _dealershipRepository.GetByIdAsync(id);
-            await _dealershipRepository.DeleteAsync(dealership);
+            var departments =  _dealershipDepartmentRepository.GetDealershipDepartments(id);
+
+            await _dealershipDepartmentRepository.DeleteDEalershipDepartmentsAsync(departments);
+      
+            var services = _servicesSuppliedRepository.GetWithServicesByDealershipId(id);
+
+            await _dealershipServiceRepository.DeleteServicesFromDealershipAsync(services);
+
+            dealership.IsActive = false;
+            dealership.DeactivationDate = DateTime.Now;
+
+            await _dealershipRepository.UpdateAsync(dealership);
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -258,11 +338,20 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
             var services = _servicesSuppliedRepository.GetServicesSupplied(dealership.Id).ToList();
 
+            if (services.Count > 0)
+            {
+                var model = _converterHelper.ToDealershipViewModel(dealership.Id, dealership.DealerShipName, services);
 
-
-            var model = _converterHelper.ToDealershipViewModel(dealership.Id, dealership.DealerShipName, services);
-
-            return View(model);
+                return View(model);
+            }
+            else
+            {
+                
+                var model = _converterHelper.ToDealershipViewModel(dealership.Id, dealership.DealerShipName, services);
+                ViewData["Noservice"] = "Dealership is not active";
+                return View(model);
+            }
+            
         }
 
 
@@ -273,25 +362,28 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         {
             if (ModelState.IsValid)
             {
-
-
-                foreach (var item in model.Services)
+                if (model.Services!=null)
                 {
+                    foreach (var item in model.Services)
+                    {
 
 
-                    await _servicesSuppliedRepository.UpdateAsync(item);
+                        await _servicesSuppliedRepository.UpdateAsync(item);
 
+                    }
+
+
+
+
+                    return RedirectToAction(nameof(Index));
                 }
 
-
-
-
-                return RedirectToAction(nameof(Index));
+              
 
             }
 
 
-            return View(model);
+            return RedirectToAction("AddService", model.DealershipId);
 
         }
 

@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 namespace AutoRepairShop.Web.Migrations
 {
@@ -739,6 +739,13 @@ namespace AutoRepairShop.Web.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_TaxPayerNumber",
+                table: "AspNetUsers",
+                column: "TaxPayerNumber",
+                unique: true,
+                filter: "[TaxPayerNumber] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_ZipCodeId",
                 table: "AspNetUsers",
                 column: "ZipCodeId");
@@ -747,6 +754,12 @@ namespace AutoRepairShop.Web.Migrations
                 name: "IX_Brands_BrandName",
                 table: "Brands",
                 column: "BrandName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cities_CityName",
+                table: "Cities",
+                column: "CityName",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -777,6 +790,12 @@ namespace AutoRepairShop.Web.Migrations
                 column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Dealerships_DealerShipName",
+                table: "Dealerships",
+                column: "DealerShipName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Dealerships_ZipCodeId",
                 table: "Dealerships",
                 column: "ZipCodeId");
@@ -801,6 +820,12 @@ namespace AutoRepairShop.Web.Migrations
                 name: "IX_Districts_CountryId",
                 table: "Districts",
                 column: "CountryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Districts_DistrictName",
+                table: "Districts",
+                column: "DistrictName",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_DealershipId",

@@ -456,12 +456,12 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
 
 
-        public BeginScheduleViewModel ToNewScheduleViewModel(IEnumerable<Vehicle> vehicles, IEnumerable<DealershipService> services)
+        public BeginScheduleViewModel ToNewScheduleViewModel(IEnumerable<Vehicle> vehicles, IEnumerable<Service> services)
         {
             return new BeginScheduleViewModel
             {
                 Vehicles = _comboHelpers.GetVehicles(vehicles),
-                ServicesSupplied = _comboHelpers.GetServices(services),
+                ServicesSupplied = _comboHelpers.GetallServices(services),
 
             };
         }

@@ -20,8 +20,14 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
 
         public async Task<List<Service>> GetAllServicesAsync()
         {
-            return await _context.Services.ToListAsync();
+            return await _context.Services.Where(s => s.IsActive == true).ToListAsync();
         }
+
+        public IEnumerable<Service> GetAllServices()
+        {
+            return  _context.Services.Where(s => s.IsActive == true);
+        }
+
 
     }
 }

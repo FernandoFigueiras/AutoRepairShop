@@ -32,5 +32,14 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
             return cityid;
         }
 
+
+        public async Task<City> GetCityWithDistrict(int id)
+        {
+            return await _context.Cities
+                .Include(c => c.District)
+                .Where(c => c.Id == id)
+                .FirstOrDefaultAsync();
+        }
+
     }
 }

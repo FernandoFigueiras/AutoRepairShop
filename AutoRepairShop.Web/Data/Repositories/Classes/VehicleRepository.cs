@@ -40,7 +40,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
 
         public IEnumerable<SelectListItem> GetComboBrands()
         {
-            var list = _context.Brands.Select(b => new SelectListItem
+            var list = _context.Brands.Where(v => v.IsActive == true).Select(b => new SelectListItem
             {
                 Text = b.BrandName,
                 Value = b.Id.ToString()
@@ -116,7 +116,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
 
         public IEnumerable<SelectListItem> GetComboFuels()
         {
-            var list = _context.Fuels.Select(f => new SelectListItem
+            var list = _context.Fuels.Where(f => f.IsActive==true).Select(f => new SelectListItem
             {
                 Text = f.FuelType,
                 Value = f.Id.ToString()

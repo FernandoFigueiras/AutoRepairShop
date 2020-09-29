@@ -61,7 +61,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         [Authorize(Roles = "Employee/Management,  Admin")]
         public IActionResult CreateEmployee()
         {
-            var dealerships = _dealershipRepository.GetAll();
+            var dealerships = _dealershipRepository.GetAllActive();
             var departments = _departmentRepository.GetAll();
 
             var model = _converterHelper.ToCreateEmployeeVieModel(dealerships,departments);

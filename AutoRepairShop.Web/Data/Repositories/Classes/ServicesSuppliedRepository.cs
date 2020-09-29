@@ -21,7 +21,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
 
         public IEnumerable<DealershipService> GetWithServicesByDealershipId(int id)
         {
-            return _context.DealershipServices.Include(s => s.Dealership).Include(s => s.Service).Where(d => d.Dealership.Id == id).ToList();
+            return _context.DealershipServices.Include(s => s.Dealership).Include(s => s.Service).Where(d => d.Dealership.Id == id && d.Service.IsActive==true).ToList();
         }
 
 
@@ -33,7 +33,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
 
         public async Task<DealershipService> GetService(int serviceSuppliedId)
         {
-            return await _context.DealershipServices.Include(s => s.Service).Where(s => s.Id == serviceSuppliedId).FirstOrDefaultAsync();
+            return await _context.DealershipServices.Include(s => s.Service).Where(s => s.Service.Id == serviceSuppliedId).FirstOrDefaultAsync();
         }
 
 
@@ -56,7 +56,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
         public async Task<DealershipService> GetDealershipServicesPerDayAsync(int servicesSuppliedId, int dealershipId)
         {
             return await _context.DealershipServices
-                .FirstOrDefaultAsync(s => s.Id == servicesSuppliedId && s.Dealership.Id == dealershipId);
+                .FirstOrDefaultAsync(s => s.Service.Id == servicesSuppliedId && s.Dealership.Id == dealershipId);
         }
 
 

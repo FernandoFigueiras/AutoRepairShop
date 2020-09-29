@@ -84,7 +84,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                 return RedirectToAction("EditUser", "Accounts");
             }
 
-            var services = _servicesSuppliedRepository.GetServices();
+            var services = _serviceRepository.GetAllServices();
 
 
             var vehicles = _vehicleRepository.GetUserVehicles(user.Id);
@@ -120,7 +120,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                 }
                 else
                 {
-                    var services = _servicesSuppliedRepository.GetServices();
+                    var services = _serviceRepository.GetAllServices();
 
                     var userName = this.User.Identity.Name;
 
@@ -206,7 +206,13 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             List<DateTime> days = new List<DateTime>();
 
             var services = await _servicesSuppliedRepository.GetDealershipServicesPerDayAsync(servicesSuppliedId, dealershipId);
-
+            if (services.ServicesPerDay==1)
+            {
+                foreach (var item in list)
+                {
+                    days.Add(item.ScheduleDay);
+                }
+            }
             if (list.Count > 0)
             {
                 int count = 1;

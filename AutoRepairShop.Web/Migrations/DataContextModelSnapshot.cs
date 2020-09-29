@@ -125,6 +125,9 @@ namespace AutoRepairShop.Web.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CityName")
+                        .IsUnique();
+
                     b.HasIndex("DistrictId");
 
                     b.ToTable("Cities");
@@ -206,6 +209,9 @@ namespace AutoRepairShop.Web.Migrations
                     b.Property<int>("ZipCodeId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DealerShipName")
+                        .IsUnique();
 
                     b.HasIndex("ZipCodeId");
 
@@ -315,6 +321,9 @@ namespace AutoRepairShop.Web.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CountryId");
+
+                    b.HasIndex("DistrictName")
+                        .IsUnique();
 
                     b.ToTable("Districts");
                 });
@@ -596,6 +605,10 @@ namespace AutoRepairShop.Web.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("TaxPayerNumber")
+                        .IsUnique()
+                        .HasFilter("[TaxPayerNumber] IS NOT NULL");
 
                     b.HasIndex("ZipCodeId");
 

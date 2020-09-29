@@ -31,9 +31,13 @@ namespace AutoRepairShop.Web.Data.Entities
         public bool IsActive { get; set; }
 
 
+
+
         [Display(Name = "Zip Code")]
         [Required]
         public string ZipCode4 { get; set; }
+
+
 
 
 

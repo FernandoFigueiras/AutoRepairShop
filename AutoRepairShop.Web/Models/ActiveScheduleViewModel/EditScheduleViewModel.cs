@@ -23,6 +23,7 @@ namespace AutoRepairShop.Web.Models.ActiveScheduleViewModel
         public IEnumerable<SelectListItem> Services { get; set; }
 
         [Required]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
         public DateTime Day { get; set; }
 
 

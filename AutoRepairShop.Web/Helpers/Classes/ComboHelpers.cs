@@ -30,6 +30,27 @@ namespace AutoRepairShop.Web.Helpers.Classes
 
         }
 
+        public IEnumerable<SelectListItem> GetallServices(IEnumerable<Service> services)
+        {
+            var list = services.Select(s => new SelectListItem
+            {
+                Text = s.ServiceType,
+                Value = s.Id.ToString(),
+            }).ToList();
+
+            if (list.Count > 1)
+            {
+                list.Insert(0, new SelectListItem
+                {
+                    Text = "Select a Service...",
+                    Value = "0"
+                });
+            }
+
+            return list;
+
+        }
+
 
 
         public IEnumerable<SelectListItem> GetVehicles(IEnumerable<Vehicle> vehicles)

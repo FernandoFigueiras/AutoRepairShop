@@ -136,21 +136,38 @@ namespace AutoRepairShop.Web.Data
                .HasIndex(c => c.ColorName)
                .IsUnique();
 
+
             modelBuilder.Entity<Country>()
               .HasIndex(c => c.CountryName)
               .IsUnique();
+
+
+            modelBuilder.Entity<District>()
+                .HasIndex(d => d.DistrictName)
+                .IsUnique();
+
+
+            modelBuilder.Entity<City>()
+                .HasIndex(c => c.CityName)
+                .IsUnique();
 
 
             modelBuilder.Entity<Department>()
                 .HasIndex(d => d.DepartmentName)
                 .IsUnique();
 
+
             modelBuilder.Entity<User>()
                 .HasIndex(d => d.TaxPayerNumber)
                 .IsUnique();
 
 
+            modelBuilder.Entity<Dealership>()
+                .HasIndex(d => d.DealerShipName)
+                .IsUnique();
 
+
+            
 
             base.OnModelCreating(modelBuilder);
         }

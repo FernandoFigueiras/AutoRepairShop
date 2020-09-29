@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoRepairShop.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200925224815_SetDb")]
+    [Migration("20200929081932_SetDb")]
     partial class SetDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -127,6 +127,9 @@ namespace AutoRepairShop.Web.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CityName")
+                        .IsUnique();
+
                     b.HasIndex("DistrictId");
 
                     b.ToTable("Cities");
@@ -208,6 +211,9 @@ namespace AutoRepairShop.Web.Migrations
                     b.Property<int>("ZipCodeId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DealerShipName")
+                        .IsUnique();
 
                     b.HasIndex("ZipCodeId");
 
@@ -317,6 +323,9 @@ namespace AutoRepairShop.Web.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CountryId");
+
+                    b.HasIndex("DistrictName")
+                        .IsUnique();
 
                     b.ToTable("Districts");
                 });
@@ -598,6 +607,10 @@ namespace AutoRepairShop.Web.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("TaxPayerNumber")
+                        .IsUnique()
+                        .HasFilter("[TaxPayerNumber] IS NOT NULL");
 
                     b.HasIndex("ZipCodeId");
 

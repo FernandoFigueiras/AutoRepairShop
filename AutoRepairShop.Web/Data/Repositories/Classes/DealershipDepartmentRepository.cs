@@ -38,9 +38,21 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
         }
 
 
-        public  IEnumerable<DealershipDepartment> GetDealershipDepartmentsAsync(int id)
+        public  IEnumerable<DealershipDepartment> GetDealershipDepartments(int id)
         {
             return  _context.DealershipDepartments.Include(d => d.Department).Where(d => d.Dealership.Id == id);
         }
+
+
+        public async Task DeleteDEalershipDepartmentsAsync(IEnumerable<DealershipDepartment> dealershipDepartments)
+        {
+            foreach (var item in dealershipDepartments)
+            {
+                _context.DealershipDepartments.RemoveRange(item);
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
     }
 }

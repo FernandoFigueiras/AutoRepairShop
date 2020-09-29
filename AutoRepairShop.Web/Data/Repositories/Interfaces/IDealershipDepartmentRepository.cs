@@ -10,6 +10,9 @@ namespace AutoRepairShop.Web.Data.Repositories.Interfaces
         Task AddDepartmentToDealershipAsync(Department department, Dealership dealership);
 
 
-        IEnumerable<DealershipDepartment> GetDealershipDepartmentsAsync(int id);
+        IEnumerable<DealershipDepartment> GetDealershipDepartments(int id);
+
+
+        Task DeleteDEalershipDepartmentsAsync(IEnumerable<DealershipDepartment> dealershipDepartments);
     }
 }

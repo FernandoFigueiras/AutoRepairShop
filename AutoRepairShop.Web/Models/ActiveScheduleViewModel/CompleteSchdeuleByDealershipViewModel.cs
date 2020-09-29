@@ -26,7 +26,6 @@ namespace AutoRepairShop.Web.Models.ActiveScheduleViewModel
         public int DealershipId { get; set; }
 
 
-
         public string DaysToDisable { get; set; }
 
 
@@ -36,6 +35,7 @@ namespace AutoRepairShop.Web.Models.ActiveScheduleViewModel
 
 
         [MaxLength(500)]
+
         public string Remarks { get; set; }
 
 

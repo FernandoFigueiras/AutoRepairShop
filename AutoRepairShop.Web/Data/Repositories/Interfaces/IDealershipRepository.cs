@@ -17,5 +17,9 @@ namespace AutoRepairShop.Web.Data.Repositories.Interfaces
 
 
         Task<Dealership> GetByNameAsync(string dealershipName);
+
+
+
+        IQueryable<Dealership> GetAllActive();
     }
 }

@@ -9,9 +9,9 @@
     <div class="col-lg-12">
         <section class="panel">
             <div class="panel-body">
-                <form asp-action="EditDistrict">
+                <form asp-action="EditCity">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="District" />
+                    <input type="hidden" asp-for="DistrictId" />
 
 
                     <div class="form-group">
@@ -25,7 +25,7 @@
                         <div class="form-group">
                             <button type="submit" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Change</button>
                             <a asp-action="DetailsDistrict" asp-controller="Countries" asp-route-id="@Model.DistrictId" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Exit</a>
-                            <button asp-action="DeleteCity" asp-controller="Countries" asp-route-id="Id" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Delete Model</button>
+                            <button asp-action="DeleteCity" asp-controller="Countries" asp-route-id="@Model.Id" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Delete City</button>
                         </div>
                     </div>
                 </form>

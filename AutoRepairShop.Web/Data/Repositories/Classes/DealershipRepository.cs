@@ -35,7 +35,11 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
             return await _context.Dealerships.FirstOrDefaultAsync(d => d.DealerShipName == dealershipName);
         }
 
-
+        public IQueryable<Dealership> GetAllActive()
+        {
+            return _context.Dealerships
+                .Where(d => d.IsActive == true);
+        }
        
 
 

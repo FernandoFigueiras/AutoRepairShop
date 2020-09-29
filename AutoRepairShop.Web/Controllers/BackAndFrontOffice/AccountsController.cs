@@ -5,6 +5,7 @@ using AutoRepairShop.Web.Models.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -318,87 +319,125 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
         {
             if (ModelState.IsValid)
             {
-                var user = await _userHelper.GetUserByIdAsync(model.User.Id);
-
-                var zipCodeId = await _zipCodeRepository.GetZipCodeAsync(model.ZipCode4, model.ZipCode3);
 
 
-                if (zipCodeId == null)
+                try
                 {
-                    var zip = await _zipCodeRepository.GetCityIdFromZip4(model.ZipCode4);
+                    var user = await _userHelper.GetUserByIdAsync(model.User.Id);
 
-                    if (zip == null)
+                    var zipCodeId = await _zipCodeRepository.GetZipCodeAsync(model.ZipCode4, model.ZipCode3);
+
+
+                    if (zipCodeId == null)
                     {
-                        ModelState.AddModelError(string.Empty, "The first 4 numbers of zip code are not valid, please insert again");
-                        return View(model);
+                        var zip = await _zipCodeRepository.GetCityIdFromZip4(model.ZipCode4);
+
+                        if (zip == null)
+                        {
+                            ModelState.AddModelError(string.Empty, "The first 4 numbers of zip code are not valid, please insert again");
+                            return View(model);
+                        }
+
+                        var newZipCode = _converterHelper.ToNewZipCode(model.ZipCode4, model.ZipCode3, zip.CityId);
+
+                        await _zipCodeRepository.CreateAsync(newZipCode);
+
+
+                        var pathZipNull = string.Empty;
+
+                        if (model.ImageFile != null)
+                        {
+                            pathZipNull = await _imageHelper.UploadImageAsync(model.ImageFile, "Users");
+                        }
+
+                        var zipCodeIdNew = await _zipCodeRepository.GetZipCodeAsync(model.ZipCode4, model.ZipCode3);
+
+                        var updateUserZipNull = _converterHelper.ToUserFromUpdate(model, user, zipCodeIdNew.Id, pathZipNull);
+
+
+                        if (updateUserZipNull == null)
+                        {
+                            ModelState.AddModelError(string.Empty, "User not found, please try again");
+                            return View(model);
+                        }
+
+
+                        var resultZipNull = await _userHelper.UpdateUserAsync(updateUserZipNull);
+
+                        if (resultZipNull.Succeeded)
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
 
-                    var newZipCode = _converterHelper.ToNewZipCode(model.ZipCode4, model.ZipCode3, zip.CityId);
-
-                    await _zipCodeRepository.CreateAsync(newZipCode);
 
 
-                    var pathZipNull = string.Empty;
+
+                    var path = string.Empty;
 
                     if (model.ImageFile != null)
                     {
-                        pathZipNull = await _imageHelper.UploadImageAsync(model.ImageFile, "Users");
+                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "Users");
                     }
 
-                    var zipCodeIdNew = await _zipCodeRepository.GetZipCodeAsync(model.ZipCode4, model.ZipCode3);
 
-                    var updateUserZipNull = _converterHelper.ToUserFromUpdate(model, user, zipCodeIdNew.Id, pathZipNull);
+                    var updateUser = _converterHelper.ToUserFromUpdate(model, user, zipCodeId.Id, path);
 
 
-                    if (updateUserZipNull == null)
+
+                    if (updateUser == null)
                     {
                         ModelState.AddModelError(string.Empty, "User not found, please try again");
                         return View(model);
                     }
 
+                    var result = await _userHelper.UpdateUserAsync(updateUser);
 
-                    var resultZipNull = await _userHelper.UpdateUserAsync(updateUserZipNull);
-
-                    if (resultZipNull.Succeeded)
+                    if (result.Succeeded)
                     {
                         return RedirectToAction("Index", "Home");
                     }
                 }
-
-
-
-
-                var path = string.Empty;
-
-                if (model.ImageFile != null)
+                catch (Exception ex)
                 {
-                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "Users");
+                    if (ex.InnerException.Message.Contains("duplicate"))
+                    {
+
+                        if (ModelState.IsValid)
+                        {
+                            var user = await _userHelper.GetUserByIdAsync(model.User.Id);
+                            await _userHelper.DeleteUserAsync(user);
+
+
+                            return RedirectToAction("DuplicatedUser");
+
+
+
+                            
+                        }
+
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                    }
                 }
-
-
-                var updateUser = _converterHelper.ToUserFromUpdate(model, user, zipCodeId.Id, path);
-
-
-
-                if (updateUser == null)
-                {
-                    ModelState.AddModelError(string.Empty, "User not found, please try again");
-                    return View(model);
-                }
-
-                var result = await _userHelper.UpdateUserAsync(updateUser);
-
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
+               
             }
 
             return View(model);
         }
 
 
+        public IActionResult DuplicatedUser()
+        {
 
+            var model = new DuplicatedUserViewModel
+            {
+               
+            };
+            return View(model);
+        }
 
 
 
@@ -532,6 +571,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
             }
             return RedirectToAction("EditUser", new { id = model.User.Id });
 
+
         }
 
 
@@ -572,10 +612,15 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
                 var path = string.Empty;
 
-                if (model.User.ImageUrl != null)
+                if (model.ImageFile != null)
                 {
                     path = await _imageHelper.UploadImageAsync(model.ImageFile, "Users");
                 }
+                else
+                {
+                    path = user.ImageUrl;
+                }
+
 
 
                 var userUpdated = _converterHelper.ToUserFromUpdate(model, user, zipCodeId.Id, path);

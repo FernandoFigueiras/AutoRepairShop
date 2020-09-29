@@ -13,11 +13,11 @@ namespace AutoRepairShop.Web.Data.Entities
         DateTime? CreationDate { get; set; }
 
 
-
+     
         DateTime? UpdateDate { get; set; }
 
 
-
+     
         DateTime? DeactivationDate { get; set; }
 
 

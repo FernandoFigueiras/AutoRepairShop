@@ -11,7 +11,7 @@ namespace AutoRepairShop.Web.Data.Repositories.Interfaces
         Task<int> GetCityIdByZipCodeAsync(string zipCode4, string zipCode3);
 
 
-
+        Task<City> GetCityWithDistrict(int id);
     }
 
 }

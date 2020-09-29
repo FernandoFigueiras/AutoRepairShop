@@ -15,7 +15,7 @@ namespace AutoRepairShop.Web.Models.ActiveScheduleViewModel
         public string LicencePlate { get; set; }
 
 
-
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
         public DateTime Date { get; set; }
 
 

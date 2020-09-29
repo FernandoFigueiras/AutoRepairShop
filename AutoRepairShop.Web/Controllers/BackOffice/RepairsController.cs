@@ -91,7 +91,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             }
 
 
-            var departments = _dealershipDepartmentRepository.GetDealershipDepartmentsAsync(scheduleDetails.Dealership.Id);
+            var departments = _dealershipDepartmentRepository.GetDealershipDepartments(scheduleDetails.Dealership.Id);
 
             var model = _converterHelper.ToStartRepairViewModel(scheduleDetails, departments);
 
@@ -126,6 +126,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
 
             try
             {
+                repair.CreationDate = DateTime.Now;
                 await _repairScheduleRepository.CreateAsync(repairSchedule);
                 scheduleDetail.IsActive = false;
                 activeSchedule.IsActive = false;
@@ -138,7 +139,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
             {
                 ModelState.AddModelError(string.Empty, ex.InnerException.Message);
                 var scheduleDetailsEx = await _scheduleDetailRepository.GetScheduleDetailAsync(model.Schedule.Id);
-                var departmentsEx = _dealershipDepartmentRepository.GetDealershipDepartmentsAsync(scheduleDetailsEx.Dealership.Id);
+                var departmentsEx = _dealershipDepartmentRepository.GetDealershipDepartments(scheduleDetailsEx.Dealership.Id);
                 var returnModelEx = _converterHelper.ToStartRepairViewModel(scheduleDetailsEx, departmentsEx);
 
                 return View(returnModelEx);

@@ -20,7 +20,10 @@ namespace AutoRepairShop.Web.Data.Repositories.Classes
 
         public async Task<List<Department>> GetDepartments()
         {
-            return await _context.Departments.ToListAsync();
+            return await _context.Departments.Where(d => d.IsActive==true).ToListAsync();
         }
+
+
+ 
     }
 }

@@ -3,7 +3,6 @@ using AutoRepairShop.Web.Helpers.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -425,7 +424,7 @@ namespace AutoRepairShop.Web.Data
                 }
 
 
-                if (! _context.Services.Any())
+                if (!_context.Services.Any())
                 {
                     AddService("Maintenance");
                     AddService("Rims / tires");
@@ -454,7 +453,7 @@ namespace AutoRepairShop.Web.Data
                     AddDepartment("Reception");
                     AddDepartment("Electronic");
                     AddDepartment("Paint");
-                    
+
 
                     await _context.SaveChangesAsync();
                 }
@@ -536,9 +535,9 @@ namespace AutoRepairShop.Web.Data
         {
             var dealership = new Dealership
             {
-                IsActive =true,
+                IsActive = true,
                 CreationDate = DateTime.UtcNow,
-                DealerShipName=dealershipName,
+                DealerShipName = dealershipName,
                 Address = "Rua da Autorepairshop",
                 ZipCodeId = 1,
             };
@@ -550,7 +549,7 @@ namespace AutoRepairShop.Web.Data
         {
             var service = new Service
             {
-                IsActive=true,
+                IsActive = true,
                 CreationDate = DateTime.UtcNow,
                 ServiceType = serviceType,
             };

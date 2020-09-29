@@ -9,6 +9,7 @@ namespace AutoRepairShop.Web.Models.Account
 
         [Required]
         [EmailAddress]
+        [Display(Name ="User Name")]
         public string UserName { get; set; }
 
 
@@ -17,7 +18,7 @@ namespace AutoRepairShop.Web.Models.Account
         public string Password { get; set; }
 
 
-
+        [Display(Name = "Remember Me")]
         public bool RememberMe { get; set; }
 
 

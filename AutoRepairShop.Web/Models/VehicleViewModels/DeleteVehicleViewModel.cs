@@ -9,11 +9,23 @@ namespace AutoRepairShop.Web.Models.VehicleViewModels
         public string Brand { get; set; }
 
 
+
+
+       
+        [Display(Name ="Model")]
         public string ModelName { get; set; }
 
 
+
+
+        
+        [Display(Name ="Fuel")]
         public string FuelType { get; set; }
 
+        
+
+        
+        
         [Display(Name ="Color")]
         public string ColorName { get; set; }
 

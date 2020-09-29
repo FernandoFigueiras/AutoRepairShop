@@ -53,21 +53,21 @@ namespace AutoRepairShop.Web.Data.Entities
 
 
 
-
+        [Display(Name ="First Name")]
         public string FirstName { get; set; }
 
 
 
-
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
 
 
-
+        [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
 
-
+        [Display(Name = "Taxpayer Number")]
         public string TaxPayerNumber { get; set; }
 
     }

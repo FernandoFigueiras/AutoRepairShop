@@ -4,11 +4,9 @@ using System.Threading.Tasks;
 
 namespace AutoRepairShop.Web.Data.Repositories.Interfaces
 {
-    public interface IServiceRepository : IGenericRepository<Service>
+    public interface IDealershipServiceRepository : IGenericRepository<DealershipService>
     {
+        Task DeleteServicesFromDealershipAsync(IEnumerable<DealershipService> services);
 
-        Task<List<Service>> GetAllServicesAsync();
-
-        IEnumerable<Service> GetAllServices();
     }
 }

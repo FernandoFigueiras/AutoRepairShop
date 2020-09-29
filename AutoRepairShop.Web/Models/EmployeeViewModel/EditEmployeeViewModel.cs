@@ -10,7 +10,9 @@ namespace AutoRepairShop.Web.Models.EmployeeViewModel
         public int EmployeeId { get; set; }
 
 
+
         public string UserId { get; set; }
+
 
 
         public string OldRole { get; set; }
@@ -26,7 +28,9 @@ namespace AutoRepairShop.Web.Models.EmployeeViewModel
 
 
 
+
         public IEnumerable<SelectListItem> Departments { get; set; }
+
 
 
 
@@ -34,6 +38,7 @@ namespace AutoRepairShop.Web.Models.EmployeeViewModel
         [Display(Name = "Dealership")]
         [Range(1, int.MaxValue, ErrorMessage = "You must select a {0}")]
         public int DealershipId { get; set; }
+
 
 
 

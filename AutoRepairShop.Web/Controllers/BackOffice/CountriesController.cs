@@ -408,24 +408,14 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
         [HttpPost]
         public async Task<IActionResult> DeleteDistrict(int id)
         {
-            if (ModelState.IsValid)
-            {
+            
                 var district = await _districtRepository.GetByIdAsync(id);
 
                 try
                 {
                     await _districtRepository.DeleteAsync(district);
 
-                    var country = await _countryRepository.GetByIdAsync(district.CountryId);
-
-                    if (country != null)
-                    {
-                        return RedirectToAction($"DetailsCountry/{country.Id}");
-                    }
-                    else
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }
+                    
 
 
                 }
@@ -449,9 +439,17 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                     }
                 }
 
+            var country = await _countryRepository.GetByIdAsync(district.CountryId);
+
+            if (country != null)
+            {
+                return RedirectToAction($"DetailsCountry/{country.Id}");
+            }
+            else
+            {
+                return RedirectToAction(nameof(Index));
             }
 
-            return View();
         }
 
 
@@ -561,7 +559,8 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                 return NotFound();
             }
 
-            var city = await _cityRepository.GetByIdAsync(id.Value);
+            var city = await _cityRepository.GetCityWithDistrict(id.Value);
+
 
             if (city == null)
             {
@@ -609,10 +608,7 @@ namespace AutoRepairShop.Web.Controllers.BackOffice
                 {
                     editCity.UpdateDate = DateTime.Now;
 
-                    if (editCity.IsActive == false)
-                    {
-                        editCity.DeactivationDate = DateTime.Now;
-                    }
+
                     await _cityRepository.UpdateAsync(editCity);
                     return RedirectToAction($"DetailsDistrict/{district.Id}");
                 }

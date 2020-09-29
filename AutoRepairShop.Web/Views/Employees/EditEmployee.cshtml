@@ -52,7 +52,7 @@
                         <div class="form-group">
                             <button type="submit" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Change</button>
                             <a asp-action="Index" formnovalidate class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Exit</a>
-                            <button asp-action="DeleteEmployee" asp-controller="Employees" asp-route-id="Id" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Delete Employee</button>
+                            <button asp-action="DeleteEmployee" asp-controller="Employees" asp-route-id="@Model.EmployeeId" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Delete Employee</button>
                         </div>
                     </div>
 

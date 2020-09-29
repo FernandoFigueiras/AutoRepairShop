@@ -118,7 +118,7 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
 
 
 
-        BeginScheduleViewModel ToNewScheduleViewModel(IEnumerable<Vehicle> vehicles, IEnumerable<DealershipService> services);
+        BeginScheduleViewModel ToNewScheduleViewModel(IEnumerable<Vehicle> vehicles, IEnumerable<Service> services);
 
 
 

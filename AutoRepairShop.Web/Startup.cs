@@ -84,7 +84,7 @@ namespace AutoRepairShop.Web
             services.AddScoped<IRepairRepository, RepairRepository>();
             services.AddScoped<IDealershipDepartmentRepository, DealershipDepartmentRepository>();
             services.AddScoped<IRepairHistoryRepository, RepairHistoryRepository>();
-
+            services.AddScoped<IDealershipServiceRepository, DealershipServiceRepository>();
 
 
             services.AddScoped<IConverterHelper, ConverterHelper>();

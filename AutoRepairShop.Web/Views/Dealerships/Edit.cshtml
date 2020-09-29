@@ -44,15 +44,15 @@
 
 
                     <div class="form-group">
-                        <label class="col-md-3 control-label" asp-for="ZipCode.ZipCode4">Zip Code</label>
+                        <label class="col-md-3 control-label" asp-for="@Model.ZipCode.ZipCode4">Zip Code</label>
                         <div class="col-sm-8">
                             <div class="row">
                                 <div class="col-sm-2">
-                                    <input type="text" asp-for="ZipCode.ZipCode4" maxlength="4" class="form-control" value="" placeholder="0000" id="zipcode4input">
+                                    <input type="text" asp-for="@Model.ZipCode.ZipCode4" maxlength="4" class="form-control"  placeholder="0000" id="zipcode4input">
                                 </div>
                                 <div class="visible-xs mb-md"></div>
                                 <div class="col-sm-2">
-                                    <input type="text" asp-for="ZipCode.ZipCode3" maxlength="3" class="form-control" value="" placeholder="000" id="zipcode3input">
+                                    <input type="text" asp-for="@Model.ZipCode.ZipCode3" maxlength="3" class="form-control"  placeholder="000" id="zipcode3input">
                                 </div>
                                 <div class="visible-xs mb-md"></div>
                                 <div class="col-sm-4">
@@ -72,7 +72,6 @@
                         <div class="form-group">
                             <button type="submit" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Change</button>
                             <button asp-action="Index" formnovalidate class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Exit</button>
-                            <button asp-action="Delete" asp-controller="Vehicles" asp-route-id="Id" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary" style="width: 200px">Delete Dealership</button>
                         </div>
                     </div>
 

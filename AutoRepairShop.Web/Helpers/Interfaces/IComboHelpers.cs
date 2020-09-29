@@ -10,6 +10,9 @@ namespace AutoRepairShop.Web.Helpers.Interfaces
 
 
 
+        IEnumerable<SelectListItem> GetallServices(IEnumerable<Service> services);
+
+
 
         IEnumerable<SelectListItem> GetVehicles(IEnumerable<Vehicle> vehicles);
 

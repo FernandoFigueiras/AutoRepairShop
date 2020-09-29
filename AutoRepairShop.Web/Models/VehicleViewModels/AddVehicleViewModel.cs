@@ -1,6 +1,7 @@
 ﻿using AutoRepairShop.Web.Data.Entities;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace AutoRepairShop.Web.Models.VehicleViewModels
 {
@@ -16,7 +17,10 @@ namespace AutoRepairShop.Web.Models.VehicleViewModels
 
 
 
+
+        [Display(Name ="Model")]
         public string ModelName { get; set; }
+
 
 
 
