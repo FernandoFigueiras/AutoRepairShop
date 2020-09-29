@@ -444,6 +444,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Employee/Management, Employee/Reception, Admin")]
         public async Task<IActionResult> AddVehicleNoUser(AddVehicleViewModel model)
         {
 
@@ -550,7 +551,7 @@ namespace AutoRepairShop.Web.Controllers.BackAndFrontOffice
                     }
 
                     await _vehicleRepository.CreateAsync(vehicle);
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("ShowScheduleForDealership", "ScheduleDetails");
                 }
                 catch (Exception ex)
                 {
